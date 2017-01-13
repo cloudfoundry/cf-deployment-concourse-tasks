@@ -17,7 +17,7 @@ run:
   path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task.sh
 
 params:
-  INFRASTRUCTURE:
+  INFRASTRUCTURE: google
   TARGET_FILE: target
   USERNAME_FILE: username
   PASSWORD_FILE: password
