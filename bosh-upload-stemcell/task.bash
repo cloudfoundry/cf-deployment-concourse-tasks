@@ -1,12 +1,7 @@
 #!/bin/bash
 set -eux
 
-STEMCELLS_URL="https://bosh.io/d/stemcells"
-
-BOSH_AGENT="go_agent"
-OS=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/cf-deployment.yml)
-VERSION=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/cf-deployment.yml)
-
+# Load up bosh target information from files in resources
 BOSH_ENVIRONMENT=$(cat "target/${TARGET_FILE}")  && export BOSH_ENVIRONMENT
 BOSH_USER=$(cat username/"${USERNAME_FILE}")     && export BOSH_USER
 set +x
@@ -14,9 +9,16 @@ BOSH_CA_CERT="ca-cert/${CA_CERT_FILE}"           && export BOSH_CA_CERT
 BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE}") && export BOSH_PASSWORD
 set -x
 
+# Read potentially variable stemcell paramaters out of cf-deployment with bosh
+OS=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/cf-deployment.yml)
+VERSION=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/cf-deployment.yml)
+
+# Hardcode a couple of stable stemcell paramaters
+STEMCELLS_URL="https://bosh.io/d/stemcells"
+BOSH_AGENT="go_agent"
+
 # Ask bosh if it already has our OS / version stemcell combination
 # As of this writing, the new bosh cli doesn't have --skip-if-exists
-
 set +e
 EXISTING_STEMCELL=$(bosh stemcells | grep "$OS" | awk '{print $2}' | tr -d "\*" | grep ^"$VERSION"$ )
 set -e
