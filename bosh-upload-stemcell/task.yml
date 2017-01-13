@@ -1,0 +1,25 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/bosh-upload-stemcell
+
+inputs:
+- name: runtime-ci
+- name: cf-deployment
+- name: target
+- name: username
+- name: password
+- name: ca-cert
+
+run:
+  path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task.sh
+
+params:
+  INFRASTRUCTURE:
+  TARGET_FILE: target
+  USERNAME_FILE: username
+  PASSWORD_FILE: password
+  CA_CERT_FILE: ca-cert
+
