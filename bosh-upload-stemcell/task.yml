@@ -6,7 +6,7 @@ image_resource:
     repository: relintdockerhubpushbot/bosh-upload-stemcell
 
 inputs:
-- name: runtime-ci
+- name: cf-deployment-concourse-tasks
 - name: cf-deployment
 - name: target
 - name: username
