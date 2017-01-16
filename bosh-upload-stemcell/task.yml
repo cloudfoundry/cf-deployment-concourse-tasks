@@ -14,7 +14,7 @@ inputs:
 - name: ca-cert
 
 run:
-  path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task.sh
+  path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task.bash
 
 params:
   INFRASTRUCTURE: google
