@@ -1,0 +1,33 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/bosh-deploy-with-created-release
+
+inputs:
+- name: cf-deployment-concourse-tasks
+- name: release
+- name: target
+- name: username
+- name: password
+- name: ca-cert
+- name: manifest
+- name: manifest-properties
+
+outputs:
+- name: updated-vars-store
+
+run:
+  path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task.bash
+
+params:
+  TARGET_FILE_PATH:
+  USERNAME_FILE_PATH:
+  PASSWORD_FILE_PATH:
+  CA_CERT_FILE_PATH:
+  MANIFEST_FILE_PATH:
+  DEPLOYMENT_VARS_STORE_PATH:
+  SYSTEM_DOMAIN:
+  OPS_FILE:
