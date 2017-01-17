@@ -1,0 +1,32 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/bosh-deploy
+
+inputs:
+- name: ci
+- name: target
+- name: username
+- name: password
+- name: ca-cert
+- name: manifest
+- name: manifest-properties
+
+outputs:
+- name: updated-vars-store
+
+run:
+  path: ci/bosh-deploy/task
+
+params:
+  TARGET_FILE: target
+  USERNAME_FILE: username
+  PASSWORD_FILE: password
+  CA_CERT_FILE: ca-cert
+  MANIFEST_FILE: cf-deployment.yml
+  DEPLOYMENT_VARS_STORE:
+  SYSTEM_DOMAIN:
+  OPS_FILES:
