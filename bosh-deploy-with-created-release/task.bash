@@ -16,8 +16,14 @@ DEPLOYMENT_VARS_STORE=""
 if [[ ! -z "$DEPLOYMENT_VARS_STORE" ]]; then
   DEPLOYMENT_VARS_STORE="manifest-properties/${DEPLOYMENT_VARS_STORE}"
 fi
-
 set -u
+
+ops_file_arguments="-o create-provided-release.yml"
+for op in {$OPS_FILES}
+do
+  ops_file_arguments="${ops_file_arguments} -o manifest/${op}"
+done
+
 set +x
 echo "BOSH_PASSWORD=\$(cat password/${PASSWORD_FILE})"
 BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE}")
@@ -39,7 +45,7 @@ function commit_vars_store {
 
 trap commit_vars_store EXIT
 
-cat << EOF > ops.yml
+cat << EOF > create-provided-release.yml
 ---
 - type: replace
   path: /releases/name=${RELEASE_NAME}
@@ -54,12 +60,7 @@ if [[ ! -z "${DEPLOYMENT_VARS_STORE}" ]]; then
   VARS_STORE_FLAG="--vars-store ${DEPLOYMENT_VARS_STORE} -v system_domain=${SYSTEM_DOMAIN}"
 fi
 
-OPS_FILE_FLAG="-o ops.yml"
-if [[ -f "manifest/${OPS_FILE}" ]]; then
-  grep -v "\-\-\-" "manifest/${OPS_FILE}" >> ops.yml
-fi
-
-bosh -n interpolate ${VARS_STORE_FLAG} ${OPS_FILE_FLAG} --var-errs ${BOSH_MANIFEST} > /dev/null
+bosh -n interpolate ${VARS_STORE_FLAG} ${ops_file_arguments} --var-errs ${BOSH_MANIFEST} > /dev/null
 
 if [ ! -z "${DEPLOYMENT_VARS_STORE}" ]; then
   set +x
@@ -77,5 +78,5 @@ bosh \
   --ca-cert="${BOSH_CA_CERT}" \
   deploy \
   ${VARS_STORE_FLAG} \
-  ${OPS_FILE_FLAG} \
+  ${ops_file_arguments} \
   "${BOSH_MANIFEST}"

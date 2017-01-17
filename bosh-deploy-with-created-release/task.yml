@@ -30,4 +30,4 @@ params:
   MANIFEST_FILE: cf-deployment.yml
   DEPLOYMENT_VARS_STORE: deployment-vars.yml
   SYSTEM_DOMAIN: example.com
-  OPS_FILE: "opsfiles/gcp.yml"
+  OPS_FILES: "opsfiles/gcp.yml"
