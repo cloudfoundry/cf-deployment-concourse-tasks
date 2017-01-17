@@ -18,6 +18,30 @@ Alternatively, you can [open an issue][issues-page].
 
 
 ## Tasks
+Tasks are listed here alphabetically,
+along with a brief description
+meant to be used alongside the `task.yml` within each task directory
+to understand the task's
+purpose, interface, and options.
+
+### bosh-deploy-with-created
+This takes `cf-deployment`,
+a bosh release repo,
+an env-repo,
+and bosh targeting information as inputs.
+It applies an [ops-file][deploy-with-created-lines] to `cf-deployment.yml`
+which causes bosh to use a freshly created dev-release
+from the provided release repo
+in place of the version specified in `cf-deployment.yml`.
+This is useful for testing an upstream component.
+
+You must provide a system domain.
+
+You may also specify a space-seperated list of other ops files
+as a parameter.
+These ops files will be applied
+in order
+after the one that subs in the provided release.
 
 ### bosh-upload-stemcell
 This takes `cf-deployment`
@@ -32,3 +56,4 @@ Other IaaSs are not supported by this task.
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.bash#L49-L55
