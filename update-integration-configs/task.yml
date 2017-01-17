@@ -7,14 +7,14 @@ image_resource:
     repository: relintdockerhubpushbot/update-integration-configs
 
 inputs:
-- name: ci
+- name: cf-deployment-concourse-tasks
 - name: manifest-properties
 
 outputs:
 - name: updated-integration-config
 
 run:
-  path: ci/update-integration-configs/task
+  path: cf-deployment-concourse-tasks/update-integration-configs/task
 
 params:
   DEPLOYMENT_VARS_STORE:
