@@ -29,5 +29,5 @@ params:
   CA_CERT_FILE: ca-cert
   MANIFEST_FILE: cf-deployment.yml
   DEPLOYMENT_VARS_STORE: deployment-vars.yml
-  SYSTEM_DOMAIN: example.com
+  SYSTEM_DOMAIN:
   OPS_FILES: "opsfiles/gcp.yml"
