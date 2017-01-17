@@ -3,23 +3,24 @@ set -eux
 
 export BOSH_USER
 export BOSH_PASSWORD
-BOSH_USER=$(cat "username/${USERNAME_FILE_PATH}")
-BOSH_TARGET=$(cat "target/${TARGET_FILE_PATH}")
-BOSH_MANIFEST="manifest/${MANIFEST_FILE_PATH}"
-BOSH_CA_CERT="ca-cert/${CA_CERT_FILE_PATH}"
+BOSH_USER=$(cat "username/${USERNAME_FILE}")
+BOSH_TARGET=$(cat "target/${TARGET_FILE}")
+BOSH_MANIFEST="manifest/${MANIFEST_FILE}"
+BOSH_CA_CERT="ca-cert/${CA_CERT_FILE}"
+
 DEPLOYMENT_NAME=$(grep -E "^name:" "$BOSH_MANIFEST" | awk '{print $2}')
 RELEASE_NAME=$(grep final_name release/config/final.yml | awk '{print $2}')
 
 set +u
 DEPLOYMENT_VARS_STORE=""
-if [[ ! -z "$DEPLOYMENT_VARS_STORE_PATH" ]]; then
-  DEPLOYMENT_VARS_STORE="manifest-properties/${DEPLOYMENT_VARS_STORE_PATH}"
+if [[ ! -z "$DEPLOYMENT_VARS_STORE" ]]; then
+  DEPLOYMENT_VARS_STORE="manifest-properties/${DEPLOYMENT_VARS_STORE}"
 fi
 
 set -u
 set +x
-echo "BOSH_PASSWORD=\$(cat password/${PASSWORD_FILE_PATH})"
-BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE_PATH}")
+echo "BOSH_PASSWORD=\$(cat password/${PASSWORD_FILE})"
+BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE}")
 set -x
 
 function commit_vars_store {

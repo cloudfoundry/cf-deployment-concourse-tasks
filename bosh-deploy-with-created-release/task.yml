@@ -23,11 +23,11 @@ run:
   path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task.bash
 
 params:
-  TARGET_FILE_PATH:
-  USERNAME_FILE_PATH:
-  PASSWORD_FILE_PATH:
-  CA_CERT_FILE_PATH:
-  MANIFEST_FILE_PATH:
-  DEPLOYMENT_VARS_STORE_PATH:
-  SYSTEM_DOMAIN:
-  OPS_FILE:
+  TARGET_FILE: target
+  USERNAME_FILE: username
+  PASSWORD_FILE: password
+  CA_CERT_FILE: ca-cert
+  MANIFEST_FILE: cf-deployment.yml
+  DEPLOYMENT_VARS_STORE: deployment-vars.yml
+  SYSTEM_DOMAIN: example.com
+  OPS_FILE: "opsfiles/gcp.yml"
