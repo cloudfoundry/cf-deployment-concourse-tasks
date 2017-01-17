@@ -46,8 +46,8 @@ function check_unmodified_addresses() {
 
 function setup_bosh_env_vars() {
   set +x
-  export BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE}")
-  export BOSH_USER=$(cat username/"${USERNAME_FILE}")
+  export BOSH_CLIENT_SECRET=$(cat "password/${PASSWORD_FILE}")
+  export BOSH_CLIENT=$(cat username/"${USERNAME_FILE}")
   set -x
 }
 
