@@ -1,4 +1,11 @@
 # cf-deployment-concourse-tasks
+
+<The way this document looks in the raw
+is intentional.
+For a discussion of the intention,
+Please see
+https://github.com/JesseTAlford/texts/blob/master/the-art-of-markdown.md>
+
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
 Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
