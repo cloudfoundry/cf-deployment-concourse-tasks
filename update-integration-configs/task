@@ -1,0 +1,56 @@
+#!/bin/bash
+set -eu
+set -o pipefail
+
+: ${DEPLOYMENT_VARS_STORE?}
+
+function commit_integration_configs {
+  pushd manifest-properties
+    if [[ -n $(git status --porcelain) ]]; then
+      git config user.name "CF MEGA BOT"
+      git config user.email "cf-mega@pivotal.io"
+      git add .
+      git commit -m "Update integration config"
+    fi
+  popd
+
+  shopt -s dotglob
+  cp -R manifest-properties/* updated-integration-config/
+}
+
+function main() {
+  echo "extracting cf admin password from ${DEPLOYMENT_VARS_STORE}..."
+
+  local admin_password
+  admin_password=$(bosh interpolate manifest-properties/${DEPLOYMENT_VARS_STORE} \
+    --path=/uaa_scim_users_admin_password)
+
+  pushd manifest-properties
+    echo "updating integration_config.json..."
+
+    local new_integration_config
+    new_integration_config=$(cat integration_config.json | jq ".admin_password=\"${admin_password}\"")
+
+    echo "${new_integration_config}" > integration_config.json
+
+    if [ -f rats_integration_config.json ]; then
+      echo "updating rats_integration_config.json..."
+
+      local tcp_emitter_secret
+      tcp_emitter_secret=$(bosh int ${DEPLOYMENT_VARS_STORE} --path=/uaa_clients_tcp_emitter_secret)
+
+      local new_rats_integration_config
+      new_rats_integration_config=$(cat rats_integration_config.json)
+      new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".admin_password=\"${admin_password}\"")
+      new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".oauth*={\"client_secret\":\"${tcp_emitter_secret}\"}")
+
+      echo "${new_rats_integration_config}" > rats_integration_config.json
+    fi
+  popd
+
+  set -x
+  commit_integration_configs
+  set +x
+}
+
+main

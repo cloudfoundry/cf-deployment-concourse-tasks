@@ -1,0 +1,20 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/update-integration-configs
+
+inputs:
+- name: ci
+- name: manifest-properties
+
+outputs:
+- name: updated-integration-config
+
+run:
+  path: ci/update-integration-configs/task
+
+params:
+  DEPLOYMENT_VARS_STORE:
