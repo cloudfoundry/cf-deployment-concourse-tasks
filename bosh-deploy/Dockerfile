@@ -7,6 +7,7 @@ RUN \
   apt-get -y install \
     git \
     jq \
+    unzip \
     wget
 
 RUN \
