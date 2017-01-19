@@ -7,14 +7,12 @@ image_resource:
     repository: relintdockerhubpushbot/bosh-deploy-with-created-release
 
 inputs:
+- name: bbl-state
+- name: cf-deployment
 - name: cf-deployment-concourse-tasks
+- name: ops-files
 - name: release
-- name: target
-- name: username
-- name: password
-- name: ca-cert
-- name: manifest
-- name: manifest-properties
+- name: vars-store
 
 outputs:
 - name: updated-vars-store
@@ -23,11 +21,8 @@ run:
   path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task.bash
 
 params:
-  TARGET_FILE: target
-  USERNAME_FILE: username
-  PASSWORD_FILE: password
-  CA_CERT_FILE: ca-cert
+  BBL_STATE_DIR:
   MANIFEST_FILE: cf-deployment.yml
-  DEPLOYMENT_VARS_STORE: deployment-vars.yml
+  OPS_FILES: opsfiles/gcp.yml
   SYSTEM_DOMAIN:
-  OPS_FILES: "opsfiles/gcp.yml"
+  VARS_STORE_PATH: deployment-vars.yml
