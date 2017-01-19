@@ -1,0 +1,69 @@
+#!/bin/bash -xeu
+
+if [ -z "${LB_DOMAIN}" -a "${BBL_IAAS}" == "gcp" ]; then
+  echo "\$LB_DOMAIN is a required parameter for gcp.  Please set the domain."
+  exit 1
+fi
+
+if [ -n "${LB_DOMAIN}" -a "${BBL_IAAS}" == "aws" ]; then
+  echo "\$LB_DOMAIN is not honored for aws"
+fi
+
+function commit_bbl_state_file {
+  local root_dir
+  root_dir="${1}"
+  pushd "${root_dir}/env-repo"
+    if [[ -n $(git status --porcelain) ]]; then
+      git config user.name "CI Bot"
+      git config user.email "cf-release-integration@pivotal.io"
+      git add bbl-state.json
+      git commit -m "Update bbl-state.json"
+    fi
+  popd
+
+  pushd "${root_dir}"
+    shopt -s dotglob
+    cp -R env-repo/* updated-env-repo/
+  popd
+}
+
+function write_bbl_certs() {
+  set +x
+  echo "$BBL_LB_CERT" > /tmp/bbl-cert
+  echo "$BBL_LB_KEY" > /tmp/bbl-key
+  set -x
+}
+
+function main() {
+  pushd env-repo
+    bbl version
+
+    bbl up
+
+    local domain_flag
+    domain_flag=""
+
+    if [ "${BBL_IAAS}" == "gcp" ]; then
+      domain_flag="--domain=${LB_DOMAIN}"
+    fi
+
+    # The two commands below amount to "create or update"
+    bbl \
+      create-lbs \
+      --type=cf \
+      ${domain_flag}" \
+      --cert=/tmp/bbl-cert \
+      --key=/tmp/bbl-key \
+      --skip-if-exists
+
+    bbl \
+      update-lbs \
+      ${domain_flag}" \
+      --cert=/tmp/bbl-cert \
+      --key=/tmp/bbl-key
+  popd
+}
+
+trap "commit_bbl_state_file ${PWD}" EXIT
+
+main
