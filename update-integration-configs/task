@@ -1,55 +1,71 @@
-#!/bin/bash
-set -eu
+#!/bin/bash -eu
 set -o pipefail
 
-if [ -z "$DEPLOYMENT_VARS_STORE" ]; then
-  echo "DEPLOYMENT_VARS_STORE has not been set"
-  exit 1
-fi
+function check_fast_fails() {
+  if [ -z "$VARS_STORE_PATH" ]; then
+    echo "VARS_STORE_PATH has not been set"
+    exit 1
+  fi
+
+  pushd integration-configs
+    if [ ! -f "$CATS_INTEGRATION_CONFIG_FILE" -a ! -f "$RATS_INTEGRATION_CONFIG_FILE" ]; then
+      echo "Neither cats_integration_config file nor rats_integration_config file is present...Exiting"
+      exit 1
+    fi
+  popd
+}
+
 
 function commit_integration_configs {
   set -x
-  pushd manifest-properties
+  pushd integration-configs
     if [[ -n $(git status --porcelain) ]]; then
-      git config user.name "CF MEGA BOT"
-      git config user.email "cf-mega@pivotal.io"
+      git config user.name "CI Bot"
+      git config user.email "cf-release-integration@pivotal.io"
       git add .
-      git commit -m "Update integration config"
+      git commit -m "Update integration configs"
     fi
   popd
 
   shopt -s dotglob
-  cp -R manifest-properties/* updated-integration-config/
+  cp -R integration-configs/* updated-integration-configs/
   set +x
 }
 
 function main() {
-  echo "extracting cf admin password from ${DEPLOYMENT_VARS_STORE}..."
+  local root_dir
+  root_dir="${1}"
+
+  check_fast_fails
+
+  echo "extracting cf admin password from ${VARS_STORE_PATH}..."
 
   local admin_password
-  admin_password=$(bosh interpolate manifest-properties/${DEPLOYMENT_VARS_STORE} \
+  admin_password=$(bosh interpolate vars-store/${VARS_STORE_PATH} \
     --path=/uaa_scim_users_admin_password)
 
-  pushd manifest-properties
-    echo "updating integration_config.json..."
+  pushd integration-configs
+    if [ -f "${CATS_INTEGRATION_CONFIG_FILE}" ]; then
+      echo "updating CATs integration config file: ${CATS_INTEGRATION_CONFIG_FILE}..."
 
-    local new_integration_config
-    new_integration_config=$(cat integration_config.json | jq ".admin_password=\"${admin_password}\"")
+      local new_cats_integration_config
+      new_cats_integration_config=$(cat "${CATS_INTEGRATION_CONFIG_FILE}" | jq ".admin_password=\"${admin_password}\"")
 
-    echo "${new_integration_config}" > integration_config.json
+      echo "${new_cats_integration_config}" > "${CATS_INTEGRATION_CONFIG_FILE}"
+    fi
 
-    if [ -f rats_integration_config.json ]; then
-      echo "updating rats_integration_config.json..."
+    if [ -f "${RATS_INTEGRATION_CONFIG_FILE}" ]; then
+      echo "updating RATs integration config file: ${RATS_INTEGRATION_CONFIG_FILE}..."
 
       local tcp_emitter_secret
-      tcp_emitter_secret=$(bosh int ${DEPLOYMENT_VARS_STORE} --path=/uaa_clients_tcp_emitter_secret)
+      tcp_emitter_secret=$(bosh int "${root_dir}/vars-store/${VARS_STORE_PATH}" --path=/uaa_clients_tcp_emitter_secret)
 
       local new_rats_integration_config
-      new_rats_integration_config=$(cat rats_integration_config.json)
+      new_rats_integration_config=$(cat "${RATS_INTEGRATION_CONFIG_FILE}")
       new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".admin_password=\"${admin_password}\"")
       new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".oauth*={\"client_secret\":\"${tcp_emitter_secret}\"}")
 
-      echo "${new_rats_integration_config}" > rats_integration_config.json
+      echo "${new_rats_integration_config}" > "${RATS_INTEGRATION_CONFIG_FILE}"
     fi
   popd
 
@@ -57,4 +73,4 @@ function main() {
 
 trap commit_integration_configs EXIT
 
-main
+main "${PWD}"

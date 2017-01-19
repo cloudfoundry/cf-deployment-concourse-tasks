@@ -8,13 +8,16 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks
-- name: manifest-properties
+- name: integration-configs
+- name: vars-store
 
 outputs:
-- name: updated-integration-config
+- name: updated-integration-configs
 
 run:
   path: cf-deployment-concourse-tasks/update-integration-configs/task
 
 params:
-  DEPLOYMENT_VARS_STORE:
+  CATS_INTEGRATION_CONFIG_FILE: cats_integration_config.json
+  RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
+  VARS_STORE_PATH: deployment-vars.yml
