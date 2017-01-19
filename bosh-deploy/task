@@ -2,11 +2,20 @@
 
 function check_input_params() {
   set +x
-  : ${BBL_STATE_DIR?}
-  : ${MANIFEST_FILE?}
-  : ${VARS_STORE_PATH?}
-  : ${SYSTEM_DOMAIN?}
-  : ${OPS_FILES?}
+  if [ -z "$MANIFEST_FILE" ]; then
+    echo "MANIFEST_FILE has not been set"
+    exit 1
+  fi
+
+  if [ -z "$VARS_STORE_PATH" ]; then
+    echo "VARS_STORE_PATH has not been set"
+    exit 1
+  fi
+
+  if [ -z "$SYSTEM_DOMAIN" ]; then
+    echo "SYSTEM_DOMAIN has not been set"
+    exit 1
+  fi
   set -x
 }
 

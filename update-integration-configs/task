@@ -2,9 +2,13 @@
 set -eu
 set -o pipefail
 
-: ${DEPLOYMENT_VARS_STORE?}
+if [ -z "$DEPLOYMENT_VARS_STORE" ]; then
+  echo "DEPLOYMENT_VARS_STORE has not been set"
+  exit 1
+fi
 
 function commit_integration_configs {
+  set -x
   pushd manifest-properties
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CF MEGA BOT"
@@ -16,6 +20,7 @@ function commit_integration_configs {
 
   shopt -s dotglob
   cp -R manifest-properties/* updated-integration-config/
+  set +x
 }
 
 function main() {
@@ -48,9 +53,7 @@ function main() {
     fi
   popd
 
-  set -x
   commit_integration_configs
-  set +x
 }
 
 main
