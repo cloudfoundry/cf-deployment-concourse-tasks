@@ -53,7 +53,8 @@ function main() {
     fi
   popd
 
-  commit_integration_configs
 }
+
+trap commit_integration_configs EXIT
 
 main

@@ -93,7 +93,8 @@ function main() {
   check_input_params
   setup_bosh_env_vars
   bosh_deploy
-  commit_vars_store
 }
+
+trap commit_vars_store EXIT
 
 main
