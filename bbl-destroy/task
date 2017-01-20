@@ -8,7 +8,7 @@ function commit_bbl_state_file {
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
       git config user.email "cf-release-integration@pivotal.io"
-      git add bbl-state.json
+      git add --all bbl-state.json
       git commit -m "Remove bbl-state.json"
     fi
   popd
