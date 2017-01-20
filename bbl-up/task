@@ -29,14 +29,18 @@ function commit_bbl_state_file {
 }
 
 function write_bbl_certs() {
+  local root_dir
+  root_dir="${1}"
   set +x
-  echo "$BBL_LB_CERT" > /tmp/bbl-cert
-  echo "$BBL_LB_KEY" > /tmp/bbl-key
+  echo "$BBL_LB_CERT" > root_dir/tmp/bbl-cert
+  echo "$BBL_LB_KEY" > root_dir/tmp/bbl-key
   set -x
 }
 
 function main() {
   pushd bbl-state-dir
+    write_bbl_certs $PWD
+
     bbl version
 
     bbl up
@@ -52,8 +56,8 @@ function main() {
     bbl \
       create-lbs \
       --type=cf \
-      --cert=/tmp/bbl-cert \
-      --key=/tmp/bbl-key \
+      --cert=$PWD/tmp/bbl-cert \
+      --key=$PWD/tmp/bbl-key \
       --skip-if-exists \
       ${domain_flag}
 
