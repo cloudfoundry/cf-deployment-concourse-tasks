@@ -28,3 +28,4 @@ params:
   BBL_LB_CERT:
   BBL_LB_KEY:
   LB_DOMAIN:
+  BBL_ENV_NAME:

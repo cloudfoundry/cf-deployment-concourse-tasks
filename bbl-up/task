@@ -41,7 +41,14 @@ function main() {
 
     bbl version
 
-    bbl up
+    local name_flag
+    name_flag=""
+
+    if [ -n "${BBL_ENV_NAME}" -a ! -f bbl-state.json ]; then
+      name_flag="--name ${BBL_ENV_NAME}"
+    fi
+
+    bbl up ${name_flag}
 
     local domain_flag
     domain_flag=""
