@@ -12,6 +12,7 @@ fi
 function commit_bbl_state_file {
   local root_dir
   root_dir="${1}"
+
   pushd "${root_dir}/bbl-state-dir"
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
@@ -51,16 +52,16 @@ function main() {
     bbl \
       create-lbs \
       --type=cf \
-      ${domain_flag}" \
       --cert=/tmp/bbl-cert \
       --key=/tmp/bbl-key \
-      --skip-if-exists
+      --skip-if-exists \
+      ${domain_flag}
 
     bbl \
       update-lbs \
-      ${domain_flag}" \
       --cert=/tmp/bbl-cert \
-      --key=/tmp/bbl-key
+      --key=/tmp/bbl-key \
+      ${domain_flag}
   popd
 }
 
