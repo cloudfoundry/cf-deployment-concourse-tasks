@@ -63,8 +63,8 @@ function main() {
 
     bbl \
       update-lbs \
-      --cert=/tmp/bbl-cert \
-      --key=/tmp/bbl-key \
+      --cert="$PWD/tmp/bbl-cert" \
+      --key="$PWD/tmp/bbl-key" \
       ${domain_flag}
   popd
 }
