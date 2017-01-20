@@ -24,7 +24,7 @@ function commit_vars_store {
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
       git config user.email "cf-release-integration@pivotal.io"
-      git add .
+      git add "${VARS_STORE_PATH}"
       git commit -m "Update vars-store after deploy"
     fi
   popd
