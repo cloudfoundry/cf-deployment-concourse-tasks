@@ -33,23 +33,6 @@ function commit_vars_store {
   cp -R vars-store/* updated-vars-store/
 }
 
-function check_unmodified_addresses() {
-  set +x
-  local interpolated_manifest
-  interpolated_manifest="${1}"
-
-  local unmodified_addresses
-  set +e
-  unmodified_addresses=$(cat "${interpolated_manifest}" | grep -E '10\.0\.31\.190|10\.0\.47\.190|10\.0\.63\.190|10\.0\.31\.191|10\.0\.47\.191|10\.0\.31\.193')
-  set -e
-
-  if [ -n "${unmodified_addresses}" ]; then
-    echo "Here are all the unmodified static IP addresses left in this manifest after applying all bosh operations:"
-    echo "${unmodified_addresses}"
-  fi
-  set -x
-}
-
 function setup_bosh_env_vars() {
   set +x
   export BOSH_CA_CERT=$(mktemp)
@@ -95,8 +78,6 @@ EOF
   interpolated_manifest=$(mktemp)
 
   bosh -n interpolate ${arguments} --var-errs "${bosh_manifest}" > "${interpolated_manifest}"
-
-  check_unmodified_addresses "${interpolated_manifest}"
 
   bosh \
     -n \
