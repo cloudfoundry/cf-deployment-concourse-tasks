@@ -31,24 +31,21 @@ meant to be used alongside the `task.yml` within each task directory
 to understand the task's
 purpose, interface, and options.
 
-### bosh-deploy-with-created
-This takes `cf-deployment`,
-a bosh release repo,
-an env-repo,
-and bosh targeting information as inputs.
-It applies an [ops-file][deploy-with-created-lines] to `cf-deployment.yml`
-which causes bosh to use a freshly created dev-release
-from the provided release repo
-in place of the version specified in `cf-deployment.yml`.
-This is useful for testing an upstream component.
+### bosh-deploy-with-created-release
 
-You must provide a system domain.
+This task applies an ops-file to `cf-deployment.yml` which causes bosh to create, upload, and use a dev-release from the provided release folder in place of the version specified in `cf-deployment.yml`.  This is useful for testing an upstream component.
 
-You may also specify a space-seperated list of other ops files
-as a parameter.
-These ops files will be applied
-in order
-after the one that subs in the provided release.
+#### Inputs
+
+* `cf-deployment`,
+* a bosh release repo,
+* an env-repo,
+* and bosh targeting information as inputs.
+
+#### Parameters
+
+* You must provide a system domain.
+* You may also specify a space-separated list of other ops files as a parameter.  These ops files will be applied in order after the one that subs in the provided release.
 
 ### bosh-upload-stemcell
 This takes `cf-deployment`
