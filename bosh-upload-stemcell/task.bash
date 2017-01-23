@@ -1,57 +1,100 @@
 #!/bin/bash
 set -eux
 
-# Load up bosh target information from files in resources
-BOSH_ENVIRONMENT=$(cat "target/${TARGET_FILE}")  && export BOSH_ENVIRONMENT
-BOSH_USER=$(cat username/"${USERNAME_FILE}")     && export BOSH_USER
-set +x
-BOSH_CA_CERT="ca-cert/${CA_CERT_FILE}"           && export BOSH_CA_CERT
-BOSH_PASSWORD=$(cat "password/${PASSWORD_FILE}") && export BOSH_PASSWORD
-set -x
+function setup_bosh_env_vars() {
+  set +x
+  pushd bbl-state-dir
+    export BOSH_CA_CERT="$(bbl director-ca-cert)"
+    export BOSH_ENVIRONMENT=$(bbl director-address)
+    export BOSH_CLIENT=$(bbl director-username)
+    export BOSH_CLIENT_SECRET=$(bbl director-password)
+  popd
+  set -x
+}
 
-# Read potentially variable stemcell paramaters out of cf-deployment with bosh
-OS=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/cf-deployment.yml)
-VERSION=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/cf-deployment.yml)
+function check_input_params() {
+  if [ -z "$INFRASTRUCTURE" ]; then
+    echo "INFRASTRUCTURE has not been set"
+    exit 1
+  fi
+  local supported_infrastructures
+  supported_infrastructures=("aws" "google" "boshlite" "bosh-lite" "vsphere")
+  any_matched=false
+  for iaas in ${supported_infrastructures[*]}; do
+    if [ "${INFRASTRUCTURE}" == "${iaas}" ]; then
+      any_matched=true
+      break
+    fi
+  done
+  if [ "$any_matched" = false ]; then
+    echo "${INFRASTRUCTURE} is not supported; please choose a value from ${supported_infrastructures[*]}"
+    exit 1
+  fi
+}
 
-# Hardcode a couple of stable stemcell paramaters
-STEMCELLS_URL="https://bosh.io/d/stemcells"
-BOSH_AGENT="go_agent"
+function upload_stemcell() {
+  # Read potentially variable stemcell paramaters out of cf-deployment with bosh
+  local os
+  os=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/cf-deployment.yml)
+  local version
+  version=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/cf-deployment.yml)
 
-# Ask bosh if it already has our OS / version stemcell combination
-# As of this writing, the new bosh cli doesn't have --skip-if-exists
-set +e
-EXISTING_STEMCELL=$(bosh stemcells | grep "$OS" | awk '{print $2}' | tr -d "\*" | grep ^"$VERSION"$ )
-set -e
+  # Hardcode a couple of stable stemcell paramaters
+  local stemcells_url
+  stemcells_url="https://bosh.io/d/stemcells"
+  local bosh_agent
+  bosh_agent="go_agent"
 
-STEMCELL_NAME="bosh"
+  # Ask bosh if it already has our OS / version stemcell combination
+  # As of this writing, the new bosh cli doesn't have --skip-if-exists
+  set +e
+  local existing_stemcell
+  existing_stemcell=$(bosh stemcells | grep "${os}" | awk '{print $2}' | tr -d "\*" | grep ^"${version}"$ )
+  set -e
 
-if [ "$INFRASTRUCTURE" = "aws" ]; then
-  STEMCELL_NAME="$STEMCELL_NAME-aws-xen-hvm"
-elif [ "$INFRASTRUCTURE" = "google" ]; then
-  STEMCELL_NAME="$STEMCELL_NAME-google-kvm"
-elif [ "$INFRASTRUCTURE" = "boshlite" ]; then
-  STEMCELL_NAME="$STEMCELL_NAME-warden-boshlite"
-elif [ "$INFRASTRUCTURE" = "bosh-lite" ]; then
-  STEMCELL_NAME="$STEMCELL_NAME-warden-boshlite"
-elif [ "$INFRASTRUCTURE" = "vsphere" ]; then
-  STEMCELL_NAME="$STEMCELL_NAME-vsphere-esxi"
-fi
+  local stemcell_name
+  stemcell_name="bosh"
 
-STEMCELL_NAME="$STEMCELL_NAME-$OS-$BOSH_AGENT"
-FULL_STEMCELL_URL="$STEMCELLS_URL/$STEMCELL_NAME?v=$VERSION"
+  if [ "$INFRASTRUCTURE" = "aws" ]; then
+    stemcell_name="${stemcell_name}-aws-xen-hvm"
+  elif [ "$INFRASTRUCTURE" = "google" ]; then
+    stemcell_name="${stemcell_name}-google-kvm"
+  elif [ "$INFRASTRUCTURE" = "boshlite" ]; then
+    stemcell_name="${stemcell_name}-warden-boshlite"
+  elif [ "$INFRASTRUCTURE" = "bosh-lite" ]; then
+    stemcell_name="${stemcell_name}-warden-boshlite"
+  elif [ "$INFRASTRUCTURE" = "vsphere" ]; then
+    stemcell_name="${stemcell_name}-vsphere-esxi"
+  fi
 
-# If bosh already has our stemcell, exit 0
-if [ "$EXISTING_STEMCELL" ]; then
-  echo "Task bosh-upload-stemcell:"
-  echo "Stemcell '$STEMCELL_NAME/$VERSION' already exists.  Exiting..."
-  exit 0
-fi
+  stemcell_name="${stemcell_name}-${os}-${bosh_agent}"
+  full_stemcell_url="${stemcells_url}/${stemcell_name}?v=${version}"
 
-# ... otherwise, begin the upload process
-set +x
-bosh \
-  -n \
-  upload-stemcell \
-  "$FULL_STEMCELL_URL"
-set -x
+  # If bosh already has our stemcell, exit 0
+  if [ "${existing_stemcell}" ]; then
+    echo "Task bosh-upload-stemcell:"
+    echo "Stemcell '${stemcell_name}/${version}' already exists.  Exiting..."
+    exit 0
+  fi
+
+  # ... otherwise, begin the upload process
+  #set +x
+  bosh --version
+  bosh upload-stemcell --help
+  bosh login
+  echo $BOSH_CA_CERT
+  bosh \
+    -n \
+    upload-stemcell \
+    "${full_stemcell_url}"
+  set -x
+}
+
+function main() {
+  check_input_params
+  setup_bosh_env_vars
+  upload_stemcell
+}
+
+main
 
