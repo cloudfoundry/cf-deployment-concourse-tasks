@@ -11,7 +11,7 @@ inputs:
 - name: bbl-state-dir
 
 run:
-  path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task.bash
+  path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task
 
 params:
   INFRASTRUCTURE: google

@@ -18,7 +18,7 @@ outputs:
 - name: updated-vars-store
 
 run:
-  path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task.bash
+  path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task
 
 params:
   BBL_STATE_DIR:

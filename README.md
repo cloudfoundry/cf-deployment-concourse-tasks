@@ -9,8 +9,7 @@ https://github.com/JesseTAlford/texts/blob/master/the-art-of-markdown.md>
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
 Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
-a supporting task.bash (or .rb, .go, etc.) file,
-and a Dockerfile.
+a supporting task file, and a Dockerfile.
 The Dockerfile is built and pushed to Dockerhub regularly
 along with many other images
 in CI maintained by the CF Release Integration team [here][runtime-ci-build-docker-images].
@@ -60,4 +59,4 @@ Other IaaSs are not supported by this task.
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
-[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.bash#L49-L55
+[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
