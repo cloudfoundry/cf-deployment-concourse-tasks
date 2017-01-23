@@ -25,8 +25,7 @@ function commit_integration_configs {
     fi
   popd
 
-  shopt -s dotglob
-  cp -R integration-configs/* updated-integration-configs/
+  git clone integration-configs/ updated-integration-configs --local
   set +x
 }
 
