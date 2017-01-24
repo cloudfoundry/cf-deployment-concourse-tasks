@@ -22,7 +22,6 @@ please contact the Release Integration team
 in our [Slack channel dedicated to supporting users of `cf-deployment`][cf-deployment-slack-channel].
 Alternatively, you can [open an issue][issues-page].
 
-
 ## Tasks
 Tasks are listed here alphabetically,
 along with a brief description
@@ -30,30 +29,79 @@ meant to be used alongside the `task.yml` within each task directory
 to understand the task's
 purpose, interface, and options.
 
+### bbl-destroy
+#### Inputs
+#### Outputs
+#### Parameters
+
+### bbl-up
+#### Inputs
+#### Outputs
+#### Parameters
+
+### bosh-deploy
+#### Inputs
+#### Outputs
+#### Parameters
+
 ### bosh-deploy-with-created-release
 
-This task applies an ops-file to `cf-deployment.yml` which causes bosh to create, upload, and use a dev-release from the provided release folder in place of the version specified in `cf-deployment.yml`.  This is useful for testing an upstream component.
+This task creates and applies an additional operations file to `cf-deployment.yml`,
+which causes BOSH to
+create, upload, and use a dev release
+from the provided release folder
+in place of the version specified in `cf-deployment.yml`.
+This is useful for testing an upstream component.
 
 #### Inputs
 
-* `cf-deployment`,
-* a bosh release repo,
-* an env-repo,
-* and bosh targeting information as inputs.
+* `bbl-state`: Resource containing the BOSH director's `bbl-state.json`
+* `cf-deployment`: Resource containing a cf-deployment manifest
+* `cf-deployment-concourse-tasks`: This repo
+* `ops-files`: Resource containing operations files which are to be applied to this deployment
+* `release`: The repository of the BOSH release under test
+* `vars-store`: Resource containing the BOSH deployment's vars-store yaml file
+
+#### Outputs
+
+* `updated-vars-store`: A directory for containing the updated vars-store yaml file as a git commit
 
 #### Parameters
-
-* You must provide a system domain.
-* You may also specify a space-separated list of other ops files as a parameter.  These ops files will be applied in order after the one that subs in the provided release.
+* `BBL_STATE_DIR`:
+  * description: Base path to the directory containing the `bbl-state.json` file.
+  The default behavior will look for a `bbl-state.json` file at the root of the `bbl-state` input
+* `MANIFEST_FILE`:
+  * required
+  * default: `cf-deployment.yml`
+  * description: File path to the `cf-deployment.yml` manifest
+* `OPS_FILES`:
+  * default: `opsfiles/gcp.yml`
+  * description: A quoted space-separated list of operations file to be applied to this deployment.
+* `SYSTEM_DOMAIN`:
+  * required
+  * description: The CF system base domain e.g. `my-cf.com`
+* `VARS_STORE_PATH`:
+  * required
+  * default: `deployment-vars.yml`
+  * description: File path to the BOSH deployment vars-store yaml file
 
 ### bosh-upload-stemcell
 This takes `cf-deployment`
-and bosh targeting information as inputs.
+and BOSH targeting information as inputs.
 It determines which stemcell version to upload
 by reading from `cf-deployment`.
 `INFRASTRUCTURE` needs to be set to
 `aws`, `google`, or `bosh-lite`.
 Other IaaSs are not supported by this task.
+
+#### Inputs
+#### Outputs
+#### Parameters
+
+### update-integration-configs
+#### Inputs
+#### Outputs
+#### Parameters
 
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
