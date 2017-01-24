@@ -28,6 +28,8 @@ along with a brief description
 meant to be used alongside the `task.yml` within each task directory
 to understand the tasks'
 purpose, interface, and options.
+Each title is also a link
+to the appropriate task.yml.
 
 ### [bbl-destroy][bbl-destroy-task-yaml]
 This destroys the director
@@ -39,13 +41,13 @@ This uses [bbl](https://github.com/cloudfoundry/bosh-bootloader)
 to create your infrastructure
 and deploy a BOSH director.
 
-### bosh-deploy
+### [bosh-deploy][bosh-deploy-task-yaml]
 This task performs a BOSH deployment
 and outputs a vars-store.
 Optionally, operations files may be applied
 to the deployment manifest.
 
-### bosh-deploy-with-created-release
+### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
 Creates and applies an
 additional operations file to `cf-deployment.yml`,
 which causes BOSH to
@@ -75,3 +77,5 @@ a vars-store.
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
 [bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
 [update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
+[bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
+[bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
