@@ -42,13 +42,13 @@ to create your infrastructure
 and deploy a BOSH director.
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
-This task performs a BOSH deployment
+This performs a BOSH deployment
 and outputs a vars-store.
 Optionally, operations files may be applied
 to the deployment manifest.
 
 ### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
-Creates and applies an
+This creates and applies an
 additional operations file to `cf-deployment.yml`,
 which causes BOSH to
 create, upload, and use a dev release
@@ -68,14 +68,14 @@ to be consumed by CATs and RATs
 with credentials drawn from
 a vars-store.
 
-[cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
-[runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
-[cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
-[issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
-[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
-[bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
-[bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
 [bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
-[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
+[bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
 [bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
+[bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
+[cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
+[cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
+[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
+[issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
+[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
