@@ -30,7 +30,10 @@ to understand the tasks'
 purpose, interface, and options.
 
 ### bbl-destroy
-### bbl-up
+### [bbl-up][bbl-up-task-yaml]
+This uses [bbl](https://github.com/cloudfoundry/bosh-bootloader)
+to create your infrastructure
+and deploy a BOSH director.
 
 ### bosh-deploy
 This task performs a BOSH deployment
@@ -61,3 +64,4 @@ to the BOSH director.
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
 [bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
+[bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml

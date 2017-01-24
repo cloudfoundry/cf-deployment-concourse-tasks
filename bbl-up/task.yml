@@ -7,25 +7,55 @@ image_resource:
     repository: relintdockerhubpushbot/bbl-up
 
 inputs:
-- name: cf-deployment-concourse-tasks
-- name: bbl-state-dir
+- name: cf-deployment-concourse-tasks # - This repo
+- name: bbl-state-dir # - The Director's `bbl-state.json`
 
 outputs:
 - name: updated-bbl-state-dir
+  # The bbl-state-dir resource, with changes git committed,
+  # ready to be `put` to a git resource.
 
 run:
   path: cf-deployment-concourse-tasks/bbl-up/task
 
 params:
+  # AWS Configuration Params
+  # - Required for AWS
+  # - Must be empty for GCP
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
   BBL_AWS_REGION:
+
+  # GCP Configuration Params
+  # - Required for GCP
+  # - Must be empty for AWS
   BBL_GCP_SERVICE_ACCOUNT_KEY:
+  # - JSON string containing credentials downloaded from GCP
   BBL_GCP_PROJECT_ID:
   BBL_GCP_ZONE:
   BBL_GCP_REGION:
+
   BBL_IAAS:
+  # - Required
+  # - The target IAAS which bbl will create infrastructure
+  # - Must be either `aws` or `gcp`
+
   BBL_LB_CERT:
+  # - Required
+  # - PEM encoded certificate to be associated with the load balancer
+  #   for SSL termination
+
   BBL_LB_KEY:
+  # - Required
+  # - PEM-encoded private key to be used for TLS termination on the load
+  #   balancer.
+
   LB_DOMAIN:
+  # - Required for GCP
+  # - The domain which bbl will register with GCP
+  # - Doesn't do anything on AWS
+
   BBL_ENV_NAME:
+  # - Optional
+  # - A label to apply to the bbl environment
+  # - Label will appear in the IaaS metadata/interface
