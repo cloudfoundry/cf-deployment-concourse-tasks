@@ -39,45 +39,14 @@ Optionally, operations files may be applied
 to the deployment manifest.
 
 ### bosh-deploy-with-created-release
-
-This task creates and applies an additional operations file to `cf-deployment.yml`,
+Creates and applies an
+additional operations file to `cf-deployment.yml`,
 which causes BOSH to
 create, upload, and use a dev release
 from the provided release folder
 in place of the version specified in `cf-deployment.yml`.
 This is useful for testing an upstream component.
-
-#### Inputs
-
-* `bbl-state`: Resource containing the BOSH director's `bbl-state.json`
-* `cf-deployment`: Resource containing a cf-deployment manifest
-* `cf-deployment-concourse-tasks`: This repo
-* `ops-files`: Resource containing operations files which are to be applied to this deployment
-* `release`: The repository of the BOSH release under test
-* `vars-store`: Resource containing the BOSH deployment's vars-store yaml file
-
-#### Outputs
-
-* `updated-vars-store`: A directory for containing the updated vars-store yaml file as a git commit
-
-#### Parameters
-* `BBL_STATE_DIR`:
-  * description: Base path to the directory containing the `bbl-state.json` file.
-  The default behavior will look for a `bbl-state.json` file at the root of the `bbl-state` input
-* `MANIFEST_FILE`:
-  * required
-  * default: `cf-deployment.yml`
-  * description: File path to the `cf-deployment.yml` manifest
-* `OPS_FILES`:
-  * default: `opsfiles/gcp.yml`
-  * description: A quoted space-separated list of operations file to be applied to this deployment.
-* `SYSTEM_DOMAIN`:
-  * required
-  * description: The CF system base domain e.g. `my-cf.com`
-* `VARS_STORE_PATH`:
-  * required
-  * default: `deployment-vars.yml`
-  * description: File path to the BOSH deployment vars-store yaml file
+Otherwise identical to the `bosh-deploy` task above.
 
 ### bosh-upload-stemcell
 This takes `cf-deployment`

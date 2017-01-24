@@ -7,22 +7,47 @@ image_resource:
     repository: relintdockerhubpushbot/bosh-deploy-with-created-release
 
 inputs:
-- name: bbl-state
-- name: cf-deployment
-- name: cf-deployment-concourse-tasks
-- name: ops-files
+- name: bbl-state # - The Director's `bbl-state.json`
+- name: cf-deployment # - The cf-deployment manifest
+- name: cf-deployment-concourse-tasks # - This repo
+- name: ops-files # - Operations files to be made available
 - name: release
-- name: vars-store
+  # - BOSH release source repo
+  # - A dev release will be created from this repo and used in the deployment
+- name: vars-store # - The BOSH deployment's vars-store yaml file
 
 outputs:
 - name: updated-vars-store
+  # The vars-store resource, with changes git committed,
+  # ready to be `put` to a git resource.
 
 run:
   path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task
 
 params:
   BBL_STATE_DIR:
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to root of the `bbl-state` input
+  # - Defaults to the root of the `bbl-state` input
+
   MANIFEST_FILE: cf-deployment.yml
+  # - Required
+  # - Filepath to the manifest file within the cf-deployment resource
+  # - The path is relative to root of the `cf-deployment` input
+
   OPS_FILES: opsfiles/gcp.yml
+  # - Optional
+  # - List of operations files to be applied to the manifest
+  # - Quoted and space-separated
+  # - Ops will be applied in the order they're listed
+  # - Paths are relative to root of the `ops-files` input
+
   SYSTEM_DOMAIN:
+  # - Required
+  # - CF system base domain e.g. `my-cf.com`
+
   VARS_STORE_PATH: deployment-vars.yml
+  # - Required
+  # - Filepath to the BOSH deployment vars-store yaml file
+  # - The path is relative to root of the `vars-store` input
