@@ -29,7 +29,11 @@ meant to be used alongside the `task.yml` within each task directory
 to understand the tasks'
 purpose, interface, and options.
 
-### bbl-destroy
+### [bbl-destroy][bbl-destroy-task-yaml]
+This destroys the director
+and infrastructure
+created by [bbl](https://github.com/cloudfoundry/bosh-bootloader).
+
 ### [bbl-up][bbl-up-task-yaml]
 This uses [bbl](https://github.com/cloudfoundry/bosh-bootloader)
 to create your infrastructure
@@ -65,3 +69,4 @@ to the BOSH director.
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
 [bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
+[bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
