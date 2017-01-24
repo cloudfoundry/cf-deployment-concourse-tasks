@@ -60,7 +60,11 @@ This uploads the stemcell version
 specified in `cf-deployment`
 to the BOSH director.
 
-### update-integration-configs
+### [update-integration-configs][update-integration-configs-task-yaml]
+This updates integration files
+to be consumed by CATs and RATs
+with credentials drawn from
+a vars-store.
 
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
@@ -70,3 +74,4 @@ to the BOSH director.
 [bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
 [bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
+[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml

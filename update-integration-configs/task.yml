@@ -7,17 +7,27 @@ image_resource:
     repository: relintdockerhubpushbot/update-integration-configs
 
 inputs:
-- name: cf-deployment-concourse-tasks
-- name: integration-configs
-- name: vars-store
+- name: cf-deployment-concourse-tasks # - This repo
+- name: integration-configs # - Integration configs to be updated
+- name: vars-store # - The BOSH deployment's vars-store yaml file
 
 outputs:
 - name: updated-integration-configs
+  # The integration-configs input, with changes git committed,
+  # ready to be `put` to a git resource.
 
 run:
   path: cf-deployment-concourse-tasks/update-integration-configs/task
 
 params:
+  # Config Filepaths
+  # - At least one of these must be specified and present
+  # - It's fine to set both
+  # - These paths are relative to root of the `integration-configs` input
   CATS_INTEGRATION_CONFIG_FILE: cats_integration_config.json
   RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
+
   VARS_STORE_PATH: deployment-vars.yml
+  # - Required
+  # - Filepath to the vars-store yaml file creds will be drawn from
+  # - The path is relative to root of the `vars-store` input
