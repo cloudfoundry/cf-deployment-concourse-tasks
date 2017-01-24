@@ -26,53 +26,17 @@ Alternatively, you can [open an issue][issues-page].
 Tasks are listed here alphabetically,
 along with a brief description
 meant to be used alongside the `task.yml` within each task directory
-to understand the task's
+to understand the tasks'
 purpose, interface, and options.
 
 ### bbl-destroy
-#### Inputs
-#### Outputs
-#### Parameters
-
 ### bbl-up
-#### Inputs
-#### Outputs
-#### Parameters
 
 ### bosh-deploy
-This task applies the provided operations files
-and performs a BOSH deployment
-
-#### Inputs
-
-* `bbl-state`: Resource containing the BOSH director's `bbl-state.json`
-* `cf-deployment`: Resource containing a cf-deployment manifest
-* `cf-deployment-concourse-tasks`: This repo
-* `ops-files`: Resource containing operations files which are to be applied to this deployment
-* `vars-store`: Resource containing the BOSH deployment's vars-store yaml file
-
-#### Outputs
-
-* `updated-vars-store`: A directory for containing the updated vars-store yaml file as a git commit
-
-#### Parameters
-* `BBL_STATE_DIR`:
-  * description: Base path to the directory containing the `bbl-state.json` file.
-  The default behavior will look for a `bbl-state.json` file at the root of the `bbl-state` input
-* `MANIFEST_FILE`:
-  * required
-  * default: `cf-deployment.yml`
-  * description: File path to the `cf-deployment.yml` manifest
-* `OPS_FILES`:
-  * default: `opsfiles/gcp.yml`
-  * description: A quoted space-separated list of operations file to be applied to this deployment.
-* `SYSTEM_DOMAIN`:
-  * required
-  * description: The CF system base domain e.g. `my-cf.com`
-* `VARS_STORE_PATH`:
-  * required
-  * default: `deployment-vars.yml`
-  * description: File path to the BOSH deployment vars-store yaml file
+This task performs a BOSH deployment
+and outputs a vars-store.
+Optionally, operations files may be applied
+to the deployment manifest.
 
 ### bosh-deploy-with-created-release
 
@@ -124,14 +88,7 @@ by reading from `cf-deployment`.
 `aws`, `google`, or `bosh-lite`.
 Other IaaSs are not supported by this task.
 
-#### Inputs
-#### Outputs
-#### Parameters
-
 ### update-integration-configs
-#### Inputs
-#### Outputs
-#### Parameters
 
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images
