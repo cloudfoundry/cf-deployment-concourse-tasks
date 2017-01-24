@@ -6,12 +6,15 @@ image_resource:
     repository: relintdockerhubpushbot/bosh-upload-stemcell
 
 inputs:
-- name: cf-deployment-concourse-tasks
-- name: cf-deployment
-- name: bbl-state-dir
+- name: cf-deployment-concourse-tasks # - This repo
+- name: cf-deployment # - The cf-deployment manifest
+- name: bbl-state-dir # - The Director's `bbl-state.json`
 
 run:
   path: cf-deployment-concourse-tasks/bosh-upload-stemcell/task
 
 params:
   INFRASTRUCTURE: google
+  # - Required
+  # - Used to determine which stemcell will be uploaded
+  # - Must be one of: aws, bosh-lite, google, or vsphere

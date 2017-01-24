@@ -48,14 +48,10 @@ in place of the version specified in `cf-deployment.yml`.
 This is useful for testing an upstream component.
 Otherwise identical to the `bosh-deploy` task above.
 
-### bosh-upload-stemcell
-This takes `cf-deployment`
-and BOSH targeting information as inputs.
-It determines which stemcell version to upload
-by reading from `cf-deployment`.
-`INFRASTRUCTURE` needs to be set to
-`aws`, `google`, or `bosh-lite`.
-Other IaaSs are not supported by this task.
+### [bosh-upload-stemcell][bosh-upload-stemcell-task-yaml]
+This uploads the stemcell version
+specified in `cf-deployment`
+to the BOSH director.
 
 ### update-integration-configs
 
@@ -64,3 +60,4 @@ Other IaaSs are not supported by this task.
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
+[bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
