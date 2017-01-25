@@ -78,11 +78,6 @@ function upload_stemcell() {
   fi
 
   # ... otherwise, begin the upload process
-  #set +x
-  bosh --version
-  bosh upload-stemcell --help
-  bosh login
-  echo $BOSH_CA_CERT
   bosh \
     -n \
     upload-stemcell \
