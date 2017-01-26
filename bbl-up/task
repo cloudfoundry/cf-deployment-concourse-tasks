@@ -13,7 +13,7 @@ function commit_bbl_state_file {
   local root_dir
   root_dir="${1}"
 
-  pushd "${root_dir}/bbl-state-dir"
+  pushd "${root_dir}/bbl-state"
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
       git config user.email "cf-release-integration@pivotal.io"
@@ -24,7 +24,7 @@ function commit_bbl_state_file {
 
   pushd "${root_dir}"
     shopt -s dotglob
-    cp -R bbl-state-dir/* updated-bbl-state-dir/
+    cp -R bbl-state/* updated-bbl-state/
   popd
 }
 
@@ -36,7 +36,7 @@ function write_bbl_certs() {
 }
 
 function main() {
-  pushd bbl-state-dir
+  pushd bbl-state
     write_bbl_certs
 
     bbl version

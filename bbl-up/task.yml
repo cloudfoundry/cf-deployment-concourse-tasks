@@ -8,11 +8,11 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks # - This repo
-- name: bbl-state-dir # - The Director's `bbl-state.json`
+- name: bbl-state # - The Director's `bbl-state.json`
 
 outputs:
-- name: updated-bbl-state-dir
-  # The bbl-state-dir resource, with changes git committed,
+- name: updated-bbl-state
+  # The bbl-state resource, with changes git committed,
   # ready to be `put` to a git resource.
 
 run:
