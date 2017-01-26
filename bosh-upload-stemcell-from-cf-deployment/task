@@ -72,7 +72,7 @@ function upload_stemcell() {
 
   # If bosh already has our stemcell, exit 0
   if [ "${existing_stemcell}" ]; then
-    echo "Task bosh-upload-stemcell:"
+    echo "Task bosh-upload-stemcell-from-cf-deployment:"
     echo "Stemcell '${stemcell_name}/${version}' already exists.  Exiting..."
     exit 0
   fi

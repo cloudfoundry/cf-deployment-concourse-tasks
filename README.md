@@ -57,7 +57,7 @@ in place of the version specified in `cf-deployment.yml`.
 This is useful for testing an upstream component.
 Otherwise identical to the `bosh-deploy` task above.
 
-### [bosh-upload-stemcell][bosh-upload-stemcell-task-yaml]
+### [bosh-upload-stemcell-from-cf-deployment][bosh-upload-stemcell-from-cf-deployment-task-yaml]
 This uploads the stemcell version
 specified in `cf-deployment`
 to the BOSH director.
@@ -72,7 +72,7 @@ a vars-store.
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
 [bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
-[bosh-upload-stemcell-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell/task.yml
+[bosh-upload-stemcell-from-cf-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
