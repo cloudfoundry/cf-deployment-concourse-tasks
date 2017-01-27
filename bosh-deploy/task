@@ -35,11 +35,16 @@ function commit_vars_store {
 
 function setup_bosh_env_vars() {
   set +x
-  export BOSH_CA_CERT=$(mktemp)
-  bbl --state-dir=bbl-state/${BBL_STATE_DIR} director-ca-cert > "${BOSH_CA_CERT}"
-  export BOSH_ENVIRONMENT=$(bbl --state-dir=bbl-state/${BBL_STATE_DIR} director-address)
-  export BOSH_CLIENT=$(bbl --state-dir=bbl-state/${BBL_STATE_DIR} director-username)
-  export BOSH_CLIENT_SECRET=$(bbl --state-dir=bbl-state/${BBL_STATE_DIR} director-password)
+  pushd "${BBL_STATE_DIR}"
+    BOSH_CA_CERT="$(bbl director-ca-cert)"
+    export BOSH_CA_CERT
+    BOSH_ENVIRONMENT=$(bbl director-address)
+    export BOSH_ENVIRONMENT
+    BOSH_CLIENT=$(bbl director-username)
+    export BOSH_CLIENT
+    BOSH_CLIENT_SECRET=$(bbl director-password)
+    export BOSH_CLIENT_SECRET
+  popd
   set -x
 }
 
@@ -61,6 +66,8 @@ function bosh_deploy() {
   local interpolated_manifest
   interpolated_manifest=$(mktemp)
 
+  # We are intentionally passing a series of arguments here:
+  # shellcheck disable=SC2086
   bosh -n interpolate ${arguments} --var-errs "${bosh_manifest}" > "${interpolated_manifest}"
 
   bosh \
