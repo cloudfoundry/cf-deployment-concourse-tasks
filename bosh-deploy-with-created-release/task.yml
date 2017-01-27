@@ -36,7 +36,7 @@ params:
   # - Filepath to the manifest file within the cf-deployment resource
   # - The path is relative to root of the `cf-deployment` input
 
-  OPS_FILES: opsfiles/gcp.yml
+  OPS_FILES: operations/gcp.yml
   # - Optional
   # - List of operations files to be applied to the manifest
   # - Quoted and space-separated
