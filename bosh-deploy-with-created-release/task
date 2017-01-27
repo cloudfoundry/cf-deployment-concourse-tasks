@@ -94,7 +94,7 @@ EOF
 }
 
 function remove_vars_store() {
-  rm vars-store/"${VARS_STORE_PATH}"
+  rm -f vars-store/"${VARS_STORE_PATH}"
 }
 
 function main() {

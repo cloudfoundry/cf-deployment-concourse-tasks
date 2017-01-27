@@ -46,6 +46,15 @@ and outputs a vars-store.
 Optionally, operations files may be applied
 to the deployment manifest.
 
+It's also configurable to
+regenerate the vars-store
+on each deployment
+though this is not the default behavior.
+This is helpful for testing
+changes to variable generation,
+but is only expected to work
+with fresh deployments.
+
 ### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
 This creates and applies an
 additional operations file to `cf-deployment.yml`,
