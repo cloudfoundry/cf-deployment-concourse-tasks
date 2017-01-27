@@ -77,9 +77,16 @@ function bosh_deploy() {
     "${interpolated_manifest}"
 }
 
+function remove_vars_store() {
+  rm vars-store/"${VARS_STORE_PATH}"
+}
+
 function main() {
   check_input_params
   setup_bosh_env_vars
+  if ${REGENERATE_VARS_STORE}; then
+    remove_vars_store
+  fi
   bosh_deploy
 }
 

@@ -48,3 +48,11 @@ params:
   # - Required
   # - Filepath to the BOSH deployment vars-store yaml file
   # - The path is relative to root of the `vars-store` input
+
+  REGENERATE_VARS_STORE: false
+  # - Required
+  # - Remove the ${VARS_STORE_PATH} before running `bosh deploy`
+  # - This allows the vars to be freshly generated each time
+  # - This is helpful for testing changes around variable generation
+  # - Works well with fresh deployments
+  # - Upgrade deployments are not expected to work with total cred rotation
