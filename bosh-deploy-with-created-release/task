@@ -93,12 +93,19 @@ EOF
     "${interpolated_manifest}"
 }
 
+function remove_vars_store() {
+  rm vars-store/"${VARS_STORE_PATH}"
+}
+
 function main() {
   local root_dir
   root_dir="${1}"
 
   check_input_params
   setup_bosh_env_vars
+  if ${REGENERATE_VARS_STORE}; then
+    remove_vars_store
+  fi
   bosh_deploy "${root_dir}"
 }
 
