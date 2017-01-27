@@ -35,7 +35,7 @@ function commit_vars_store {
 
 function setup_bosh_env_vars() {
   set +x
-  pushd "${BBL_STATE_DIR}"
+  pushd bbl-state/"${BBL_STATE_DIR}"
     BOSH_CA_CERT="$(bbl director-ca-cert)"
     export BOSH_CA_CERT
     BOSH_ENVIRONMENT=$(bbl director-address)
