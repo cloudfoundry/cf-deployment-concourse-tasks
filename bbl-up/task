@@ -1,13 +1,27 @@
 #!/bin/bash -xeu
 
-if [ -z "${LB_DOMAIN}" -a "${BBL_IAAS}" == "gcp" ]; then
-  echo "\$LB_DOMAIN is a required parameter for gcp.  Please set the domain."
-  exit 1
-fi
+function check_fast_fails() {
+  set +x
+  if [ -z "${LB_DOMAIN}" -a "${BBL_IAAS}" == "gcp" ]; then
+    echo "\$LB_DOMAIN is a required parameter for gcp.  Please set the domain."
+    exit 1
+  fi
 
-if [ -n "${LB_DOMAIN}" -a "${BBL_IAAS}" == "aws" ]; then
-  echo "\$LB_DOMAIN is not honored for aws"
-fi
+  if [ -z "${BBL_LB_CERT}"  ]; then
+    echo "\$BBL_LB_CERT is a required parameter"
+    exit 1
+  fi
+
+  if [ -z "${BBL_LB_KEY}"  ]; then
+    echo "\$BBL_LB_KEY is a required parameter"
+    exit 1
+  fi
+
+  if [ -n "${LB_DOMAIN}" -a "${BBL_IAAS}" == "aws" ]; then
+    echo "\$LB_DOMAIN is not honored for aws"
+  fi
+  set -x
+}
 
 function commit_bbl_state_file {
   local root_dir
@@ -36,6 +50,8 @@ function write_bbl_certs() {
 }
 
 function main() {
+  check_fast_fails
+
   pushd bbl-state
     write_bbl_certs
 
