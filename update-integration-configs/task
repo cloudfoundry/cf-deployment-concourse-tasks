@@ -20,7 +20,15 @@ function commit_integration_configs {
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
       git config user.email "cf-release-integration@pivotal.io"
-      git add *_integration_config.json
+
+      if [ -f "${CATS_INTEGRATION_CONFIG_FILE}" ]; then
+        git add "${CATS_INTEGRATION_CONFIG_FILE}"
+      fi
+
+      if [ -f "${RATS_INTEGRATION_CONFIG_FILE}" ]; then
+        git add "${RATS_INTEGRATION_CONFIG_FILE}"
+      fi
+
       git commit -m "Update integration configs"
     fi
   popd
@@ -65,7 +73,6 @@ function main() {
       echo "${new_rats_integration_config}" > "${RATS_INTEGRATION_CONFIG_FILE}"
     fi
   popd
-
 }
 
 trap commit_integration_configs EXIT
