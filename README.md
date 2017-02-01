@@ -70,6 +70,12 @@ This uploads the stemcell version
 specified in `cf-deployment`
 to the BOSH director.
 
+### [set-feature-flags][set-feature-flags-task-yaml]
+This will
+toggle
+the specified feature-flags
+based on their boolean values.
+
 ### [update-integration-configs][update-integration-configs-task-yaml]
 This updates integration files
 to be consumed by CATs and RATs
@@ -85,5 +91,6 @@ a vars-store.
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml

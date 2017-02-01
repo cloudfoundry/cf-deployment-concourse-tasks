@@ -7,14 +7,26 @@ image_resource:
     repository: relintdockerhubpushbot/set-feature-flags
 
 inputs:
-- name: cf-deployment-concourse-tasks
-- name: vars-store
+- name: cf-deployment-concourse-tasks # - This repo
+- name: vars-store # - The BOSH deployment's vars-store yaml file
 
 params:
-  VARS_STORE_FILE: deployment-vars.yml
-  SYSTEM_DOMAIN:
   DIEGO_DOCKER: true
+  # - Required
+  # - This will either enable or disable the diego_docker feature-flag
+
   TASK_CREATION: true
+  # - Required
+  # - This will either enable or disable the task_creation feature-flag
+
+  SYSTEM_DOMAIN:
+  # - Required
+  # - CF system base domain e.g. `my-cf.com`
+
+  VARS_STORE_FILE: deployment-vars.yml
+  # - Required
+  # - Filepath to the BOSH deployment vars-store yaml file
+  # - The path is relative to root of the `vars-store` input
 
 run:
   path: cf-deployment-concourse-tasks/set-feature-flags/task
