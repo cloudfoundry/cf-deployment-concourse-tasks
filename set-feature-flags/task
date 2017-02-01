@@ -1,18 +1,23 @@
 #!/bin/bash -exu
 
+if [ -z "${SYSTEM_DOMAIN}" ]; then
+  echo "\$SYSTEM_DOMAIN is a required parameter"
+  exit 1
+fi
+
 function set_diego_docker() {
-  if [ ${ENABLE_DIEGO_DOCKER} ]; then
-    cf enable-feature-flag diego_docker || true
+  if ${ENABLE_DIEGO_DOCKER}; then
+    cf enable-feature-flag diego_docker
   else
-    cf disable-feature-flag diego_docker || true
+    cf disable-feature-flag diego_docker
   fi
 }
 
 function set_task_creation() {
-  if [ ${ENABLE_TASK_CREATION} ]; then
-    cf enable-feature-flag task_creation || true
+  if ${ENABLE_TASK_CREATION}; then
+    cf enable-feature-flag task_creation
   else
-    cf disable-feature-flag task_creation || true
+    cf disable-feature-flag task_creation
   fi
 }
 
