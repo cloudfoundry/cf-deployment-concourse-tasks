@@ -1,0 +1,37 @@
+#!/bin/bash -exu
+
+function set_diego_docker() {
+  if [ ${ENABLE_DIEGO_DOCKER} ]; then
+    cf enable-feature-flag diego_docker || true
+  else
+    cf disable-feature-flag diego_docker || true
+  fi
+}
+
+function set_task_creation() {
+  if [ ${ENABLE_TASK_CREATION} ]; then
+    cf enable-feature-flag task_creation || true
+  else
+    cf disable-feature-flag task_creation || true
+  fi
+}
+
+function cf_login() {
+  set +x
+  echo "Authenticating as admin"
+  cf auth admin $(bosh interpolate vars-store/${VARS_STORE_FILE} --path=/uaa_scim_users_admin_password)
+  set -x
+}
+
+function main() {
+  cf api --skip-ssl-validation "api.${SYSTEM_DOMAIN}"
+
+  cf_login
+
+  set_diego_docker
+  set_task_creation
+
+  cf feature-flags
+}
+
+main
