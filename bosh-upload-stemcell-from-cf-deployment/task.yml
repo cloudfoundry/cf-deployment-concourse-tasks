@@ -3,7 +3,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: relintdockerhubpushbot/bosh-upload-stemcell-from-cf-deployment
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
 
 inputs:
 - name: cf-deployment-concourse-tasks # - This repo
