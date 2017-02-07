@@ -35,6 +35,12 @@ params:
   BBL_GCP_ZONE:
   BBL_GCP_REGION:
 
+  BBL_STATE_DIR:
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to root of the `bbl-state` input
+  # - If unspecified, uses the root of the `bbl-state` input
+
   BBL_IAAS:
   # - Required
   # - The target IAAS which bbl will create infrastructure
