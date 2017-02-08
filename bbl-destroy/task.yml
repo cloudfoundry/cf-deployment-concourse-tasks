@@ -17,3 +17,10 @@ outputs:
 
 run:
   path: cf-deployment-concourse-tasks/bbl-destroy/task
+
+params:
+  BBL_STATE_DIR:
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to root of the `bbl-state` input
+  # - If unspecified, uses the root of the `bbl-state` input
