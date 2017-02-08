@@ -1,0 +1,23 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+
+inputs:
+- name: bbl-state # - The Director's `bbl-state.json`
+- name: cf-deployment-concourse-tasks # - This repo
+
+run:
+  path: cf-deployment-concourse-tasks/bosh-delete-deployment/task
+
+params:
+  BBL_STATE_DIR:
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to root of the `bbl-state` input
+  # - Defaults to the root of the `bbl-state` input
+
+  DEPLOYMENT_NAME: cf
