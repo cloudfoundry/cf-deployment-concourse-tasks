@@ -46,10 +46,10 @@ RUN \
   chmod +x bbl
 
 RUN \
-  wget https://releases.hashicorp.com/terraform/0.8.4/terraform_0.8.4_linux_amd64.zip -P /tmp && \
+  wget https://releases.hashicorp.com/terraform/0.8.5/terraform_0.8.5_linux_amd64.zip -P /tmp && \
   cd /tmp && \
-  echo "190b2d404cc30227f7dec429d1f643d92fce8072 terraform_0.8.4_linux_amd64.zip" | sha1sum -c - && \
-  unzip /tmp/terraform_0.8.4_linux_amd64.zip -d /tmp && \
+  echo "15784683ffa19944813fbc7310569092ab0edc44 terraform_0.8.5_linux_amd64.zip" | sha1sum -c - && \
+  unzip /tmp/terraform_0.8.5_linux_amd64.zip -d /tmp && \
   mv /tmp/terraform /usr/local/bin/terraform && \
   cd /usr/local/bin && \
   chmod +x terraform && \
