@@ -30,7 +30,7 @@ params:
   # - Required for GCP
   # - Must be empty for AWS
   BBL_GCP_SERVICE_ACCOUNT_KEY:
-  # - JSON string containing credentials downloaded from GCP
+  # - name of the file containing credentials downloaded from GCP
   BBL_GCP_PROJECT_ID:
   BBL_GCP_ZONE:
   BBL_GCP_REGION:
