@@ -14,6 +14,12 @@ run:
   path: cf-deployment-concourse-tasks/bosh-upload-stemcell-from-cf-deployment/task
 
 params:
+  BBL_STATE_DIR:
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to root of the `bbl-state` input
+  # - If unspecified, uses the root of the `bbl-state` input
+
   INFRASTRUCTURE: google
   # - Required
   # - Used to determine which stemcell will be uploaded
