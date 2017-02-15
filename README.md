@@ -7,6 +7,7 @@ Please see
 https://github.com/JesseTAlford/texts/blob/master/the-art-of-markdown.md>
 
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
+If you are trying to deploy to GCP, you may wish to check the [GCP Deployment Guide][gcp-deployment-guide].
 Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
 a supporting task file, and a Dockerfile.
@@ -51,6 +52,10 @@ bbl_create_lbs.txt,
 and bbl_update_lbs.txt
 to help debug failures
 in this task.
+This task requires
+a certificate and key
+which can be generated using
+the commands specified [here][gcp-deployment-guide-on-certificates]
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH deployment
@@ -106,3 +111,5 @@ a vars-store.
 [set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
+[gcp-deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md
+[gcp-deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md#on-certificates
