@@ -2,8 +2,8 @@
 set -o pipefail
 
 function check_fast_fails() {
-  if [ -z "$VARS_STORE_PATH" ]; then
-    echo "VARS_STORE_PATH has not been set"
+  if [ -z "$VARS_STORE_FILE" ]; then
+    echo "VARS_STORE_FILE has not been set"
     exit 1
   fi
 
@@ -43,10 +43,10 @@ function main() {
 
   check_fast_fails
 
-  echo "extracting cf admin password from ${VARS_STORE_PATH}..."
+  echo "extracting cf admin password from ${VARS_STORE_FILE}..."
 
   local admin_password
-  admin_password=$(bosh interpolate vars-store/${VARS_STORE_PATH} \
+  admin_password=$(bosh interpolate vars-store/${VARS_STORE_FILE} \
     --path=/uaa_scim_users_admin_password)
 
   pushd integration-configs
@@ -63,7 +63,7 @@ function main() {
       echo "updating RATs integration config file: ${RATS_INTEGRATION_CONFIG_FILE}..."
 
       local tcp_emitter_secret
-      tcp_emitter_secret=$(bosh int "${root_dir}/vars-store/${VARS_STORE_PATH}" --path=/uaa_clients_tcp_emitter_secret)
+      tcp_emitter_secret=$(bosh int "${root_dir}/vars-store/${VARS_STORE_FILE}" --path=/uaa_clients_tcp_emitter_secret)
 
       local new_rats_integration_config
       new_rats_integration_config=$(cat "${RATS_INTEGRATION_CONFIG_FILE}")

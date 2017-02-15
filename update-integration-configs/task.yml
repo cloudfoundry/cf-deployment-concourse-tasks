@@ -27,7 +27,7 @@ params:
   CATS_INTEGRATION_CONFIG_FILE: cats_integration_config.json
   RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
 
-  VARS_STORE_PATH: deployment-vars.yml
+  VARS_STORE_FILE: deployment-vars.yml
   # - Required
   # - Filepath to the vars-store yaml file creds will be drawn from
   # - The path is relative to root of the `vars-store` input
