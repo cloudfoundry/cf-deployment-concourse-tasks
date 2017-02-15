@@ -7,8 +7,8 @@ function check_input_params() {
     exit 1
   fi
 
-  if [ -z "$VARS_STORE_PATH" ]; then
-    echo "VARS_STORE_PATH has not been set"
+  if [ -z "$VARS_STORE_FILE" ]; then
+    echo "VARS_STORE_FILE has not been set"
     exit 1
   fi
 
@@ -24,7 +24,7 @@ function commit_vars_store {
     if [[ -n $(git status --porcelain) ]]; then
       git config user.name "CI Bot"
       git config user.email "cf-release-integration@pivotal.io"
-      git add "${VARS_STORE_PATH}"
+      git add "${VARS_STORE_FILE}"
       git commit -m "Update vars-store after deploy"
     fi
   popd
@@ -56,7 +56,7 @@ function bosh_deploy() {
   deployment_name=$(grep -E "^name:" "$bosh_manifest" | awk '{print $2}')
 
   local arguments
-  arguments="--vars-store vars-store/${VARS_STORE_PATH} -v system_domain=${SYSTEM_DOMAIN}"
+  arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
 
   for op in ${OPS_FILES}
   do
@@ -78,7 +78,7 @@ function bosh_deploy() {
 }
 
 function remove_vars_store() {
-  rm -f vars-store/"${VARS_STORE_PATH}"
+  rm -f vars-store/"${VARS_STORE_FILE}"
 }
 
 function main() {
