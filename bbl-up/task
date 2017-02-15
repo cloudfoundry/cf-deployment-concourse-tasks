@@ -50,6 +50,9 @@ function write_bbl_certs() {
 }
 
 function main() {
+  local root_dir
+  root_dir="${1}"
+
   check_fast_fails
 
   pushd "bbl-state/${BBL_STATE_DIR}"
@@ -64,7 +67,7 @@ function main() {
       name_flag="--name ${BBL_ENV_NAME}"
     fi
 
-    bbl up ${name_flag}
+    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
 
     local domain_flag
     domain_flag=""
@@ -75,21 +78,23 @@ function main() {
 
     # The two commands below amount to "create or update"
     bbl \
+      --debug \
       create-lbs \
       --type=cf \
       --cert=/tmp/bbl-cert \
       --key=/tmp/bbl-key \
       --skip-if-exists \
-      ${domain_flag}
+      ${domain_flag} > "${root_dir}"/bbl_create_lbs.txt
 
     bbl \
+      --debug \
       update-lbs \
       --cert=/tmp/bbl-cert \
       --key=/tmp/bbl-key \
-      ${domain_flag}
+      ${domain_flag} > "${root_dir}"/bbl_update_lbs.txt
   popd
 }
 
 trap "commit_bbl_state_file ${PWD}" EXIT
 
-main
+main ${PWD}

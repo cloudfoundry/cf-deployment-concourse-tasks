@@ -34,11 +34,23 @@ to the appropriate task.yml.
 This destroys the director
 and infrastructure
 created by [bbl](https://github.com/cloudfoundry/bosh-bootloader).
+Debug output
+is written to
+bbl_destroy.txt
+to help debug failures
+in this task.
 
 ### [bbl-up][bbl-up-task-yaml]
 This uses [bbl](https://github.com/cloudfoundry/bosh-bootloader)
 to create your infrastructure
 and deploy a BOSH director.
+Debug output
+is written to
+bbl_up.txt,
+bbl_create_lbs.txt,
+and bbl_update_lbs.txt
+to help debug failures
+in this task.
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH deployment

@@ -20,14 +20,18 @@ function commit_bbl_state_file {
 }
 
 function main() {
+  local root_dir
+  root_dir="${1}"
+
   pushd "bbl-state/${BBL_STATE_DIR}"
     bbl \
+      --debug \
       destroy \
       --no-confirm \
-      --skip-if-missing
+      --skip-if-missing > "${root_dir}"/bbl_destroy.txt
   popd
 }
 
 trap "commit_bbl_state_file ${PWD}" EXIT
 
-main
+main ${PWD}
