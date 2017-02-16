@@ -24,9 +24,9 @@ RUN \
 
 # bosh-cli
 RUN \
-  wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-0.0.147-linux-amd64 --output-document="/usr/bin/bosh" && \
+  wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.3-linux-amd64 --output-document="/usr/bin/bosh" && \
   cd /usr/bin && \
-  echo "533342d7663c3e5dc731769e157608c74dd9eccb bosh" | sha1sum -c - && \
+  echo "845b7a4e86208d492c55183a71961836f50f5c94 bosh" | sha1sum -c - && \
   chmod +x bosh
 
 # cf-cli
