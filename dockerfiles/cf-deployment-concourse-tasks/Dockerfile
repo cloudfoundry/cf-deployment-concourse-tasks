@@ -15,6 +15,10 @@ RUN \
     ruby2.3-dev && \
   apt-get remove -y --purge software-properties-common
 
+RUN apt-get install -y build-essential zlibc zlib1g-dev \
+        ruby ruby-dev openssl libxslt-dev libxml2-dev \
+        libssl-dev libreadline6 libreadline6-dev libyaml-dev \
+        libsqlite3-dev sqlite
 # jq
 RUN \
   wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 --output-document="/usr/bin/jq" && \
