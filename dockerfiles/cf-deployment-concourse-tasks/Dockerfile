@@ -5,20 +5,24 @@ RUN \
   apt-get -y install \
     build-essential \
     git \
+    libreadline6 \
+    libreadline6-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libyaml-dev \
+    openssl \
+    ruby \
+    ruby-dev \
+    software-properties-common \
+    sqlite \
     unzip \
     wget \
-    software-properties-common && \
-  add-apt-repository ppa:brightbox/ruby-ng -y && \
-  apt-get update && \
-  apt-get -y install \
-    ruby2.3 \
-    ruby2.3-dev && \
+    zlib1g-dev \
+    zlibc && \
   apt-get remove -y --purge software-properties-common
 
-RUN apt-get install -y build-essential zlibc zlib1g-dev \
-        ruby ruby-dev openssl libxslt-dev libxml2-dev \
-        libssl-dev libreadline6 libreadline6-dev libyaml-dev \
-        libsqlite3-dev sqlite
 # jq
 RUN \
   wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 --output-document="/usr/bin/jq" && \
