@@ -13,14 +13,17 @@ RUN \
     libxslt-dev \
     libyaml-dev \
     openssl \
-    ruby \
-    ruby-dev \
     software-properties-common \
     sqlite \
     unzip \
     wget \
     zlib1g-dev \
     zlibc && \
+  add-apt-repository ppa:brightbox/ruby-ng -y && \
+  apt-get update && \
+  apt-get -y install \
+    ruby2.3 \
+    ruby2.3-dev && \
   apt-get remove -y --purge software-properties-common
 
 # jq
