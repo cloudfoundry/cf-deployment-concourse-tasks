@@ -30,7 +30,8 @@ params:
   # - Required for GCP
   # - Must be empty for AWS
   BBL_GCP_SERVICE_ACCOUNT_KEY:
-  # - name of the file containing credentials downloaded from GCP
+  # - Path to the file containing credentials downloaded from GCP
+  # - Path is relative to the BBL_STATE_DIR specified below
   BBL_GCP_PROJECT_ID:
   BBL_GCP_ZONE:
   BBL_GCP_REGION:
