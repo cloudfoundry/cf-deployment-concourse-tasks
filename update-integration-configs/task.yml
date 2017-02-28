@@ -26,6 +26,7 @@ params:
   # - These paths are relative to root of the `integration-configs` input
   CATS_INTEGRATION_CONFIG_FILE: cats_integration_config.json
   RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
+  WATS_INTEGRATION_CONFIG_FILE: wats_integration_config.json
 
   VARS_STORE_FILE: deployment-vars.yml
   # - Required
