@@ -59,10 +59,15 @@ function bosh_deploy() {
   deployment_name=$(grep -E "^name:" "$bosh_manifest" | awk '{print $2}')
 
   local arguments
-  arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN} -o create-provided-release.yml"
+  arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
 
   local release_name
   release_name=$(grep final_name release/config/final.yml | awk '{print $2}')
+
+  for op in ${OPS_FILES}
+  do
+    arguments="${arguments} -o ops-files/${op}"
+  done
 
   cat << EOF > create-provided-release.yml
 ---
@@ -74,10 +79,7 @@ function bosh_deploy() {
     url: file://${root_dir}/release
 EOF
 
-  for op in ${OPS_FILES}
-  do
-    arguments="${arguments} -o ops-files/${op}"
-  done
+  arguments="${arguments} -o create-provided-release.yml"
 
   local interpolated_manifest
   interpolated_manifest=$(mktemp)
