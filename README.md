@@ -57,6 +57,13 @@ a certificate and key
 which can be generated using
 the commands specified [here][gcp-deployment-guide-on-certificates].
 
+### [bosh-cleanup][bosh-cleanup-task-yaml]
+This performs a BOSH cleanup
+which is necessary
+from time to time
+to avoid
+running out of space.
+
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH deployment
 and outputs a vars-store.
@@ -101,15 +108,16 @@ a vars-store.
 
 [bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
+[bosh-cleanup-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-cleanup/task.yml
 [bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
 [bosh-upload-stemcell-from-cf-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
-[issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
-[set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
-[runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
-[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
 [gcp-deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md
 [gcp-deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md#on-certificates
+[issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
+[set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
+[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
