@@ -50,10 +50,10 @@ RUN \
 
 # bbl and dependencies
 RUN \
-  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v2.1.1/bbl-v2.1.1_linux_x86-64 -P /tmp && \
+  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v2.4.1/bbl-v2.4.1_linux_x86-64 -P /tmp && \
   mv /tmp/bbl-* /usr/local/bin/bbl && \
   cd /usr/local/bin && \
-  echo "020e37c53fd9f8370c7d3f3cd69b2607ef814b45 bbl" | sha1sum -c - && \
+  echo "3d0cf7d3751807ccfb3e7e188e24080ca7f6139f bbl" | sha1sum -c - && \
   chmod +x bbl
 
 RUN \
