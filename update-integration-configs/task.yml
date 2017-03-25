@@ -32,3 +32,8 @@ params:
   # - Required
   # - Filepath to the vars-store yaml file creds will be drawn from
   # - The path is relative to root of the `vars-store` input
+
+  SYSTEM_DOMAIN:
+  # - Optional
+  # - CF system base domain e.g. `my-cf.com`
+  # - Should match the value passed to `bosh-deploy`

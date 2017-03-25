@@ -59,6 +59,10 @@ function main() {
     local new_cats_integration_config
     new_cats_integration_config=$(cat "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}" | jq ".admin_password=\"${admin_password}\"")
 
+    if [ -n "${SYSTEM_DOMAIN}" ]; then
+      new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".api=\"api.${SYSTEM_DOMAIN}\" | .apps_domain=\"${SYSTEM_DOMAIN}\"")
+    fi
+
     echo "${new_cats_integration_config}" > "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}"
   fi
 
