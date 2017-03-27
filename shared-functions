@@ -1,0 +1,89 @@
+#!/bin/bash -eux
+
+function check_input_params() {
+  set +x
+  if [ -z "$MANIFEST_FILE" ]; then
+    echo "MANIFEST_FILE has not been set"
+    exit 1
+  fi
+
+  if [ -z "$VARS_STORE_FILE" ]; then
+    echo "VARS_STORE_FILE has not been set"
+    exit 1
+  fi
+
+  if [ -z "$SYSTEM_DOMAIN" ]; then
+    echo "SYSTEM_DOMAIN has not been set"
+    exit 1
+  fi
+  set -x
+}
+
+function commit_vars_store {
+  pushd vars-store
+    if [[ -n $(git status --porcelain) ]]; then
+      git config user.name "CI Bot"
+      git config user.email "cf-release-integration@pivotal.io"
+      git add "${VARS_STORE_FILE}"
+      git commit -m "Update vars-store after deploy"
+    fi
+  popd
+
+  shopt -s dotglob
+  cp -R vars-store/* updated-vars-store/
+}
+
+function setup_bosh_env_vars() {
+  set +x
+  pushd bbl-state/"${BBL_STATE_DIR}"
+    BOSH_CA_CERT="$(bbl director-ca-cert)"
+    export BOSH_CA_CERT
+    BOSH_ENVIRONMENT=$(bbl director-address)
+    export BOSH_ENVIRONMENT
+    BOSH_CLIENT=$(bbl director-username)
+    export BOSH_CLIENT
+    BOSH_CLIENT_SECRET=$(bbl director-password)
+    export BOSH_CLIENT_SECRET
+  popd
+  set -x
+}
+
+function bosh_interpolate() {
+  local bosh_manifest
+  bosh_manifest="cf-deployment/${MANIFEST_FILE}"
+
+  local arguments
+  arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
+
+  for op in ${OPS_FILES}
+  do
+    arguments="${arguments} -o ops-files/${op}"
+  done
+
+  INTERPOLATED_MANIFEST=$(mktemp)
+  export INTERPOLATED_MANIFEST
+
+  # We are intentionally passing a series of arguments here:
+  # shellcheck disable=SC2086
+  bosh \
+    -n \
+    interpolate ${arguments} \
+    --var-errs \
+    "${bosh_manifest}" \
+    > "${INTERPOLATED_MANIFEST}"
+}
+
+function bosh_deploy() {
+  local deployment_name
+  deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
+
+  bosh \
+    -n \
+    -d "${deployment_name}" \
+    deploy \
+    "${INTERPOLATED_MANIFEST}"
+}
+
+function remove_vars_store() {
+  rm -f vars-store/"${VARS_STORE_FILE}"
+}
