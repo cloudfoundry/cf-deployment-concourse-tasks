@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 # shellcheck disable=SC1091
-source ../shared-functions
+source cf-deployment-concourse-tasks/shared-functions
 
 function main() {
   check_input_params
