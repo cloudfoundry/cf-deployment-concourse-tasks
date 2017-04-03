@@ -22,6 +22,33 @@ please contact the Release Integration team
 in our [Slack channel dedicated to supporting users of `cf-deployment`][cf-deployment-slack-channel].
 Alternatively, you can [open an issue][issues-page].
 
+### Versioning of this repo
+Development updates to the repo are made to the `master` branch,
+so untested or backwards incompatible changes may be present there.
+Once changes have been tested and all stories accepted,
+we add new version tags such as `v1.6` to the approprate commit.
+
+We use a bare-bones type of [semantic versioning](http://semver.org/) for this repo.
+Backwards incompatible changes warrant a major version bump (e.g. `v1.6` to `v2.0`),
+while other changes will simply add a minor version bump (e.g. `v2.0` to `v2.1`).
+
+In Concourse, you can pretty easily lock to a major version,
+meaning that your pipeline will take minor (i.e. backwards compatible) changes only.
+Here's an example from our [nats release pipeline](https://github.com/cloudfoundry/runtime-ci/blob/5e4d8a384c9e9fc7ddc052cd8c21503d40d29851/pipelines/nats-release.yml#L91-L96):
+```
+- name: cf-deployment-concourse-tasks
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks.git
+    tag_filter: v1.*
+```
+
+When you're ready to take the backwards _incompatible_ changes,
+you can take any necessary manual steps to upgrade,
+and then change the major version in your pipeline configuration.
+
+
 ## Tasks
 Tasks are listed here alphabetically,
 along with a brief description
