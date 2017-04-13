@@ -1,11 +1,4 @@
 # cf-deployment-concourse-tasks
-
-<The way this document looks in the raw
-is intentional.
-For a discussion of the intention,
-Please see
-https://github.com/JesseTAlford/texts/blob/master/the-art-of-markdown.md>
-
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
 If you are trying to deploy to GCP, you may wish to check the [GCP Deployment Guide][gcp-deployment-guide].
 Each task is in its own directory.
