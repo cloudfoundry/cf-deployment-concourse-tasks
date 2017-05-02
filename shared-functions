@@ -34,11 +34,7 @@ function commit_vars_store {
 }
 
 function setup_bosh_env_vars() {
-  set +x
-  if [ -z "$BBL_STATE_DIR" ]; then
-    export BBL_STATE_DIR=""
-  fi
-
+  set +ux
   pushd bbl-state/"${BBL_STATE_DIR}"
     BOSH_CA_CERT="$(bbl director-ca-cert)"
     export BOSH_CA_CERT
@@ -49,7 +45,7 @@ function setup_bosh_env_vars() {
     BOSH_CLIENT_SECRET=$(bbl director-password)
     export BOSH_CLIENT_SECRET
   popd
-  set -x
+  set -ux
 }
 
 function bosh_interpolate() {
