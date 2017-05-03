@@ -13,9 +13,11 @@ function setup_bosh_env_vars() {
 }
 
 function bosh_clean_up() {
-  bosh \
-    -n \
-    clean-up --all
+  if [ -z "${CLEAN_ALL}" ] || [ "${CLEAN_ALL}" = true ]; then
+    bosh -n clean-up --all
+  else
+    bosh -n clean-up
+  fi
 }
 
 function main() {

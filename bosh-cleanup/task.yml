@@ -20,3 +20,8 @@ params:
   # - Path to the directory containing the `bbl-state.json` file
   # - The path is relative to root of the `bbl-state` input
   # - If unspecified, uses the root of the `bbl-state` input
+
+  CLEAN_ALL: true
+  # - Optional
+  # - Boolean determines whether to use `--clean-all` parameter to
+  # - `bosh clean-up`
