@@ -49,11 +49,13 @@ function setup_bosh_env_vars() {
 }
 
 function bosh_interpolate() {
+  set +u
   local root_dir
   root_dir="${1}"
 
   local release_name
   release_name="${2}"
+  set -u
 
   local bosh_manifest
   bosh_manifest="cf-deployment/${MANIFEST_FILE}"
