@@ -12,6 +12,7 @@ inputs:
 - name: cf-deployment # - The cf-deployment manifest
 - name: cf-deployment-concourse-tasks # - This repo
 - name: ops-files # - Operations files to be made available
+- name: vars-files # - Variable files to be made available
 - name: release
   # - BOSH release source repo
   # - A dev release will be created from this repo and used in the deployment
@@ -43,6 +44,13 @@ params:
   # - Quoted and space-separated
   # - Ops will be applied in the order they're listed
   # - Paths are relative to root of the `ops-files` input
+
+  VARS_FILES:
+  # - Optional
+  # - List of variable files to be applied to the manifest
+  # - Quoted and space-separated
+  # - Variable files will be applied in the order they're listed
+  # - Paths are relative to root of the `vars-files` input
 
   SYSTEM_DOMAIN:
   # - Required

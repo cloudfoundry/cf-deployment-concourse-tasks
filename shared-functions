@@ -49,6 +49,12 @@ function setup_bosh_env_vars() {
 }
 
 function bosh_interpolate() {
+  local root_dir
+  root_dir="${1}"
+
+  local release_name
+  release_name="${2}"
+
   local bosh_manifest
   bosh_manifest="cf-deployment/${MANIFEST_FILE}"
 
@@ -59,6 +65,24 @@ function bosh_interpolate() {
   do
     arguments="${arguments} -o ops-files/${op}"
   done
+
+  for vf in ${VARS_FILES}
+  do
+    arguments="${arguments} -l vars-files/${vf}"
+  done
+
+  if [ -n "${release_name}" ]; then
+    cat << EOF > create-provided-release.yml
+---
+- type: replace
+  path: /releases/name=${release_name}
+  value:
+    name: ${release_name}
+    version: create
+    url: file://${root_dir}/release
+EOF
+    arguments="${arguments} -o create-provided-release.yml"
+  fi
 
   INTERPOLATED_MANIFEST=$(mktemp)
   export INTERPOLATED_MANIFEST
