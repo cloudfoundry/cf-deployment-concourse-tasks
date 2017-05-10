@@ -10,10 +10,10 @@ image_resource:
 inputs:
 - name: bbl-state # - The Director's `bbl-state.json`
 - name: cf-deployment # - The cf-deployment manifest
-- name: cf-deployment-concourse-tasks # - This repo
+- name: vars-store # - The BOSH deployment's vars-store yaml file
 - name: ops-files # - Operations files to be made available
 - name: vars-files # - Variable files to be made available
-- name: vars-store # - The BOSH deployment's vars-store yaml file
+- name: cf-deployment-concourse-tasks # - This repo
 
 outputs:
 - name: updated-vars-store
@@ -35,6 +35,15 @@ params:
   # - Filepath to the manifest file within the cf-deployment resource
   # - The path is relative to root of the `cf-deployment` input
 
+  VARS_STORE_FILE: deployment-vars.yml
+  # - Required
+  # - Filepath to the BOSH deployment vars-store yaml file
+  # - The path is relative to root of the `vars-store` input
+
+  SYSTEM_DOMAIN:
+  # - Required
+  # - CF system base domain e.g. `my-cf.com`
+
   OPS_FILES:
   # - Optional
   # - List of operations files to be applied to the manifest
@@ -48,15 +57,6 @@ params:
   # - Quoted and space-separated
   # - Variable files will be applied in the order they're listed
   # - Paths are relative to root of the `vars-files` input
-
-  SYSTEM_DOMAIN:
-  # - Required
-  # - CF system base domain e.g. `my-cf.com`
-
-  VARS_STORE_FILE: deployment-vars.yml
-  # - Required
-  # - Filepath to the BOSH deployment vars-store yaml file
-  # - The path is relative to root of the `vars-store` input
 
   REGENERATE_VARS_STORE: false
   # - Required
