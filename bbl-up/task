@@ -44,17 +44,26 @@ function commit_bbl_state_file {
 
 function write_bbl_certs() {
   set +x
-  if [[ "${BBL_LB_CERT}" == *"BEGIN CERTIFICATE"* ]]; then
+  if [ ! -f "${BBL_LB_CERT}" ]; then
     echo "$BBL_LB_CERT" > /tmp/bbl-cert
     bbl_cert_path="/tmp/bbl-cert"
   else
     bbl_cert_path="${BBL_LB_CERT}"
   fi
-  if [[ "${BBL_LB_KEY}" == *"BEGIN RSA PRIVATE KEY"* ]]; then
+  if [ ! -f "${BBL_LB_KEY}" ]; then
     echo "$BBL_LB_KEY" > /tmp/bbl-key
     bbl_key_path="/tmp/bbl-key"
   else
     bbl_key_path="${BBL_LB_KEY}"
+  fi
+  set -x
+}
+
+function write_service_account_key() {
+  set +x
+  if [ ! -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+    echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
+    export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
   fi
   set -x
 }
@@ -79,14 +88,15 @@ function main() {
       name_flag="--name ${BBL_ENV_NAME}"
     fi
 
-    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
-
     local domain_flag
     domain_flag=""
 
     if [ "${BBL_IAAS}" == "gcp" ]; then
+      write_service_account_key
       domain_flag="--domain=${LB_DOMAIN}"
     fi
+
+    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
 
     # The two commands below amount to "create or update"
     bbl \
