@@ -44,8 +44,27 @@ function commit_bbl_state_file {
 
 function write_bbl_certs() {
   set +x
-  echo "$BBL_LB_CERT" > /tmp/bbl-cert
-  echo "$BBL_LB_KEY" > /tmp/bbl-key
+  if [ ! -f "${BBL_LB_CERT}" ]; then
+    echo "$BBL_LB_CERT" > /tmp/bbl-cert
+    bbl_cert_path="/tmp/bbl-cert"
+  else
+    bbl_cert_path="${BBL_LB_CERT}"
+  fi
+  if [ ! -f "${BBL_LB_KEY}" ]; then
+    echo "$BBL_LB_KEY" > /tmp/bbl-key
+    bbl_key_path="/tmp/bbl-key"
+  else
+    bbl_key_path="${BBL_LB_KEY}"
+  fi
+  set -x
+}
+
+function write_service_account_key() {
+  set +x
+  if [ ! -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+    echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
+    export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
+  fi
   set -x
 }
 
@@ -56,6 +75,8 @@ function main() {
   check_fast_fails
 
   pushd "bbl-state/${BBL_STATE_DIR}"
+    local bbl_cert_path
+    local bbl_cert_key
     write_bbl_certs
 
     bbl version
@@ -67,30 +88,31 @@ function main() {
       name_flag="--name ${BBL_ENV_NAME}"
     fi
 
-    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
-
     local domain_flag
     domain_flag=""
 
     if [ "${BBL_IAAS}" == "gcp" ]; then
+      write_service_account_key
       domain_flag="--domain=${LB_DOMAIN}"
     fi
+
+    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
 
     # The two commands below amount to "create or update"
     bbl \
       --debug \
       create-lbs \
       --type=cf \
-      --cert=/tmp/bbl-cert \
-      --key=/tmp/bbl-key \
+      --cert="${bbl_cert_path}" \
+      --key="${bbl_key_path}" \
       --skip-if-exists \
       ${domain_flag} > "${root_dir}"/bbl_create_lbs.txt
 
     bbl \
       --debug \
       update-lbs \
-      --cert=/tmp/bbl-cert \
-      --key=/tmp/bbl-key \
+      --cert="${bbl_cert_path}" \
+      --key="${bbl_key_path}" \
       ${domain_flag} > "${root_dir}"/bbl_update_lbs.txt
   popd
 }
