@@ -31,7 +31,7 @@ params:
   # - Required for GCP
   # - Must be empty for AWS
   BBL_GCP_SERVICE_ACCOUNT_KEY:
-  # - Path to the file containing credentials downloaded from GCP
+  # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the BBL_STATE_DIR specified below
   BBL_GCP_PROJECT_ID:
   BBL_GCP_ZONE:
@@ -52,11 +52,15 @@ params:
   # - Required
   # - PEM encoded certificate to be associated with the load balancer
   #   for SSL termination
+  # - Can be either the certificate content or a path to the certificate
+  # - If a path is provided, path is relative to the `bbl-state` input
 
   BBL_LB_KEY:
   # - Required
   # - PEM-encoded private key to be used for TLS termination on the load
   #   balancer.
+  # - Can be either the key content or a path to the key
+  # - If a path is provided, path is relative to the `bbl-state` input
 
   LB_DOMAIN:
   # - Required for GCP
