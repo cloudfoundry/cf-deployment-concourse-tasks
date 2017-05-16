@@ -24,7 +24,7 @@ function set_task_creation() {
 function cf_login() {
   set +x
   echo "Authenticating as admin"
-  cf auth admin $(bosh interpolate vars-store/${VARS_STORE_FILE} --path=/uaa_scim_users_admin_password)
+  cf auth admin $(bosh interpolate vars-store/${VARS_STORE_FILE} --path=/cf_admin_password)
   set -x
 }
 

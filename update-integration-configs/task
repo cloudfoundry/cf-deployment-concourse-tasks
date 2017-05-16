@@ -51,7 +51,7 @@ function main() {
 
   local admin_password
   admin_password=$(bosh interpolate vars-store/${VARS_STORE_FILE} \
-    --path=/uaa_scim_users_admin_password)
+    --path=/cf_admin_password)
 
   if [ -f "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}" ]; then
     echo "updating CATs integration config file: ${CATS_INTEGRATION_CONFIG_FILE}..."
