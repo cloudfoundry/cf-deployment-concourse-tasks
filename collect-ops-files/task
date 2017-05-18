@@ -1,0 +1,51 @@
+#!/bin/bash -xeu
+
+# create collection directory
+function create_collection_directory() {
+  local root_dir
+  root_dir="${1}"
+
+  if [ ! -d ${root_dir}/collected-ops-files ]; then
+    mkdir -p ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+  fi
+}
+
+# copy all base operations to collection
+function collect_base_operations() {
+  local root_dir
+  root_dir="${1}"
+
+  cp -r ${root_dir}/base-ops-files/${BASE_OPS_FILE_DIR} ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+}
+
+# copy each new operation to collection
+function collect_new_operations() {
+  local root_dir
+  root_dir="${1}"
+
+  # if we don't have a list of specific ops files to collect, then collect
+  # them all
+  if [ -z "${NEW_OPS_FILES}" ]; then
+    cp -r ${root_dir}/new-ops-files/* ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+  else
+    for OPERATION in ${NEW_OPS_FILES}; do
+      cp ${root_dir}/new-ops-files/${OPERATION} ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+    done
+  fi
+}
+
+function main() {
+  local root_dir
+  root_dir="${1}"
+
+  # TODO: check required params
+  #       1) -d base-ops-files/${BASE_OPS_FILE_DIR}
+  #       2) NEW_OPS_FILES is empty or
+  #       3) each entry in NEW_OPS_FILES exists, relative to new-ops-files input
+
+  create_collection_directory ${root_dir}
+  collect_base_operations ${root_dir}
+  collect_new_operations ${root_dir}
+}
+
+main ${PWD}

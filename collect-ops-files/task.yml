@@ -1,0 +1,23 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v2.0.0
+
+inputs:
+- name: base-ops-files
+- name: new-ops-files
+
+outputs:
+- name: collected-ops-files
+
+PARAMS:
+  # - Optional
+  # Directory in the `base-ops-files` input that contains the base ops files
+  BASE_OPS_FILE_DIR:
+  # - Optional
+  # List of paths in the `new-ops-files` input that contains the new ops files
+  NEW_OPS_FILES:
