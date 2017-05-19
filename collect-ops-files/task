@@ -41,7 +41,7 @@ collect_new_operations() {
   # If we don't have a list of specific ops files to collect, then collect
   # them all ...
   if [ -z "${NEW_OPS_FILES}" ]; then
-    cp ${ROOT_DIR}/new-ops-files/* ${COLLECTION_PATH}
+    cp -r ${ROOT_DIR}/new-ops-files/ ${COLLECTION_PATH}
   else
     # ... otherwise, add them one by one
     for OPERATION in ${NEW_OPS_FILES}; do
