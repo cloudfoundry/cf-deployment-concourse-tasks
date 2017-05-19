@@ -115,6 +115,15 @@ specified in `cf-deployment`
 to the BOSH director.
 
 ### [collect-ops-files][collect-ops-files]
+This collects
+two sets of operations files.
+The first set is the "base" set,
+to which the second ("new") set is added.
+
+If there is a name conflict,
+the operations file
+from the second ("new") set
+wins.
 
 ### [set-feature-flags][set-feature-flags-task-yaml]
 This will
