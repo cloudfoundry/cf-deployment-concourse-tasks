@@ -15,9 +15,14 @@ outputs:
 - name: collected-ops-files
 
 PARAMS:
-  # - Optional
-  # Directory in the `base-ops-files` input that contains the base ops files
   BASE_OPS_FILE_DIR:
   # - Optional
-  # List of paths in the `new-ops-files` input that contains the new ops files
+  # - Directory in the `base-ops-files` input that contains the base ops files
+  # - If unspecified, input `base-ops-files` will be the root for finding
+  #   the base set of operations files
+
   NEW_OPS_FILES:
+  # - Optional
+  # - List of paths in the `new-ops-files` input that contains the new ops files
+  # - If unspecified, every operation in the input `new-ops-files` will be
+  #   collected

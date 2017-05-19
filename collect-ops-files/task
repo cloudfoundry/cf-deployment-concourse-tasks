@@ -1,51 +1,70 @@
-#!/bin/bash -xeu
+#!/bin/bash -e
 
-# create collection directory
-function create_collection_directory() {
-  local root_dir
-  root_dir="${1}"
-
-  if [ ! -d ${root_dir}/collected-ops-files ]; then
-    mkdir -p ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+check_params() {
+  if [ ! -d ${ROOT_DIR}/base-ops-files/${BASE_OPS_FILE_DIR} ]; then
+    echo "[ERROR] base-ops-files/${BASE_OPS_FILE_DIR} must exist in order to collect operations files."
+    exit 1
   fi
-}
 
-# copy all base operations to collection
-function collect_base_operations() {
-  local root_dir
-  root_dir="${1}"
-
-  cp -r ${root_dir}/base-ops-files/${BASE_OPS_FILE_DIR} ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
-}
-
-# copy each new operation to collection
-function collect_new_operations() {
-  local root_dir
-  root_dir="${1}"
-
-  # if we don't have a list of specific ops files to collect, then collect
-  # them all
-  if [ -z "${NEW_OPS_FILES}" ]; then
-    cp -r ${root_dir}/new-ops-files/* ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
-  else
+  if [ ! -z "${NEW_OPS_FILES}" ]; then
     for OPERATION in ${NEW_OPS_FILES}; do
-      cp ${root_dir}/new-ops-files/${OPERATION} ${root_dir}/collected-ops-files/${BASE_OPS_FILE_DIR}
+      if [ ! -e "${ROOT_DIR}/new-ops-files/${OPERATION}" ]; then
+        echo "[ERROR] All files specified in NEW_OPS_FILES must exist.  [ new-ops-files/${OPERATION} ] does not."
+        exit 1
+      fi
     done
   fi
 }
 
-function main() {
-  local root_dir
-  root_dir="${1}"
+# Create collection directory (task output)
+create_collection_directory() {
+  if [ ! -d ${ROOT_DIR}/collected-ops-files ]; then
+    mkdir -p ${ROOT_DIR}/collected-ops-files/${BASE_OPS_FILE_DIR}
+  fi
+}
 
-  # TODO: check required params
-  #       1) -d base-ops-files/${BASE_OPS_FILE_DIR}
-  #       2) NEW_OPS_FILES is empty or
-  #       3) each entry in NEW_OPS_FILES exists, relative to new-ops-files input
+set_collection_path() {
+  if [ -z "${BASE_OPS_FILE_DIR}" ]; then
+    COLLECTION_PATH="${ROOT_DIR}/collected-ops-files"
+  else
+    COLLECTION_PATH="${ROOT_DIR}/collected-ops-files/${BASE_OPS_FILE_DIR}"
+  fi
+}
 
-  create_collection_directory ${root_dir}
-  collect_base_operations ${root_dir}
-  collect_new_operations ${root_dir}
+# Copy all base operations to collection
+collect_base_operations() {
+  cp -r ${ROOT_DIR}/base-ops-files/${BASE_OPS_FILE_DIR} ${ROOT_DIR}/collected-ops-files
+}
+
+# Copy each new operation to collection
+collect_new_operations() {
+  # If we don't have a list of specific ops files to collect, then collect
+  # them all ...
+  if [ -z "${NEW_OPS_FILES}" ]; then
+    cp ${ROOT_DIR}/new-ops-files/* ${COLLECTION_PATH}
+  else
+    # ... otherwise, add them one by one
+    for OPERATION in ${NEW_OPS_FILES}; do
+      # Before blindly copying, ensure that our collection has a home for the new operation
+      local target_directory
+      target_directory=$(dirname "${COLLECTION_PATH}/${OPERATION}")
+      if [ ! -d "${target_directory}" ]; then
+        mkdir -p ${target_directory}
+      fi
+
+      cp ${ROOT_DIR}/new-ops-files/${OPERATION} ${COLLECTION_PATH}/${OPERATION}
+    done
+  fi
+}
+
+main() {
+  ROOT_DIR="${1}"
+
+  check_params
+  create_collection_directory
+  set_collection_path
+  collect_base_operations
+  collect_new_operations
 }
 
 main ${PWD}
