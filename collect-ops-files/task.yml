@@ -8,6 +8,7 @@ image_resource:
     tag: v2.0.0
 
 inputs:
+- cf-deployment-concourse-tasks
 - name: base-ops-files
 - name: new-ops-files
 
