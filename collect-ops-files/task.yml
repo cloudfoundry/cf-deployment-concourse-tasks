@@ -26,3 +26,6 @@ PARAMS:
   # - List of paths in the `new-ops-files` input that contains the new ops files
   # - If unspecified, every operation in the input `new-ops-files` will be
   #   collected
+
+run:
+  path: cf-deployment-concourse-tasks/collected-ops-files/task
