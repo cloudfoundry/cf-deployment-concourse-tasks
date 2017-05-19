@@ -28,4 +28,4 @@ PARAMS:
   #   collected
 
 run:
-  path: cf-deployment-concourse-tasks/collected-ops-files/task
+  path: cf-deployment-concourse-tasks/collect-ops-files/task
