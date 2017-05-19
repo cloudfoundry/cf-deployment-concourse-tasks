@@ -114,6 +114,8 @@ This uploads the stemcell version
 specified in `cf-deployment`
 to the BOSH director.
 
+### [collect-ops-files][collect-ops-files]
+
 ### [set-feature-flags][set-feature-flags-task-yaml]
 This will
 toggle
@@ -134,6 +136,7 @@ a vars-store.
 [bosh-upload-stemcell-from-cf-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
+[collect-ops-files]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/collect-ops-files/task.yml
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
 [gcp-deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md
 [gcp-deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md#on-certificates
