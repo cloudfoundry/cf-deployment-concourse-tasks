@@ -60,7 +60,7 @@ ARG version
 RUN \
   wget "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_linux_amd64.zip" -P /tmp && \
   cd /tmp && \
-  curl "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_SHA256SUMS" | sha1sum -c - && \
+  wget "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_SHA256SUMS" -q -O - | sha1sum -c - && \
   unzip "/tmp/terraform_${version}_linux_amd64.zip" -d /tmp && \
   mv /tmp/terraform /usr/local/bin/terraform && \
   cd /usr/local/bin && \
