@@ -27,6 +27,10 @@ params:
   # - List of paths in the `new-ops-files` input that contains the new ops files
   # - If unspecified, every operation in the input `new-ops-files` will be
   #   collected
+  # - Paths to ops-files are preserved. For example, if the path for the ops-file
+  #   is `new-ops-files/my-env/ops.yml`, the user must include `my-env/ops.yml`
+  #   in the value for `NEW_OPS_FILES`. Furthermore, the path in the output will be
+  #   `collected-ops-files/my-env/ops.yml`.
 
 run:
   path: cf-deployment-concourse-tasks/collect-ops-files/task
