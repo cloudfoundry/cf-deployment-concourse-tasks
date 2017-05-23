@@ -56,6 +56,7 @@ RUN \
   echo "691c8e6e277161b3dd739c7d6aab68205177899f bbl" | sha1sum -c - && \
   chmod +x bbl
 
+ARG version
 RUN \
   wget "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_linux_amd64.zip" -P /tmp && \
   cd /tmp && \
