@@ -69,13 +69,13 @@ function main() {
   if [ -f "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}" ]; then
     echo "updating RATs integration config file: ${RATS_INTEGRATION_CONFIG_FILE}..."
 
-    local tcp_emitter_secret
-    tcp_emitter_secret=$(bosh int "${root_dir}/vars-store/${VARS_STORE_FILE}" --path=/uaa_clients_tcp_emitter_secret)
+    local uaa_clients_routing_api_client_secret
+    uaa_clients_routing_api_client_secret=$(bosh int "${root_dir}/vars-store/${VARS_STORE_FILE}" --path=/uaa_clients_routing_api_client_secret)
 
     local new_rats_integration_config
     new_rats_integration_config=$(cat "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}")
     new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".admin_password=\"${admin_password}\"")
-    new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".oauth*={\"client_secret\":\"${tcp_emitter_secret}\"}")
+    new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".oauth*={\"client_secret\":\"${uaa_clients_routing_api_client_secret}\"}")
 
     echo "${new_rats_integration_config}" > "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}"
   fi
