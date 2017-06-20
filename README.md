@@ -34,7 +34,7 @@ Here's an example from our [nats release pipeline](https://github.com/cloudfound
   source:
     branch: master
     uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks.git
-    tag_filter: v1.*
+    tag_filter: v3.*
 ```
 
 When you're ready to take the backwards _incompatible_ changes,
