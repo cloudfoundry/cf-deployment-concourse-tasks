@@ -25,3 +25,9 @@ params:
   # - Path to the directory containing the `bbl-state.json` file
   # - The path is relative to root of the `bbl-state` input
   # - If unspecified, uses the root of the `bbl-state` input
+
+  GIT_COMMIT_EMAIL:
+  GIT_COMMIT_USERNAME:
+  # - Optional
+  # - You may choose the git committer username and email address by setting these
+  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively

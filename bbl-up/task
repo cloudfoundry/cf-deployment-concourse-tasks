@@ -1,5 +1,8 @@
 #!/bin/bash -xeu
 
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
 function check_fast_fails() {
   set +x
   if [ -z "${LB_DOMAIN}" -a "${BBL_IAAS}" == "gcp" ]; then
@@ -29,8 +32,7 @@ function commit_bbl_state_file {
 
   pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
-      git config user.name "CI Bot"
-      git config user.email "cf-release-integration@pivotal.io"
+      set_git_config
       git add bbl-state.json
       git commit -m "Update bbl-state.json"
     fi

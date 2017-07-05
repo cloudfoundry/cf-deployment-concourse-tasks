@@ -19,11 +19,23 @@ function check_input_params() {
   set -x
 }
 
-function commit_vars_store {
+function set_git_config() {
+  if [ -z "${GIT_COMMIT_USERNAME}" ]; then
+    GIT_COMMIT_USERNAME="CI Bot"
+  fi
+
+  if [ -z "${GIT_COMMIT_EMAIL}" ]; then
+    GIT_COMMIT_EMAIL="cf-release-integration@pivotal.io"
+  fi
+
+  git config user.name "${GIT_COMMIT_USERNAME}"
+  git config user.email "${GIT_COMMIT_EMAIL}"
+}
+
+function commit_vars_store() {
   pushd vars-store
     if [[ -n $(git status --porcelain) ]]; then
-      git config user.name "CI Bot"
-      git config user.email "cf-release-integration@pivotal.io"
+      set_git_config
       git add "${VARS_STORE_FILE}"
       git commit -m "Update vars-store after deploy"
     fi

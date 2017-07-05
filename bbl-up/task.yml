@@ -71,3 +71,9 @@ params:
   # - Optional
   # - A label to apply to the bbl environment
   # - Label will appear in the IaaS metadata/interface
+
+  GIT_COMMIT_EMAIL:
+  GIT_COMMIT_USERNAME:
+  # - Optional
+  # - You may choose the git committer username and email address by setting these
+  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively

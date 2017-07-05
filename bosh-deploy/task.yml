@@ -67,3 +67,9 @@ params:
   # - This is helpful for testing changes around variable generation
   # - Works well with fresh deployments
   # - Upgrade deployments are not expected to work with total cred rotation
+
+  GIT_COMMIT_EMAIL:
+  GIT_COMMIT_USERNAME:
+  # - Optional
+  # - You may choose the git committer username and email address by setting these
+  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
