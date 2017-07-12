@@ -38,21 +38,19 @@ collect_base_operations() {
 
 # Copy each new operation to collection
 collect_new_operations() {
-  # If we don't have a list of specific ops files to collect, then collect
-  # them all ...
   if [ -z "${NEW_OPS_FILES}" ]; then
-    cp -r ${ROOT_DIR}/new-ops-files/ ${COLLECTION_PATH}
+    # If we don't have a list of specific ops files to collect, then collect
+    # all of the files at the root
+    find ${ROOT_DIR}/new-ops-files -type f -maxdepth 1 | xargs -n1 -I{} cp {} ${COLLECTION_PATH}
   else
     # ... otherwise, add them one by one
     for OPERATION in ${NEW_OPS_FILES}; do
-      # Before blindly copying, ensure that our collection has a home for the new operation
-      local target_directory
-      target_directory=$(dirname "${COLLECTION_PATH}/${OPERATION}")
-      if [ ! -d "${target_directory}" ]; then
-        mkdir -p ${target_directory}
-      fi
+      # Get only the filename part of the specified ops file since we're putting all of them in
+      # the same "collected" directory
+      local target_filename
+      target_filename=$(basename "${OPERATION}")
 
-      cp ${ROOT_DIR}/new-ops-files/${OPERATION} ${COLLECTION_PATH}/${OPERATION}
+      cp ${ROOT_DIR}/new-ops-files/${OPERATION} ${COLLECTION_PATH}/${target_filename}
     done
   fi
 }
