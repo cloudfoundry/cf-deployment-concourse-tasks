@@ -5,12 +5,12 @@ source cf-deployment-concourse-tasks/shared-functions
 
 optional_submodule_bump() {
   set +x
-    if [ -z "${BUMP_SUBMODULE}"] && ! [-z "${SUBMODULE_BRANCH}"]; then
+    if [ -z "${BUMP_SUBMODULE}" ] && ! [ -z "${SUBMODULE_BRANCH}" ]; then
       echo "SUBMODULE_BRANCH must not be set without a path set for BUMP_SUBMODULE"
       exit 1
     fi
 
-    if [ -z "${SUBMODULE_BRANCH}"] && ! [-z "${BUMP_SUBMODULE}"]; then
+    if [ -z "${SUBMODULE_BRANCH}" ] && ! [ -z "${BUMP_SUBMODULE}" ]; then
       echo "BUMP_SUBMODULE must not be set without a ref set for SUBMODULE_BRANCH"
       exit 1
     fi
