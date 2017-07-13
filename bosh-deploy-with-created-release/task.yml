@@ -79,3 +79,15 @@ params:
   #   username and email address by setting these
   # - If you leave them blank, they are set to 'CI Bot'
   #   and 'cf-release-integration@pivotal.io', respectively
+
+  BUMP_SUBMODULE: ""
+  # - Optional
+  # - Set to the path of a submodule you want bumped
+  #   prior to creating the dev release.
+  # - Also requires that you set `SUBMODULE_BRANCH`
+  SUBMODULE_BRANCH: ""
+  # - Ignored unless `BUMP_SUBMODULE` is set
+  # - Required if `BUMP_SUBMODULE` is set
+  # - Set to the ref you want the submodule checked out to.
+  #   This ref will be used as an argument to `git checkout`
+  #   when updating your submodule.
