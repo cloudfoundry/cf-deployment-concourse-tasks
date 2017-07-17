@@ -16,6 +16,13 @@ function check_input_params() {
     echo "SYSTEM_DOMAIN has not been set"
     exit 1
   fi
+
+  if ${FAIL_ON_DOWNTIME}; then
+    if [ -z "${DEPLOY_WITH_UPTIME_MEASUREMENTS}" ]; then
+      echo "FAIL_ON_DOWNTIME requires that DEPLOY_WITH_UPTIME_MEASUREMENTS be true. Exiting."
+      exit 1
+    fi
+  fi
   set -x
 }
 
@@ -111,15 +118,66 @@ EOF
     > "${INTERPOLATED_MANIFEST}"
 }
 
+write_uptimer_deploy_config() {
+  local deployment_name
+  deployment_name=${1}
+
+  local manifest
+  manifest=${2}
+
+  set +x
+  echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
+    --arg admin_password $(bosh int --path=/cf_admin_password vars-store/deployment-vars.yml) \
+    --arg app_domain ${SYSTEM_DOMAIN} \
+    --arg manifest $manifest \
+    --arg deployment_name $deployment_name \
+    '{
+      "while": [{
+        "command":"bosh",
+        "command_args":["-n", "deploy", $manifest, "-d", $deployment_name]
+      }],
+      "cf": {
+        "api": $cf_api,
+        "app_domain": $app_domain,
+        "admin_user": "admin",
+        "admin_password": $admin_password
+      }
+    }'
+  set -x
+}
+
+function uptimer_bosh_deploy() {
+  local deployment_name
+  deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
+
+  uptimer_config=$(mktemp)
+  write_uptimer_deploy_config "${deployment_name}" "${INTERPOLATED_MANIFEST}" > ${uptimer_config}
+  local exitStatus
+  uptimer -configFile ${uptimer_config}
+  exitStatus=$?
+
+  if [ $exitStatus == 64 ]; then
+    exit $exitStatus
+  fi
+
+  if ${FAIL_ON_DOWNTIME}; then
+    exit $exitStatus
+  fi
+}
+
 function bosh_deploy() {
   local deployment_name
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
-  bosh \
-    -n \
-    -d "${deployment_name}" \
-    deploy \
-    "${INTERPOLATED_MANIFEST}"
+  if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
+    uptimer_bosh_deploy
+  else
+    bosh \
+      -n \
+      -d "${deployment_name}" \
+      deploy \
+      "${INTERPOLATED_MANIFEST}"
+  fi
 }
 
 function remove_vars_store() {

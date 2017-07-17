@@ -73,3 +73,12 @@ params:
   # - Optional
   # - You may choose the git committer username and email address by setting these
   # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+
+  DEPLOY_WITH_UPTIME_MEASUREMENTS: false
+  # - Optional
+  # - This will measure uptime during the bosh deploy task using [uptimer](https://github.com/cloudfoundry/uptimer)
+
+  FAIL_ON_DOWNTIME: false
+  # - Optional
+  # - This will cause the task to fail if you are not using the DEPLOY_WITH_UPTIME_MEASUREMENTS flag
+  # - It will cause the concourse task to fail if you do not have perfect uptime

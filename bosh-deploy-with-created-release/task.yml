@@ -91,3 +91,12 @@ params:
   # - Set to the ref you want the submodule checked out to.
   #   This ref will be used as an argument to `git checkout`
   #   when updating your submodule.
+
+  DEPLOY_WITH_UPTIME_MEASUREMENTS: false
+  # - Optional
+  # - This will measure uptime during the bosh deploy task using [uptimer](https://github.com/cloudfoundry/uptimer)
+
+  FAIL_ON_DOWNTIME: false
+  # - Optional
+  # - This will cause the task to fail if you are not using the DEPLOY_WITH_UPTIME_MEASUREMENTS flag
+  # - It will cause the concourse task to fail if you do not have perfect uptime
