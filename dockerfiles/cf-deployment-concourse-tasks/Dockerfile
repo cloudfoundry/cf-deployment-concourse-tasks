@@ -85,6 +85,6 @@ RUN \
 
 RUN go get -u github.com/cloudfoundry/uptimer && \
   go get -u github.com/onsi/ginkgo/... && \
-  pushd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
+  cd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
     ginkgo -r -randomizeSuites -randomizeAllSpecs && \
-  popd
+  cd -
