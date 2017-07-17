@@ -33,7 +33,7 @@ set_collection_path() {
 
 # Copy all base operations to collection
 collect_base_operations() {
-  cp -r ${ROOT_DIR}/base-ops-files/${BASE_OPS_FILE_DIR} ${ROOT_DIR}/collected-ops-files
+  cp -r ${ROOT_DIR}/base-ops-files/${BASE_OPS_FILE_DIR}/ ${ROOT_DIR}/collected-ops-files
 }
 
 # Copy each new operation to collection
