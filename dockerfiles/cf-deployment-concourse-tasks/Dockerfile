@@ -74,3 +74,17 @@ RUN \
   cd /usr/local/bin && \
   echo "00ccaf07a11bd8206407f83f1e606e16f3475bf3 bosh-init" | sha1sum -c - && \
   chmod +x bosh-init
+
+ENV GOPATH /go
+ENV PATH /go/bin:/usr/local/go/bin:$PATH
+RUN \
+  wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz -P /tmp && \
+  tar xzvf /tmp/go1.8.3.linux-amd64.tar.gz -C /usr/local && \
+  mkdir $GOPATH && \
+  rm -rf /tmp/*
+
+RUN go get -u github.com/cloudfoundry/uptimer && \
+  go get -u github.com/onsi/ginkgo/... && \
+  pushd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
+    ginkgo -r -randomizeSuites -randomizeAllSpecs && \
+  popd
