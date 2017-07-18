@@ -152,9 +152,11 @@ function uptimer_bosh_deploy() {
 
   uptimer_config=$(mktemp)
   write_uptimer_deploy_config "${deployment_name}" "${INTERPOLATED_MANIFEST}" > ${uptimer_config}
+  set +e
   local exitStatus
   uptimer -configFile ${uptimer_config}
   exitStatus=$?
+  set -e
 
   if [ $exitStatus == 64 ]; then
     exit $exitStatus
