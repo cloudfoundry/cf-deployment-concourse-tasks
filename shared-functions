@@ -127,7 +127,7 @@ write_uptimer_deploy_config() {
 
   set +x
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
-    --arg admin_password $(bosh int --path=/cf_admin_password vars-store/deployment-vars.yml) \
+    --arg admin_password $(bosh int --path=/cf_admin_password vars-store/"${VARS_STORE_FILE}") \
     --arg app_domain ${SYSTEM_DOMAIN} \
     --arg manifest $manifest \
     --arg deployment_name $deployment_name \
