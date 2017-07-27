@@ -76,6 +76,7 @@ function main() {
 
   check_fast_fails
 
+  mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
     local bbl_cert_path
     local bbl_cert_key
