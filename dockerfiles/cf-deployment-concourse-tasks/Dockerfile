@@ -68,13 +68,6 @@ RUN \
   chmod +x terraform && \
   rm -rf /tmp/*
 
-RUN \
-  wget https://s3.amazonaws.com/bosh-init-artifacts/bosh-init-0.0.99-linux-amd64 -P /tmp && \
-  mv /tmp/bosh-init-0.0.99-linux-amd64 /usr/local/bin/bosh-init && \
-  cd /usr/local/bin && \
-  echo "00ccaf07a11bd8206407f83f1e606e16f3475bf3 bosh-init" | sha1sum -c - && \
-  chmod +x bosh-init
-
 ENV GOPATH /go
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 RUN \
