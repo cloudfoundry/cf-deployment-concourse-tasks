@@ -51,10 +51,10 @@ RUN \
 
 # bbl and dependencies
 RUN \
-  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v3.2.6/bbl-v3.2.6_linux_x86-64 -P /tmp && \
+  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v4.0.0/bbl-v4.0.0_linux_x86-64 -P /tmp && \
   mv /tmp/bbl-* /usr/local/bin/bbl && \
   cd /usr/local/bin && \
-  echo "0393afe06f5ca1664553895f41c0f3d6186f191b bbl" | sha1sum -c - && \
+  echo "29f639ba37f9980557dfca72cfe1122bf23e3466 bbl" | sha1sum -c - && \
   chmod +x bbl
 
 ARG version
