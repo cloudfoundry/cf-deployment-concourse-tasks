@@ -8,13 +8,13 @@ image_resource:
     tag: v3.0.0
 
 inputs:
-- name: cf-deployment-concourse-tasks # - This repo
-- name: bbl-state # - The Director's `bbl-state.json`
+- name: cf-deployment-concourse-tasks  # - This repo
+- name: bbl-state  # - The Director's `bbl-state.json`
 
 outputs:
-- name: updated-bbl-state
-  # The bbl-state resource, with changes git committed,
-  # ready to be `put` to a git resource.
+  - name: updated-bbl-state
+# - The bbl-state resource, with changes git committed,
+# - ready to be `put` to a git resource.
 
 run:
   path: cf-deployment-concourse-tasks/bbl-up/task
@@ -75,5 +75,7 @@ params:
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
   # - Optional
-  # - You may choose the git committer username and email address by setting these
-  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+  # - You may choose the git committer
+  #   username and email address by setting these
+  # - If you leave them blank, they are set to
+  #   'CI Bot' and 'cf-release-integration@pivotal.io'
