@@ -70,11 +70,28 @@ function write_service_account_key() {
   set -x
 }
 
+function make_concatenated_operations_file() {
+  local root_dir
+  root_dir="${1}"
+
+  pushd "${root_dir}/ops-files"
+    cat $OPS_FILES | grep -v "\-\-\-" > concatenated-operations.yml
+  popd
+}
+
 function main() {
   local root_dir
   root_dir="${1}"
 
   check_fast_fails
+
+  local ops_arguments
+  ops_arguments=""
+
+  if ![ -z "${OPS_FILES}" ]; then
+    make_concatenated_operations_file ${root_dir}
+    ops_arguments="--ops-file ${root_dir}/ops-files/concatenated-operations.yml"
+  fi
 
   pushd "bbl-state/${BBL_STATE_DIR}"
     local bbl_cert_path
@@ -98,7 +115,8 @@ function main() {
       domain_flag="--domain=${LB_DOMAIN}"
     fi
 
-    bbl --debug up ${name_flag} > "${root_dir}"/bbl_up.txt
+
+    bbl --debug up "${name_flag}" "${ops_arguments}" > "${root_dir}"/bbl_up.txt
 
     # The two commands below amount to "create or update"
     bbl \
