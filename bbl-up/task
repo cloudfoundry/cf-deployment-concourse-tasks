@@ -47,13 +47,13 @@ function commit_bbl_state_file {
 function write_bbl_certs() {
   set +x
   if [ ! -f "${BBL_LB_CERT}" ]; then
-    echo "$BBL_LB_CERT" > /tmp/bbl-cert
+    echo "${BBL_LB_CERT}" > /tmp/bbl-cert
     bbl_cert_path="/tmp/bbl-cert"
   else
     bbl_cert_path="${BBL_LB_CERT}"
   fi
   if [ ! -f "${BBL_LB_KEY}" ]; then
-    echo "$BBL_LB_KEY" > /tmp/bbl-key
+    echo "${BBL_LB_KEY}" > /tmp/bbl-key
     bbl_key_path="/tmp/bbl-key"
   else
     bbl_key_path="${BBL_LB_KEY}"
@@ -126,14 +126,14 @@ function main() {
       --cert="${bbl_cert_path}" \
       --key="${bbl_key_path}" \
       --skip-if-exists \
-      ${domain_flag} > "${root_dir}"/bbl_create_lbs.txt
+      "${domain_flag}" > "${root_dir}"/bbl_create_lbs.txt
 
     bbl \
       --debug \
       update-lbs \
       --cert="${bbl_cert_path}" \
       --key="${bbl_key_path}" \
-      ${domain_flag} > "${root_dir}"/bbl_update_lbs.txt
+      "${domain_flag}" > "${root_dir}"/bbl_update_lbs.txt
   popd
 }
 
