@@ -5,16 +5,23 @@ image_resource:
   type: docker-image
   source:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
-    tag: v2.10.1
+    tag: v3.0.0
 
 inputs:
-- name: cf-deployment-concourse-tasks # - This repo
-- name: bbl-state # - The Director's `bbl-state.json`
+- name: cf-deployment-concourse-tasks  # - This repo
+- name: bbl-state  # - The Director's `bbl-state.json`
+- name: ops-files
+# - A directory containing ops files
+#   to be specifed with the `OPS_FILES` param
+# - If no ops files are necessary in your case,
+#   we suggest you use `input_mapping`
+#   to map your `bbl-state` resource to `ops-files`
+#   in order to satisfy this required input.
 
 outputs:
 - name: updated-bbl-state
-  # The bbl-state resource, with changes git committed,
-  # ready to be `put` to a git resource.
+# - The bbl-state resource, with changes git committed,
+# - ready to be `put` to a git resource.
 
 run:
   path: cf-deployment-concourse-tasks/bbl-up/task
@@ -75,5 +82,14 @@ params:
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
   # - Optional
-  # - You may choose the git committer username and email address by setting these
-  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+  # - You may choose the git committer
+  #   username and email address by setting these
+  # - If you leave them blank, they are set to
+  #   'CI Bot' and 'cf-release-integration@pivotal.io'
+
+  OPS_FILES:
+  # - Optional
+  # - List of operations files to be applied to the manifest
+  # - Quoted and space-separated
+  # - Ops will be applied in the order they're listed
+  # - Paths are relative to root of the `ops-files` input
