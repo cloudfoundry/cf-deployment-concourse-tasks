@@ -93,6 +93,7 @@ function main() {
     ops_arguments="--ops-file ${root_dir}/ops-files/concatenated-operations.yml"
   fi
 
+  mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
     local bbl_cert_path
     local bbl_cert_key
