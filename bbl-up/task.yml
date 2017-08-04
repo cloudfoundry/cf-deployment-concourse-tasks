@@ -49,6 +49,7 @@ params:
   # - Path to the directory containing the `bbl-state.json` file
   # - The path is relative to root of the `bbl-state` input
   # - If unspecified, uses the root of the `bbl-state` input
+  # - If the specified path does not exist, it will be created
 
   BBL_IAAS:
   # - Required
