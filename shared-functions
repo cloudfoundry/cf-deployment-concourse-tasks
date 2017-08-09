@@ -127,7 +127,7 @@ write_uptimer_deploy_config() {
     '{
       "while": [{
         "command":"bosh",
-        "command_args":["-n", "deploy", $manifest, "-d", $deployment_name]
+        "command_args":["-tty", "-n", "deploy", $manifest, "-d", $deployment_name]
       }],
       "cf": {
         "api": $cf_api,
@@ -151,13 +151,12 @@ function uptimer_bosh_deploy() {
   exitStatus=$?
   set -e
 
-  if [ $exitStatus == 64 ]; then
-    exit $exitStatus
+  # exitStatus 64 means that there was downtime, but the deployment was successful
+  if [ "${FAIL_ON_DOWNTIME}" = "false" ] && [ $exitStatus == 64 ]; then
+    exit 0
   fi
 
-  if ${FAIL_ON_DOWNTIME}; then
-    exit $exitStatus
-  fi
+  exit $exitStatus
 }
 
 function bosh_deploy() {
