@@ -127,7 +127,7 @@ write_uptimer_deploy_config() {
     '{
       "while": [{
         "command":"bosh",
-        "command_args":["-tty", "-n", "deploy", $manifest, "-d", $deployment_name]
+        "command_args":["--tty", "-n", "deploy", $manifest, "-d", $deployment_name]
       }],
       "cf": {
         "api": $cf_api,
