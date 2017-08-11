@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-check_params() {
+check_collect_opsfiles_params() {
   if [ ! -d ${ROOT_DIR}/base-ops-files/${BASE_OPS_FILE_DIR} ]; then
     echo "[ERROR] base-ops-files/${BASE_OPS_FILE_DIR} must exist in order to collect operations files."
     exit 1
@@ -58,7 +58,7 @@ collect_new_operations() {
 main() {
   ROOT_DIR="${1}"
 
-  check_params
+  check_collect_opsfiles_params
   create_collection_directory
   set_collection_path
   collect_base_operations

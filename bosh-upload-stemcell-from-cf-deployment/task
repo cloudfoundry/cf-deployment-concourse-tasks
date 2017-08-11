@@ -1,18 +1,10 @@
 #!/bin/bash
 set -eux
 
-function setup_bosh_env_vars() {
-  set +x
-  pushd "bbl-state/${BBL_STATE_DIR}"
-    export BOSH_CA_CERT="$(bbl director-ca-cert)"
-    export BOSH_ENVIRONMENT=$(bbl director-address)
-    export BOSH_CLIENT=$(bbl director-username)
-    export BOSH_CLIENT_SECRET=$(bbl director-password)
-  popd
-  set -x
-}
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
 
-function check_input_params() {
+function check_upload_stemcell_params() {
   if [ -z "$INFRASTRUCTURE" ]; then
     echo "INFRASTRUCTURE has not been set"
     exit 1
@@ -86,7 +78,7 @@ function upload_stemcell() {
 }
 
 function main() {
-  check_input_params
+  check_upload_stemcell_params
   setup_bosh_env_vars
   upload_stemcell
 }
