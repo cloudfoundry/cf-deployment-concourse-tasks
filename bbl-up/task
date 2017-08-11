@@ -117,7 +117,7 @@ function main() {
     fi
 
 
-    bbl --debug up ${name_flag} ${ops_arguments} > "${root_dir}/bbl_up.txt"
+    bbl --debug up ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
 
     # The two commands below amount to "create or update"
     bbl \
