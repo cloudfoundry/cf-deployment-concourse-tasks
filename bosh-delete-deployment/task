@@ -1,22 +1,14 @@
 #!/bin/bash
 set -exu
 
-function check_input_params() {
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+function check_delete_deployment_params() {
   if [ -z "$DEPLOYMENT_NAME" ]; then
     echo "DEPLOYMENT_NAME has not been set"
     exit 1
   fi
-}
-
-function setup_bosh_env_vars() {
-  set +x
-  pushd "bbl-state/${BBL_STATE_DIR}"
-    export BOSH_CA_CERT="$(bbl director-ca-cert)"
-    export BOSH_ENVIRONMENT=$(bbl director-address)
-    export BOSH_CLIENT=$(bbl director-username)
-    export BOSH_CLIENT_SECRET=$(bbl director-password)
-  popd
-  set -x
 }
 
 function bosh_delete_deployment() {
@@ -26,7 +18,7 @@ function bosh_delete_deployment() {
 }
 
 function main() {
-  check_input_params
+  check_delete_deployment_params
   setup_bosh_env_vars
   bosh_delete_deployment
 }
