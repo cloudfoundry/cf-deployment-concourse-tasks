@@ -57,6 +57,7 @@ function setup_bosh_env_vars() {
   pushd bbl-state/"${BBL_STATE_DIR}"
     eval "$(bbl print-env)"
   popd
+  trap "pkill ssh || true" EXIT INT TERM
   set -ux
 }
 
