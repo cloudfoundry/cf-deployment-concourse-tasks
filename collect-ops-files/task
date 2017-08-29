@@ -18,9 +18,7 @@ check_collect_opsfiles_params() {
 
 # Create collection directory (task output)
 create_collection_directory() {
-  if [ ! -d ${ROOT_DIR}/collected-ops-files ]; then
-    mkdir -p ${ROOT_DIR}/collected-ops-files/${BASE_OPS_FILE_DIR}
-  fi
+  mkdir -p ${ROOT_DIR}/collected-ops-files/${BASE_OPS_FILE_DIR}
 }
 
 set_collection_path() {
