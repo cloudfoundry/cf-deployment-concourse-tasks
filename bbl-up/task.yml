@@ -29,14 +29,12 @@ run:
 params:
   # AWS Configuration Params
   # - Required for AWS
-  # - Must be empty for GCP
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
   BBL_AWS_REGION:
 
   # GCP Configuration Params
   # - Required for GCP
-  # - Must be empty for AWS
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the BBL_STATE_DIR specified below

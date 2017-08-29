@@ -31,3 +31,15 @@ params:
   # - Optional
   # - You may choose the git committer username and email address by setting these
   # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+
+  # AWS Configuration Params
+  # - Required for AWS w/ jumpbox
+  BBL_AWS_ACCESS_KEY_ID:
+  BBL_AWS_SECRET_ACCESS_KEY:
+
+  # GCP Configuration Params
+  # - Required for GCP w/ jumpbox
+  BBL_GCP_SERVICE_ACCOUNT_KEY:
+  # - Key content or path to the file containing credentials downloaded from GCP
+  # - Path is relative to the BBL_STATE_DIR specified above
+  BBL_GCP_PROJECT_ID:
