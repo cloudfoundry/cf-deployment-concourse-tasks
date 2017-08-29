@@ -57,6 +57,10 @@ function setup_bosh_env_vars() {
   pushd bbl-state/"${BBL_STATE_DIR}"
     eval "$(bbl print-env)"
   popd
+
+  # Kill all ssh connections on exit.
+  # This is needed so that tasks using bbl print-env in a credhub environment
+  # don't hang after the script is finished.
   trap "pkill ssh || true" EXIT INT TERM
   set -ux
 }
