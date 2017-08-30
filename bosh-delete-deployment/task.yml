@@ -8,8 +8,8 @@ image_resource:
     tag: v3.5.0
 
 inputs:
-- name: bbl-state # - The Director's `bbl-state.json`
-- name: cf-deployment-concourse-tasks # - This repo
+- name: bbl-state  # - The Director's `bbl-state.json`
+- name: cf-deployment-concourse-tasks  # - This repo
 
 run:
   path: cf-deployment-concourse-tasks/bosh-delete-deployment/task
@@ -24,13 +24,21 @@ params:
   DEPLOYMENT_NAME: cf
 
   # AWS Configuration Params
-  # - Required for AWS w/ jumpbox
+  # - Required for AWS
+  #   if environment was created with bbl up --credhub
+  # - Absent the `--credhub` flag,
+  #   the IaaS credentials are instead stored in the bbl_state.json,
+  #   so these are unnecessary.
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
 
   # GCP Configuration Params
-  # - Required for GCP w/ jumpbox
+  # - Required for GCP
+  #   if environment was created with bbl up --credhub
+  # - Absent the `--credhub` flag,
+  #   the IaaS credentials are instead stored in the bbl_state.json,
+  #   so these are unnecessary.
+  BBL_GCP_PROJECT_ID:
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
-  # - Path is relative to the BBL_STATE_DIR specified above
-  BBL_GCP_PROJECT_ID:
+  # - Path is relative to the BBL_STATE_DIR specified a
