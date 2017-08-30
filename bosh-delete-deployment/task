@@ -21,6 +21,7 @@ function main() {
   check_delete_deployment_params
   setup_bosh_env_vars
   bosh_delete_deployment
+  close_bbl_ssh_connection
 }
 
 main

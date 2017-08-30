@@ -15,6 +15,7 @@ function bosh_clean_up() {
 function main() {
   setup_bosh_env_vars
   bosh_clean_up
+  close_bbl_ssh_connection
 }
 
 main
