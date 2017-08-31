@@ -129,10 +129,6 @@ write_uptimer_deploy_config() {
     --arg app_domain ${SYSTEM_DOMAIN} \
     --arg manifest $manifest \
     --arg deployment_name $deployment_name \
-    --arg app_pushability_allowed_failures 1 \
-    --arg http_availability_allowed_failures 0 \
-    --arg recent_logs_allowed_failures 0 \
-    --arg streaming_logs_allowed_failures 1 \
     '{
       "while": [{
         "command":"bosh",
@@ -143,12 +139,6 @@ write_uptimer_deploy_config() {
         "app_domain": $app_domain,
         "admin_user": "admin",
         "admin_password": $admin_password
-      },
-      "allowed_failures": {
-        "app_pushability": $app_pushability_allowed_failures,
-        "http_availability": $http_availability_allowed_failures,
-        "recent_logs": $recent_logs_allowed_failures,
-        "streaming_logs": $streaming_logs_allowed_failures
       }
     }'
   set -x
