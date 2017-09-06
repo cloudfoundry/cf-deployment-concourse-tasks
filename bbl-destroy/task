@@ -19,8 +19,6 @@ function commit_bbl_state_file {
     shopt -s dotglob
     cp -R bbl-state/* updated-bbl-state/
   popd
-
-  close_bbl_ssh_connection
 }
 
 function main() {
@@ -34,6 +32,8 @@ function main() {
       --no-confirm \
       --skip-if-missing > "${root_dir}"/bbl_destroy.txt
   popd
+
+  close_bbl_ssh_connection
 }
 
 trap "commit_bbl_state_file ${PWD}" EXIT
