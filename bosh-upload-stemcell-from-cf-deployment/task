@@ -81,6 +81,7 @@ function main() {
   check_upload_stemcell_params
   setup_bosh_env_vars
   upload_stemcell
+  close_bbl_ssh_connection
 }
 
 main

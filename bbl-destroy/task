@@ -19,6 +19,8 @@ function commit_bbl_state_file {
     shopt -s dotglob
     cp -R bbl-state/* updated-bbl-state/
   popd
+
+  close_bbl_ssh_connection
 }
 
 function main() {
