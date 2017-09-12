@@ -9,7 +9,7 @@ ENV BBL_VERSION v4.7.3
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
 ENV BOSH_CHECKSUM 1451fb965fdbd34f62406770ae28775fbddb44fc
 ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
-ENV BBL_CHECKSUM 29f639ba37f9980557dfca72cfe1122bf23e3466
+ENV BBL_CHECKSUM a97e01792c00e97f48aeb7ac43809d9a86bcdb4afdfc8e348336e2173dfeeefe
 
 RUN \
   apt-get update && \
@@ -65,7 +65,7 @@ RUN \
   wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/${BBL_VERSION}/bbl-${BBL_VERSION}_linux_x86-64 -P /tmp && \
   mv /tmp/bbl-* /usr/local/bin/bbl && \
   cd /usr/local/bin && \
-  echo "${BBL_CHECKSUM} bbl" | sha1sum -c - && \
+  echo "${BBL_CHECKSUM} bbl" | sha256sum -c - && \
   chmod +x bbl
 
 ARG version
