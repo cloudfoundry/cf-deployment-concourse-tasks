@@ -126,7 +126,6 @@ function main() {
       --type=cf \
       --cert="${bbl_cert_path}" \
       --key="${bbl_key_path}" \
-      --skip-if-exists \
       ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
 
     bbl \
