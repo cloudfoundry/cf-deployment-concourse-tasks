@@ -61,19 +61,20 @@ RUN \
   rm cf.deb
 
 # bbl and dependencies
+ARG bbl_version
 RUN \
-  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/${BBL_VERSION}/bbl-${BBL_VERSION}_linux_x86-64 -P /tmp && \
+  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/${bbl_version}/bbl-${bbl_version}_linux_x86-64 -P /tmp && \
   mv /tmp/bbl-* /usr/local/bin/bbl && \
   cd /usr/local/bin && \
   echo "${BBL_CHECKSUM} bbl" | sha256sum -c - && \
   chmod +x bbl
 
-ARG version
+ARG terraform_version
 RUN \
-  wget "https://releases.hashicorp.com/terraform/${version}/terraform_${version}_linux_amd64.zip" -P /tmp && \
+  wget "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -P /tmp && \
   cd /tmp && \
-  curl https://releases.hashicorp.com/terraform/${version}/terraform_${version}_SHA256SUMS | grep linux_amd64 | shasum -c - && \
-  unzip "/tmp/terraform_${version}_linux_amd64.zip" -d /tmp && \
+  curl https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_SHA256SUMS | grep linux_amd64 | shasum -c - && \
+  unzip "/tmp/terraform_${terraform_version}_linux_amd64.zip" -d /tmp && \
   mv /tmp/terraform /usr/local/bin/terraform && \
   cd /usr/local/bin && \
   chmod +x terraform && \
