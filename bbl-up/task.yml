@@ -69,9 +69,8 @@ params:
   # - If a path is provided, path is relative to the `bbl-state` input
 
   LB_DOMAIN:
-  # - Required for GCP
-  # - The domain which bbl will register with GCP
-  # - Doesn't do anything on AWS
+  # - Required
+  # - The domain which bbl will register
 
   BBL_ENV_NAME:
   # - Optional

@@ -5,8 +5,8 @@ source cf-deployment-concourse-tasks/shared-functions
 
 function check_fast_fails() {
   set +x
-  if [ -z "${LB_DOMAIN}" -a "${BBL_IAAS}" == "gcp" ]; then
-    echo "\$LB_DOMAIN is a required parameter for gcp.  Please set the domain."
+  if [ -z "${LB_DOMAIN}" ]; then
+    echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
     exit 1
   fi
 
@@ -20,9 +20,6 @@ function check_fast_fails() {
     exit 1
   fi
 
-  if [ -n "${LB_DOMAIN}" -a "${BBL_IAAS}" == "aws" ]; then
-    echo "\$LB_DOMAIN is not honored for aws"
-  fi
   set -x
 }
 
@@ -109,11 +106,10 @@ function main() {
     fi
 
     local domain_flag
-    domain_flag=""
+    domain_flag="--domain=${LB_DOMAIN}"
 
     if [ "${BBL_IAAS}" == "gcp" ]; then
       write_service_account_key
-      domain_flag="--domain=${LB_DOMAIN}"
     fi
 
 
