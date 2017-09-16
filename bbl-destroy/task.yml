@@ -15,6 +15,7 @@ outputs:
 - name: updated-bbl-state
 # - The bbl-state resource, with changes git committed,
 #   ready to be `put` to a git resource.
+# - This output _must_ be persisted for these tasks to function properly
 
 run:
   path: cf-deployment-concourse-tasks/bbl-destroy/task
