@@ -124,12 +124,6 @@ function main() {
       --key="${bbl_key_path}" \
       ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
 
-    bbl \
-      --debug \
-      update-lbs \
-      --cert="${bbl_cert_path}" \
-      --key="${bbl_key_path}" \
-      ${domain_flag} > "${root_dir}/bbl_update_lbs.txt"
   popd
 }
 
