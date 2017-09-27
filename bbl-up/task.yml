@@ -104,3 +104,7 @@ params:
   # - Quoted and space-separated
   # - Ops will be applied in the order they're listed
   # - Paths are relative to root of the `ops-files` input
+
+  IS_BOSH_LITE: false
+  # - Optional
+  # - Set to `true` to skip LB creation
