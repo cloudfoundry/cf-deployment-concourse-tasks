@@ -43,17 +43,23 @@ function commit_bbl_state_file {
 
 function write_bbl_certs() {
   set +x
-  if [ ! -f "${BBL_LB_CERT}" ]; then
+  if [ -f "${BBL_LB_CERT}" ]; then
+    bbl_cert_path="${BBL_LB_CERT}"
+  else
     echo "${BBL_LB_CERT}" > /tmp/bbl-cert
     bbl_cert_path="/tmp/bbl-cert"
-  else
-    bbl_cert_path="${BBL_LB_CERT}"
   fi
-  if [ ! -f "${BBL_LB_KEY}" ]; then
+  if [ -f "${BBL_LB_CERT_CHAIN}" ]; then
+    bbl_cert_chain_flag="--chain=${BBL_LB_CERT_CHAIN}"
+  elif [ ! -z "${BBL_LB_CERT_CHAIN// }" ]; then
+    echo "${BBL_LB_CERT_CHAIN}" > /tmp/bbl-cert-chain
+    bbl_cert_chain_flag="--chain=/tmp/bbl-cert-chain"
+  fi
+  if [ -f "${BBL_LB_KEY}" ]; then
+    bbl_key_path="${BBL_LB_KEY}"
+  else
     echo "${BBL_LB_KEY}" > /tmp/bbl-key
     bbl_key_path="/tmp/bbl-key"
-  else
-    bbl_key_path="${BBL_LB_KEY}"
   fi
   set -x
 }
@@ -92,6 +98,8 @@ function main() {
 
   mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
+    local bbl_cert_chain_flag
+    bbl_cert_chain_flag=""
     local bbl_cert_path
     local bbl_cert_key
     write_bbl_certs
@@ -112,7 +120,6 @@ function main() {
       write_service_account_key
     fi
 
-
     bbl --debug up ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
 
     # The two commands below amount to "create or update"
@@ -121,6 +128,7 @@ function main() {
       create-lbs \
       --type=cf \
       --cert="${bbl_cert_path}" \
+      "${bbl_cert_chain_flag}" \
       --key="${bbl_key_path}" \
       ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
 
