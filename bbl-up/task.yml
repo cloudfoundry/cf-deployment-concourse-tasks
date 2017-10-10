@@ -62,13 +62,6 @@ params:
   # - Can be either the certificate content or a path to the certificate
   # - If a path is provided, path is relative to the `bbl-state` input
 
-  BBL_LB_CERT_CHAIN:
-  # - Optional
-  # - PEM encoded certificate to be associated with the load balancer
-  #   certificate chain
-  # - Can be either the certificate content or a path to the certificate
-  # - If a path is provided, path is relative to the `bbl-state` input
-
   BBL_LB_KEY:
   # - Required
   # - PEM-encoded private key to be used for TLS termination on the load
