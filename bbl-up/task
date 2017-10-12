@@ -128,7 +128,7 @@ function main() {
       create-lbs \
       --type=cf \
       --cert="${bbl_cert_path}" \
-      "${bbl_cert_chain_flag}" \
+      ${bbl_cert_chain_flag} \
       --key="${bbl_key_path}" \
       ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
 
