@@ -8,7 +8,7 @@ image_resource:
     tag: v3.15.0
 
 inputs:
-- name: bbl-state  # - The Director's `bbl-state.json`
+- name: bbl-state  # - The Director's bbl state dir
 - name: cf-deployment  # - The cf-deployment manifest
 - name: vars-store  # - The BOSH deployment's vars-store yaml file
 - name: ops-files  # - Operations files to be made available

@@ -23,14 +23,14 @@ function check_fast_fails() {
   set -x
 }
 
-function commit_bbl_state_file {
+function commit_bbl_state_dir {
   local root_dir
   root_dir="${1}"
 
   pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
-      git add bbl-state.json
+      git add .
       git commit -m "Update bbl-state.json"
     fi
   popd
@@ -135,6 +135,6 @@ function main() {
   popd
 }
 
-trap "commit_bbl_state_file ${PWD}" EXIT
+trap "commit_bbl_state_dir ${PWD}" EXIT
 
 main ${PWD}

@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
-- name: bbl-state  # - The Director's `bbl-state.json`
+- name: bbl-state  # - The Director's bbl state dir
 
 outputs:
 - name: updated-bbl-state
