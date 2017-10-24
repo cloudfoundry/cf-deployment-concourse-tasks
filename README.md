@@ -110,14 +110,13 @@ This is useful for testing an upstream component.
 Otherwise identical to the `bosh-deploy` task above.
 
 ### [bosh-deploy-with-updated-release-submodule][bosh-deploy-with-updated-release-submodule]
-This creates and applies an
-additional operations file to `cf-deployment.yml`,
-which causes BOSH to
-create a dev release with a specific 
-version of a submodule from the provided release folder
-in place of the version specified in `cf-deployment.yml`.
-This is useful for testing an upstream component when you
-want to treat the submodule as a concourse resource.
+This takes as input
+a concourse resource
+for the submodule version bumped
+when creating a dev release
+from the provided release folder.
+Otherwise identical to the `bosh-deploy-with-created-release` task above.
+concourse resource.
 
 ### [bosh-upload-stemcell-from-cf-deployment][bosh-upload-stemcell-from-cf-deployment-task-yaml]
 This uploads the stemcell version
