@@ -126,7 +126,7 @@ function main() {
     bbl \
       --debug \
       create-lbs \
-      --type=cf \
+      --type="${BBL_LB_TYPE}" \
       --cert="${bbl_cert_path}" \
       ${bbl_cert_chain_flag} \
       --key="${bbl_key_path}" \
