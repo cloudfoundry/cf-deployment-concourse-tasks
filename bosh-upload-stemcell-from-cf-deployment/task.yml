@@ -46,3 +46,8 @@ params:
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the BBL_STATE_DIR specified a
+
+  MANIFEST_FILE: cf-deployment.yml
+  # - Required
+  # - Filepath to the manifest file within the cf-deployment resource
+  # - The path is relative to root of the `cf-deployment` input
