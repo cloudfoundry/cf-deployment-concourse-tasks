@@ -81,7 +81,7 @@ params:
   # - If a path is provided, path is relative to the `bbl-state` input
 
   LB_DOMAIN:
-  # - Required
+  # - Required if BBL_LB_TYPE=cf
   # - The domain which bbl will register
 
   BBL_ENV_NAME:

@@ -5,8 +5,18 @@ source cf-deployment-concourse-tasks/shared-functions
 
 function check_fast_fails() {
   set +x
-  if [ -z "${LB_DOMAIN}" ]; then
-    echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
+  if [ "${BBL_LB_TYPE}" != "cf" ] && [ "${BBL_LB_TYPE}" != "concourse" ]; then
+    echo "\$BBL_LB_TYPE must be one of [cf, concourse]."
+    exit 1
+  fi
+
+  if [ -z "${LB_DOMAIN}" ] && [ "${BBL_LB_TYPE}" == "cf" ]; then
+    echo "\$LB_DOMAIN is a required parameter when \$BBL_LB_TYPE=cf.  Please set the domain."
+    exit 1
+  fi
+
+  if [ -n "${LB_DOMAIN}" ] && [ "${BBL_LB_TYPE}" == "concourse" ]; then
+    echo "\$LB_DOMAIN should not be set when \$BBL_LB_TYPE=concourse."
     exit 1
   fi
 
@@ -114,7 +124,11 @@ function main() {
     fi
 
     local domain_flag
-    domain_flag="--domain=${LB_DOMAIN}"
+    domain_flag=""
+
+    if [ -n "${LB_DOMAIN}" -a ! -f bbl-state.json ]; then
+      domain_flag="--domain=${LB_DOMAIN}"
+    fi
 
     if [ "${BBL_IAAS}" == "gcp" ]; then
       write_service_account_key
