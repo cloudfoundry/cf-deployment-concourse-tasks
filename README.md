@@ -109,7 +109,7 @@ in place of the version specified in `cf-deployment.yml`.
 This is useful for testing an upstream component.
 Otherwise identical to the `bosh-deploy` task above.
 
-### [bosh-deploy-with-updated-release-submodule][bosh-deploy-with-updated-release-submodule]
+### [bosh-deploy-with-updated-release-submodule](bosh-deploy-with-updated-release-submodule/task.yml)
 This takes as input
 a concourse resource
 for the submodule version bumped
