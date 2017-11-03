@@ -60,7 +60,11 @@ function upload_stemcell() {
   fi
 
   stemcell_name="${stemcell_name}-${os}-${bosh_agent}"
-  full_stemcell_url="${stemcells_url}/${stemcell_name}?v=${version}"
+  if [ "$version" = "latest" ]; then
+    full_stemcell_url="${stemcells_url}/${stemcell_name}"
+  else
+    full_stemcell_url="${stemcells_url}/${stemcell_name}?v=${version}"
+  fi
 
   # If bosh already has our stemcell, exit 0
   if [ "${existing_stemcell}" ]; then
