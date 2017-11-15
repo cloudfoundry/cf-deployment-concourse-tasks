@@ -74,6 +74,7 @@ to help debug failures
 in this task.
 This task requires
 a certificate and key
+(unless you are `bbl`ing up a bosh-lite environment)
 which can be generated using
 the commands specified [here][gcp-deployment-guide-on-certificates].
 
