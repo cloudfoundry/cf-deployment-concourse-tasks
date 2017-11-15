@@ -86,7 +86,9 @@ function main() {
   local root_dir
   root_dir="${1}"
 
-  check_fast_fails
+  if [ "${IS_BOSH_LITE}" != "true" ]; then
+    check_fast_fails
+  fi
 
   local ops_arguments
   ops_arguments=""
@@ -98,11 +100,13 @@ function main() {
 
   mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
-    local bbl_cert_chain_flag
-    bbl_cert_chain_flag=""
-    local bbl_cert_path
-    local bbl_cert_key
-    write_bbl_certs
+    if [ "${IS_BOSH_LITE}" != "true" ]; then
+      local bbl_cert_chain_flag
+      bbl_cert_chain_flag=""
+      local bbl_cert_path
+      local bbl_cert_key
+      write_bbl_certs
+    fi
 
     bbl version
 
@@ -113,25 +117,26 @@ function main() {
       name_flag="--name ${BBL_ENV_NAME}"
     fi
 
-    local domain_flag
-    domain_flag="--domain=${LB_DOMAIN}"
-
     if [ "${BBL_IAAS}" == "gcp" ]; then
       write_service_account_key
     fi
 
     bbl --debug up ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
 
-    # The two commands below amount to "create or update"
-    bbl \
-      --debug \
-      create-lbs \
-      --type=cf \
-      --cert="${bbl_cert_path}" \
-      ${bbl_cert_chain_flag} \
-      --key="${bbl_key_path}" \
-      ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
+    if [ "${IS_BOSH_LITE}" != "true" ]; then
+      local domain_flag
+      domain_flag="--domain=${LB_DOMAIN}"
 
+      # The two commands below amount to "create or update"
+      bbl \
+        --debug \
+        create-lbs \
+        --type=cf \
+        --cert="${bbl_cert_path}" \
+        ${bbl_cert_chain_flag} \
+        --key="${bbl_key_path}" \
+        ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
+    fi
   popd
 }
 
