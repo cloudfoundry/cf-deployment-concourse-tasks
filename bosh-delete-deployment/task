@@ -12,9 +12,15 @@ function check_delete_deployment_params() {
 }
 
 function bosh_delete_deployment() {
+  if [ "$FORCE" = true ] ; then
+    OPTIONS="--force"
+  else
+    OPTIONS=""
+  fi
+
   bosh \
     -n \
-    delete-deployment -d ${DEPLOYMENT_NAME}
+    delete-deployment -d ${DEPLOYMENT_NAME} ${OPTIONS}
 }
 
 function main() {
