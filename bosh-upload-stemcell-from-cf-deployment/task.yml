@@ -10,7 +10,7 @@ image_resource:
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: cf-deployment  # - The cf-deployment manifest
-- name: bbl-state  # - The Director's `bbl-state.json`
+- name: bbl-state  # - The Director's bbl state dir
 
 run:
   path: cf-deployment-concourse-tasks/bosh-upload-stemcell-from-cf-deployment/task

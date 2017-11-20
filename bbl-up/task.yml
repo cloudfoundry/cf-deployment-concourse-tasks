@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
-- name: bbl-state  # - The Director's `bbl-state.json`
+- name: bbl-state  # - The Director's bbl state dir
 - name: ops-files
 # - A directory containing ops files
 #   to be specifed with the `OPS_FILES` param

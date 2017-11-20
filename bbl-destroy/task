@@ -3,15 +3,15 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-function commit_bbl_state_file {
+function commit_bbl_state_dir {
   local root_dir
   root_dir="${1}"
 
   pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
-      git add --all bbl-state.json
-      git commit -m "Remove bbl-state.json"
+      git add --all .
+      git commit -m "Remove bbl state dir"
     fi
   popd
 
@@ -36,6 +36,6 @@ function main() {
   close_bbl_ssh_connection
 }
 
-trap "commit_bbl_state_file ${PWD}" EXIT
+trap "commit_bbl_state_dir ${PWD}" EXIT
 
 main ${PWD}
