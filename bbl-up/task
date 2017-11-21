@@ -31,7 +31,7 @@ function commit_bbl_state_dir {
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
       git add .
-      git commit -m "Update bbl-state.json"
+      git commit -m "Update bbl state dir"
     fi
   popd
 
