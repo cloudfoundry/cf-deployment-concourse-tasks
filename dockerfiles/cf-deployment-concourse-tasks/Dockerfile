@@ -67,6 +67,12 @@ RUN \
   cd /usr/local/bin && \
   chmod +x bbl
 
+RUN \
+  wget https://github.com/cloudfoundry/bosh-bootloader/archive/v${bbl_version}.tar.gz -P /tmp && \
+  mkdir -p /var/repos/bosh-bootloader && \
+  tar xvf  /tmp/v${bbl_version}.tar.gz --strip-components=1 -C /var/repos/bosh-bootloader && \
+  rm -rf /tmp/*
+
 ARG terraform_version
 RUN \
   wget "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -P /tmp && \
