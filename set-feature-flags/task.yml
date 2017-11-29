@@ -12,14 +12,6 @@ inputs:
 - name: vars-store # - The BOSH deployment's vars-store yaml file
 
 params:
-  DIEGO_DOCKER: true
-  # - Required
-  # - This will either enable or disable the diego_docker feature-flag
-
-  TASK_CREATION: true
-  # - Required
-  # - This will either enable or disable the task_creation feature-flag
-
   SYSTEM_DOMAIN:
   # - Required
   # - CF system base domain e.g. `my-cf.com`
@@ -28,6 +20,14 @@ params:
   # - Required
   # - Filepath to the BOSH deployment vars-store yaml file
   # - The path is relative to root of the `vars-store` input
+
+  ENABLED_FEATURE_FLAGS:
+  # - Optional
+  # - Space seperated list of feature flag names to enable
+
+  DISABLED_FEATURE_FLAGS:
+  # - Optional
+  # - Space seperated list of feature flag names to disable
 
 run:
   path: cf-deployment-concourse-tasks/set-feature-flags/task

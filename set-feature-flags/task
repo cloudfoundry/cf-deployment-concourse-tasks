@@ -5,19 +5,27 @@ if [ -z "${SYSTEM_DOMAIN}" ]; then
   exit 1
 fi
 
-function set_diego_docker() {
-  if ${DIEGO_DOCKER}; then
-    cf enable-feature-flag diego_docker
-  else
-    cf disable-feature-flag diego_docker
+function set_enabled_feature_flags() {
+  if [ ! -z "${ENABLED_FEATURE_FLAGS}" ]; then
+    for flag in $ENABLED_FEATURE_FLAGS; do
+      set_feature_flag "$flag" true
+    done
   fi
 }
 
-function set_task_creation() {
-  if ${TASK_CREATION}; then
-    cf enable-feature-flag task_creation
+function set_disabled_feature_flags() {
+  if [ ! -z "${DISABLED_FEATURE_FLAGS}" ]; then
+    for flag in $DISABLED_FEATURE_FLAGS; do
+      set_feature_flag "$flag" false
+    done
+  fi
+}
+
+function set_feature_flag() {
+  if [ $2 == true ]; then
+    cf enable-feature-flag "$1"
   else
-    cf disable-feature-flag task_creation
+    cf disable-feature-flag "$1"
   fi
 }
 
@@ -33,8 +41,8 @@ function main() {
 
   cf_login
 
-  set_diego_docker
-  set_task_creation
+  set_enabled_feature_flags
+  set_disabled_feature_flags
 
   cf feature-flags
 }
