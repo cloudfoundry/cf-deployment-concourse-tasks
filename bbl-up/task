@@ -5,19 +5,27 @@ source cf-deployment-concourse-tasks/shared-functions
 
 function check_fast_fails() {
   set +x
-  if [ -z "${LB_DOMAIN}" ]; then
-    echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
-    exit 1
-  fi
 
-  if [ -z "${BBL_LB_CERT}"  ]; then
-    echo "\$BBL_LB_CERT is a required parameter"
-    exit 1
-  fi
+  if [ "${IS_BOSH_LITE}" == "true" ]; then
+    if [ "${BBL_IAAS}" != "gcp" ]; then
+      echo "\$IS_BOSH_LITE requires \$BBL_IAAS to be set to 'gcp'"
+      exit 1
+    fi
+  else
+    if [ -z "${LB_DOMAIN}" ]; then
+      echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
+      exit 1
+    fi
 
-  if [ -z "${BBL_LB_KEY}"  ]; then
-    echo "\$BBL_LB_KEY is a required parameter"
-    exit 1
+    if [ -z "${BBL_LB_CERT}"  ]; then
+      echo "\$BBL_LB_CERT is a required parameter"
+      exit 1
+    fi
+
+    if [ -z "${BBL_LB_KEY}"  ]; then
+      echo "\$BBL_LB_KEY is a required parameter"
+      exit 1
+    fi
   fi
 
   set -x
@@ -86,9 +94,7 @@ function main() {
   local root_dir
   root_dir="${1}"
 
-  if [ "${IS_BOSH_LITE}" != "true" ]; then
-    check_fast_fails
-  fi
+  check_fast_fails
 
   local ops_arguments
   ops_arguments=""

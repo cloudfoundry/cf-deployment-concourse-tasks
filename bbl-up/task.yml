@@ -107,4 +107,6 @@ params:
 
   IS_BOSH_LITE: false
   # - Optional
-  # - Set to `true` to skip LB creation
+  # - Set to `true` to deploy bosh in a lite configuration
+  # - NOTE - Requires BBL_IAAS=`gcp` -
+  #   AWS is not currently supported.
