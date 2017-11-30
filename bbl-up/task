@@ -121,7 +121,13 @@ function main() {
       write_service_account_key
     fi
 
-    bbl --debug up ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
+    bbl plan ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+
+    if [ "${IS_BOSH_LITE}" == "true" ]; then
+      cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/ .
+    fi
+
+    bbl --debug up > "${root_dir}/bbl_up.txt"
 
     if [ "${IS_BOSH_LITE}" != "true" ]; then
       local domain_flag
