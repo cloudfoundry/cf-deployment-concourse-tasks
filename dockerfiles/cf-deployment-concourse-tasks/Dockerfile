@@ -2,12 +2,9 @@ FROM ubuntu:trusty
 
 ENV GO_VERSION 1.9
 ENV JQ_VERSION 1.5
-ENV BOSH_VERSION 2.0.42
 ENV CF_CLI_VERSION 6.23.1
-ENV BBL_VERSION v4.7.3
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
-ENV BOSH_CHECKSUM a97b085e45a989abfcd88de77770bb6db0c8a29e
 ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
 
 RUN \
@@ -45,11 +42,10 @@ RUN \
   chmod +x jq
 
 # bosh-cli
+ARG bosh_cli_version
 RUN \
-  wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${BOSH_VERSION}-linux-amd64 --output-document="/usr/bin/bosh" && \
-  cd /usr/bin && \
-  echo "${BOSH_CHECKSUM} bosh" | sha1sum -c - && \
-  chmod +x bosh
+  wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64 --output-document="/usr/bin/bosh" && \
+  chmod +x /usr/bin/bosh
 
 # cf-cli
 RUN \
