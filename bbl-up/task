@@ -104,12 +104,7 @@ function main() {
     ops_arguments="--ops-file ${root_dir}/ops-files/concatenated-operations.yml"
   fi
 
-  if [ "${IS_BOSH_LITE}" == "true" ]; then
-    cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp bbl-state/${BBL_STATE_DIR}
-  else
-    mkdir -p "bbl-state/${BBL_STATE_DIR}"
-  fi
-
+  mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
     if [ "${IS_BOSH_LITE}" != "true" ]; then
       local bbl_cert_chain_flag
@@ -133,6 +128,10 @@ function main() {
     fi
 
     bbl plan ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+
+    if [ "${IS_BOSH_LITE}" == "true" ]; then
+      cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
+    fi
 
     bbl --debug up > "${root_dir}/bbl_up.txt"
 
