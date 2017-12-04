@@ -2,7 +2,7 @@
 set -exu
 
 function bosh_delete_loggregator() {
-  bosh delete-release loggregator
+  bosh -n delete-release loggregator
 }
 
 function main() {
