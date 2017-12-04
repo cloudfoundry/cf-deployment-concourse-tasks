@@ -8,6 +8,7 @@ image_resource:
     tag: v4.0.0
 
 inputs:
+- name: bbl-state  # - The Director's bbl state dir
 - name: cf-deployment-concourse-tasks  # - This repo
 
 run:
