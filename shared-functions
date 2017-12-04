@@ -67,6 +67,11 @@ function close_bbl_ssh_connection() {
   pkill ssh || true
 }
 
+function close_bbl_ssh_connection_and_commit_vars_store() {
+  close_bbl_ssh_connection
+  commit_vars_store
+}
+
 function bosh_interpolate() {
   set +u
   local root_dir

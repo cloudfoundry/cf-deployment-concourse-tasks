@@ -36,9 +36,8 @@ main() {
   fi
   bosh_interpolate "${root_dir}" "$(grep final_name release/config/final.yml | awk '{print $2}')"
   bosh_deploy
-  close_bbl_ssh_connection
 }
 
-trap commit_vars_store EXIT
+trap close_bbl_ssh_connection_and_commit_vars_store EXIT
 
 main "${PWD}"
