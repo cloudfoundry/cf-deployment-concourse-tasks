@@ -1,0 +1,12 @@
+#!/bin/bash
+set -exu
+
+function bosh_delete_loggregator() {
+  bosh delete-release loggregator
+}
+
+function main() {
+  bosh_delete_loggregator
+}
+
+main
