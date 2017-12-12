@@ -148,6 +148,11 @@ write_uptimer_deploy_config() {
     --arg run_app_syslog_availability ${MEASURE_SYSLOG_AVAILABILITY} \
     --arg tcp_domain "${TCP_DOMAIN}" \
     --arg available_port ${AVAILABLE_PORT} \
+    --arg app_pushability ${APP_PUSHABILITY_THRESHOLD} \
+    --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
+    --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
+    --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
+    --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
     '{
       "while": [{
         "command":"bosh",
@@ -160,6 +165,13 @@ write_uptimer_deploy_config() {
         "admin_password": $admin_password,
         "tcp_domain": $tcp_domain,
         "available_port": $available_port | tonumber
+      },
+      "allowed_failures": {
+        "app_pushability": $app_pushability,
+        "http_availability": $http_availability,
+        "recent_logs": $recent_logs,
+        "streaming_logs": $streaming_logs,
+        "app_syslog_availability": $app_syslog_availability
       },
       "optional_tests": {
         "run_app_syslog_availability": $run_app_syslog_availability | ascii_downcase | contains("true")
