@@ -130,12 +130,24 @@ write_uptimer_deploy_config() {
   local manifest
   manifest=${2}
 
+  # Give bogus values for TCP_DOMAIN and AVAILABLE_PORT
+  # so that we don't have to do jq magic.
+  if [ -z "${TCP_DOMAIN}" ]; then
+    TCP_DOMAIN=" "
+  fi
+  if [ -z "${AVAILABLE_PORT}" ]; then
+    AVAILABLE_PORT="-1"
+  fi
+
   set +x
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
     --arg admin_password $(bosh int --path=/cf_admin_password vars-store/"${VARS_STORE_FILE}") \
     --arg app_domain ${SYSTEM_DOMAIN} \
     --arg manifest $manifest \
     --arg deployment_name $deployment_name \
+    --arg run_app_syslog_availability ${MEASURE_SYSLOG_AVAILABILITY} \
+    --arg tcp_domain ${TCP_DOMAIN} \
+    --arg available_port ${AVAILABLE_PORT} \
     '{
       "while": [{
         "command":"bosh",
@@ -145,13 +157,25 @@ write_uptimer_deploy_config() {
         "api": $cf_api,
         "app_domain": $app_domain,
         "admin_user": "admin",
-        "admin_password": $admin_password
+        "admin_password": $admin_password,
+        "tcp_domain": $tcp_domain,
+        "available_port": $available_port | tonumber
+      },
+      "optional_tests": {
+        "run_app_syslog_availability": $run_app_syslog_availability | ascii_downcase | contains("true")
       }
     }'
   set -x
 }
 
 function uptimer_bosh_deploy() {
+  if ${MEASURE_SYSLOG_AVAILABILITY}; then
+    if [ -z "${TCP_DOMAIN}" ] || [ -z "${AVAILABLE_PORT}" ]; then
+      echo "Both TCP_DOMAIN and AVAILABLE_PORT are required to run syslog availability measurement."
+      exit 1
+    fi
+  fi
+
   local deployment_name
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
