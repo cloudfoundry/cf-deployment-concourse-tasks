@@ -27,9 +27,9 @@ function check_upload_stemcell_params() {
 function upload_stemcell() {
   # Read potentially variable stemcell paramaters out of cf-deployment with bosh
   local os
-  os=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/cf-deployment.yml)
+  os=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/${MANIFEST_FILE})
   local version
-  version=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/cf-deployment.yml)
+  version=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/${MANIFEST_FILE})
 
   # Hardcode a couple of stable stemcell paramaters
   local stemcells_url
