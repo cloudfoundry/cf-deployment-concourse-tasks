@@ -146,7 +146,7 @@ write_uptimer_deploy_config() {
     --arg manifest $manifest \
     --arg deployment_name $deployment_name \
     --arg run_app_syslog_availability ${MEASURE_SYSLOG_AVAILABILITY} \
-    --arg tcp_domain ${TCP_DOMAIN} \
+    --arg tcp_domain "${TCP_DOMAIN}" \
     --arg available_port ${AVAILABLE_PORT} \
     '{
       "while": [{
