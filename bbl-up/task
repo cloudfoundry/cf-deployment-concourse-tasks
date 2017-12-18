@@ -58,10 +58,10 @@ function write_bbl_certs() {
     bbl_cert_path="/tmp/bbl-cert"
   fi
   if [ -f "${BBL_LB_CERT_CHAIN}" ]; then
-    bbl_cert_chain_flag="--chain=${BBL_LB_CERT_CHAIN}"
+    bbl_cert_chain_flag="--lb-chain=${BBL_LB_CERT_CHAIN}"
   elif [ ! -z "${BBL_LB_CERT_CHAIN// }" ]; then
     echo "${BBL_LB_CERT_CHAIN}" > /tmp/bbl-cert-chain
-    bbl_cert_chain_flag="--chain=/tmp/bbl-cert-chain"
+    bbl_cert_chain_flag="--lb-chain=/tmp/bbl-cert-chain"
   fi
   if [ -f "${BBL_LB_KEY}" ]; then
     bbl_key_path="${BBL_LB_KEY}"
@@ -127,29 +127,27 @@ function main() {
       write_service_account_key
     fi
 
-    bbl plan ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
-
     if [ "${IS_BOSH_LITE}" == "true" ]; then
+      bbl plan \
+        ${name_flag} \
+        ${ops_arguments} \
+        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/.bbl .
+    else
+      bbl plan \
+        ${name_flag} \
+        ${ops_arguments} \
+        --lb-type=cf \
+        --lb-cert="${bbl_cert_path}" \
+        ${bbl_cert_chain_flag} \
+        --lb-key="${bbl_key_path}" \
+        --lb-domain="${LB_DOMAIN}" \
+        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
     fi
 
     bbl --debug up > "${root_dir}/bbl_up.txt"
-
-    if [ "${IS_BOSH_LITE}" != "true" ]; then
-      local domain_flag
-      domain_flag="--domain=${LB_DOMAIN}"
-
-      # The two commands below amount to "create or update"
-      bbl \
-        --debug \
-        create-lbs \
-        --type=cf \
-        --cert="${bbl_cert_path}" \
-        ${bbl_cert_chain_flag} \
-        --key="${bbl_key_path}" \
-        ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
-    fi
   popd
 }
 
