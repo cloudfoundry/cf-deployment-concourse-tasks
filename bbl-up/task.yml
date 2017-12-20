@@ -58,21 +58,21 @@ params:
   # - PEM encoded certificate to be associated with the load balancer
   #   for SSL termination
   # - Can be either the certificate content or a path to the certificate
-  # - If a path is provided, path is relative to the `bbl-state` input
+  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
 
   BBL_LB_CERT_CHAIN:
   # - Optional
   # - PEM encoded certificate to be associated with the load balancer
   #   certificate chain
   # - Can be either the certificate content or a path to the certificate
-  # - If a path is provided, path is relative to the `bbl-state` input
+  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
 
   BBL_LB_KEY:
   # - Required if `IS_BOSH_LITE` is false
   # - PEM-encoded private key to be used for TLS termination on the load
   #   balancer.
   # - Can be either the key content or a path to the key
-  # - If a path is provided, path is relative to the `bbl-state` input
+  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
 
   LB_DOMAIN:
   # - Required if `IS_BOSH_LITE` is false
