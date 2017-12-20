@@ -7,7 +7,7 @@ function commit_bbl_state_dir {
   local root_dir
   root_dir="${1}"
 
-  pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
+  pushd "${root_dir}/env-repo/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
       git add --all .
@@ -16,8 +16,7 @@ function commit_bbl_state_dir {
   popd
 
   pushd "${root_dir}"
-    shopt -s dotglob
-    cp -R bbl-state/* updated-bbl-state/
+    cp -R env-repo updated-env-repo
   popd
 }
 
@@ -25,7 +24,7 @@ function main() {
   local root_dir
   root_dir="${1}"
 
-  pushd "bbl-state/${BBL_STATE_DIR}"
+  pushd "env-repo/${BBL_STATE_DIR}"
     bbl \
       --debug \
       destroy \

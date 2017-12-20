@@ -9,11 +9,11 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
-- name: bbl-state  # - The Director's bbl state dir
+- name: env-repo  # - The env repo containing the Director's bbl state dir
 
 outputs:
-- name: updated-bbl-state
-# - The bbl-state resource, with changes git committed,
+- name: updated-env-repo
+# - The env-repo resource, with changes git committed,
 #   ready to be `put` to a git resource.
 # - This output _must_ be persisted for these tasks to function properly
 
@@ -21,11 +21,10 @@ run:
   path: cf-deployment-concourse-tasks/bbl-destroy/task
 
 params:
-  BBL_STATE_DIR:
-  # - Optional
+  BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to root of the `bbl-state` input
-  # - If unspecified, uses the root of the `bbl-state` input
+  # - The path is relative to root of the `env-repo` input
+  # - If unspecified, uses the root of the `env-repo` input
 
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
@@ -37,7 +36,7 @@ params:
   # - Required for AWS
   #   if environment was created with bbl up --credhub
   # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl_state.json,
+  #   the IaaS credentials are instead stored in the bbl-state.json,
   #   so these are unnecessary.
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
@@ -46,7 +45,7 @@ params:
   # - Required for GCP
   #   if environment was created with bbl up --credhub
   # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl_state.json,
+  #   the IaaS credentials are instead stored in the bbl-state.json,
   #   so these are unnecessary.
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP

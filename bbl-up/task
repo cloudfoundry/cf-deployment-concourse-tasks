@@ -35,7 +35,7 @@ function commit_bbl_state_dir {
   local root_dir
   root_dir="${1}"
 
-  pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
+  pushd "${root_dir}/env-repo/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
       git add .
@@ -44,8 +44,7 @@ function commit_bbl_state_dir {
   popd
 
   pushd "${root_dir}"
-    shopt -s dotglob
-    cp -R bbl-state/* updated-bbl-state/
+    cp -R env-repo updated-env-repo
   popd
 }
 
@@ -74,10 +73,12 @@ function write_bbl_certs() {
 
 function write_service_account_key() {
   set +x
-  if [ ! -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+  if [ -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+    cp "${BBL_GCP_SERVICE_ACCOUNT_KEY}" /tmp/google_service_account.json
+  else
     echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
-    export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
   fi
+  export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
   set -x
 }
 
@@ -104,8 +105,14 @@ function main() {
     ops_arguments="--ops-file ${root_dir}/ops-files/concatenated-operations.yml"
   fi
 
-  mkdir -p "bbl-state/${BBL_STATE_DIR}"
-  pushd "bbl-state/${BBL_STATE_DIR}"
+  if [ "${BBL_IAAS}" == "gcp" ]; then
+    pushd "env-repo"
+      write_service_account_key
+    popd
+  fi
+
+  mkdir -p "env-repo/${BBL_STATE_DIR}"
+  pushd "env-repo/${BBL_STATE_DIR}"
     if [ "${IS_BOSH_LITE}" != "true" ]; then
       local bbl_cert_chain_flag
       bbl_cert_chain_flag=""
@@ -121,10 +128,6 @@ function main() {
 
     if [ -n "${BBL_ENV_NAME}" -a ! -f bbl-state.json ]; then
       name_flag="--name ${BBL_ENV_NAME}"
-    fi
-
-    if [ "${BBL_IAAS}" == "gcp" ]; then
-      write_service_account_key
     fi
 
     if [ "${IS_BOSH_LITE}" == "true" ]; then

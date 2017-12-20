@@ -9,18 +9,18 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
-- name: bbl-state  # - The Director's bbl state dir
+- name: env-repo  # - The env repo containing the Director's bbl state dir
 - name: ops-files
 # - A directory containing ops files
 #   to be specifed with the `OPS_FILES` param
 # - If no ops files are necessary in your case,
 #   we suggest you use `input_mapping`
-#   to map your `bbl-state` resource to `ops-files`
+#   to map your `env-repo` resource to `ops-files`
 #   in order to satisfy this required input.
 
 outputs:
-- name: updated-bbl-state
-# - The bbl-state resource, with changes git committed,
+- name: updated-env-repo
+# - The env-repo resource, with changes git committed,
 # - ready to be `put` to a git resource.
 # - This output _must_ be persisted for these tasks to function properly
 
@@ -41,11 +41,10 @@ params:
   # - Path is relative to the BBL_STATE_DIR specified below
   BBL_GCP_REGION:
 
-  BBL_STATE_DIR:
-  # - Optional
+  BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to root of the `bbl-state` input
-  # - If unspecified, uses the root of the `bbl-state` input
+  # - The path is relative to root of the `env-repo` input
+  # - If unspecified, uses the root of the `env-repo` input
   # - If the specified path does not exist, it will be created
 
   BBL_IAAS:
@@ -58,21 +57,21 @@ params:
   # - PEM encoded certificate to be associated with the load balancer
   #   for SSL termination
   # - Can be either the certificate content or a path to the certificate
-  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
+  # - If a path is provided, path is relative to the BBL_STATE_DIR
 
   BBL_LB_CERT_CHAIN:
   # - Optional
   # - PEM encoded certificate to be associated with the load balancer
   #   certificate chain
   # - Can be either the certificate content or a path to the certificate
-  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
+  # - If a path is provided, path is relative to the BBL_STATE_DIR
 
   BBL_LB_KEY:
   # - Required if `IS_BOSH_LITE` is false
   # - PEM-encoded private key to be used for TLS termination on the load
   #   balancer.
   # - Can be either the key content or a path to the key
-  # - If a path is provided, path is relative to the BBL_STATE_DIR specified below
+  # - If a path is provided, path is relative to the BBL_STATE_DIR
 
   LB_DOMAIN:
   # - Required if `IS_BOSH_LITE` is false
