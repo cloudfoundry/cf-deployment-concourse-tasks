@@ -34,10 +34,6 @@ params:
 
   # AWS Configuration Params
   # - Required for AWS
-  #   if environment was created with bbl up --credhub
-  # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl-state.json,
-  #   so these are unnecessary.
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
 
