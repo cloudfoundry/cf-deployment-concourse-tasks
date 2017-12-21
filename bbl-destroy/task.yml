@@ -43,10 +43,6 @@ params:
 
   # GCP Configuration Params
   # - Required for GCP
-  #   if environment was created with bbl up --credhub
-  # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl-state.json,
-  #   so these are unnecessary.
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the `env-repo` input
