@@ -16,7 +16,8 @@ function commit_bbl_state_dir {
   popd
 
   pushd "${root_dir}"
-    cp -R env-repo updated-env-repo
+    shopt -s dotglob
+    cp -R env-repo/* updated-env-repo/
   popd
 }
 
