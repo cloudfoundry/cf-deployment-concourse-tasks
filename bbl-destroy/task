@@ -38,7 +38,7 @@ function main() {
 
   pushd "env-repo/${BBL_STATE_DIR}"
     local bbl_iaas
-    bbl_iaas=$(jq .iaas bbl-state.json)
+    bbl_iaas=$(jq -r .iaas bbl-state.json)
 
     if [ "${bbl_iaas}" == "gcp" ]; then
       pushd "${root_dir}/env-repo"
