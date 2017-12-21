@@ -23,8 +23,8 @@ run:
 params:
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to root of the `env-repo` input
-  # - If unspecified, uses the root of the `env-repo` input
+  # - The path is relative to the `env-repo` input
+  # - If blank or '.', uses `env-repo` input as the location for bbl state
 
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
@@ -49,4 +49,4 @@ params:
   #   so these are unnecessary.
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
-  # - Path is relative to the BBL_STATE_DIR specified above
+  # - Path is relative to the `env-repo` input
