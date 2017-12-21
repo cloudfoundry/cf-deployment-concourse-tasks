@@ -21,11 +21,31 @@ function commit_bbl_state_dir {
   popd
 }
 
+function write_service_account_key() {
+  set +x
+  if [ -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+    cp "${BBL_GCP_SERVICE_ACCOUNT_KEY}" /tmp/google_service_account.json
+  else
+    echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
+  fi
+  export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
+  set -x
+}
+
 function main() {
   local root_dir
   root_dir="${1}"
 
   pushd "env-repo/${BBL_STATE_DIR}"
+    local bbl_iaas
+    bbl_iaas=$(jq .iaas bbl-state.json)
+
+    if [ "${bbl_iaas}" == "gcp" ]; then
+      pushd "${root_dir}/env-repo"
+        write_service_account_key
+      popd
+    fi
+
     bbl \
       --debug \
       destroy \
