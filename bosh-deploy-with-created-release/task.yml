@@ -8,7 +8,7 @@ image_resource:
     tag: v4.4.0
 
 inputs:
-- name: bbl-state  # - The Director's bbl state dir
+- name: env-repo  # - The env repo containing the Director's bbl state dir
 - name: cf-deployment  # - The cf-deployment manifest
 - name: vars-store  # - The BOSH deployment's vars-store yaml file
 - name: ops-files  # - Operations files to be made available
@@ -27,11 +27,11 @@ run:
   path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task
 
 params:
-  BBL_STATE_DIR:
-  # - Optional
+  BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to root of the `bbl-state` input
-  # - Defaults to the root of the `bbl-state` input
+  # - The path is relative to the `env-repo` input
+  # - If blank or '.', uses `env-repo` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
 
   MANIFEST_FILE: cf-deployment.yml
   # - Required

@@ -9,17 +9,17 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks
-- name: bbl-state
+- name: env-repo # - The env repo containing the Director's bbl state dir
 
 run:
   path: cf-deployment-concourse-tasks/bosh-cleanup/task
 
 params:
-  BBL_STATE_DIR:
-  # - Optional
+  BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to root of the `bbl-state` input
-  # - If unspecified, uses the root of the `bbl-state` input
+  # - The path is relative to the `env-repo` input
+  # - If blank or '.', uses `env-repo` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
 
   CLEAN_ALL: true
   # - Optional
