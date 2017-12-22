@@ -54,7 +54,7 @@ function commit_vars_store() {
 
 function setup_bosh_env_vars() {
   set +ux
-  pushd bbl-state/"${BBL_STATE_DIR}"
+  pushd env-repo/"${BBL_STATE_DIR}"
     eval "$(bbl print-env)"
   popd
   set -ux
