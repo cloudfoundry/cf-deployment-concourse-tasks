@@ -28,25 +28,9 @@ function check_fast_fails() {
     fi
   fi
 
+  check_bbl_input_params
+
   set -x
-}
-
-function commit_bbl_state_dir {
-  local root_dir
-  root_dir="${1}"
-
-  pushd "${root_dir}/env-repo/${BBL_STATE_DIR}"
-    if [[ -n $(git status --porcelain) ]]; then
-      set_git_config
-      git add .
-      git commit -m "Update bbl state dir"
-    fi
-  popd
-
-  pushd "${root_dir}"
-    shopt -s dotglob
-    cp -R env-repo/* updated-env-repo/
-  popd
 }
 
 function write_bbl_certs() {
@@ -69,17 +53,6 @@ function write_bbl_certs() {
     echo "${BBL_LB_KEY}" > /tmp/bbl-key
     bbl_key_path="/tmp/bbl-key"
   fi
-  set -x
-}
-
-function write_service_account_key() {
-  set +x
-  if [ -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
-    cp "${BBL_GCP_SERVICE_ACCOUNT_KEY}" /tmp/google_service_account.json
-  else
-    echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
-  fi
-  export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
   set -x
 }
 
@@ -108,7 +81,7 @@ function main() {
 
   if [ "${BBL_IAAS}" == "gcp" ]; then
     pushd "env-repo"
-      write_service_account_key
+      write_gcp_service_account_key
     popd
   fi
 
@@ -169,6 +142,6 @@ function main() {
   popd
 }
 
-trap "commit_bbl_state_dir ${PWD}" EXIT
+trap "commit_bbl_state_dir ${PWD} 'Update bbl state dir'" EXIT
 
 main ${PWD}

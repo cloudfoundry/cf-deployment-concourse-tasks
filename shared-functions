@@ -1,5 +1,17 @@
 #!/bin/bash -eux
 
+check_bbl_input_params() {
+  set +x
+  # Checks that we have IaaS credentials for either GCP or AWS
+  if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ]; then
+    exit 0
+  else
+    echo "The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the  `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair."
+    exit 1
+  fi
+  set -x
+}
+
 function check_input_params() {
   set +x
   if [ -z "$MANIFEST_FILE" ]; then
@@ -24,6 +36,25 @@ function check_input_params() {
     fi
   fi
   set -x
+}
+
+function commit_bbl_state_dir {
+  local root_dir
+  root_dir="${1}"
+  commit_message="${2}"
+
+  pushd "${root_dir}/env-repo/${BBL_STATE_DIR}"
+    if [[ -n $(git status --porcelain) ]]; then
+      set_git_config
+      git add --all .
+      git commit -m "${commit_message}"
+    fi
+  popd
+
+  pushd "${root_dir}"
+    shopt -s dotglob
+    cp -R env-repo/* updated-env-repo/
+  popd
 }
 
 function set_git_config() {
@@ -224,4 +255,15 @@ function bosh_deploy() {
 
 function remove_vars_store() {
   rm -f vars-store/"${VARS_STORE_FILE}"
+}
+
+write_gcp_service_account_key() {
+  set +x
+  if [ -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
+    cp "${BBL_GCP_SERVICE_ACCOUNT_KEY}" /tmp/google_service_account.json
+  else
+    echo "${BBL_GCP_SERVICE_ACCOUNT_KEY}" > /tmp/google_service_account.json
+  fi
+  export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
+  set -x
 }
