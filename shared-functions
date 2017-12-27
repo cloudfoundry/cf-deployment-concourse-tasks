@@ -6,7 +6,7 @@ check_bbl_input_params() {
   if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ]; then
     exit 0
   else
-    echo 'The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the  `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair.'
+    echo 'The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair.'
     exit 1
   fi
   set -x
