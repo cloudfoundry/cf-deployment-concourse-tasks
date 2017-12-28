@@ -111,7 +111,6 @@ function main() {
         ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
 
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
-      cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/.bbl .
 
       bbl --debug up \
         ${name_flag} \
