@@ -130,7 +130,7 @@ function bosh_interpolate() {
 
   for var in ${VARS}
   do
-    arguments="${arguments} -v ${var}"
+    arguments="${arguments} -v '${var}'"
   done
 
   if [ -n "${release_name}" ]; then
