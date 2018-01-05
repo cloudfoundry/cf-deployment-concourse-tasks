@@ -119,7 +119,7 @@ function main() {
       ${name_flag} \
       ${ops_arguments} \
       ${lb_flags} \
-      ${BBL_EXTRA_FLAGS} | tee "${root_dir}/bbl_plan.txt"
+      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
 
     if [ "${IS_BOSH_LITE}" == "true" ]; then
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
@@ -129,7 +129,7 @@ function main() {
       ${name_flag} \
       ${lb_flags} \
       ${ops_arguments} \
-      ${BBL_EXTRA_FLAGS} | tee "${root_dir}/bbl_up.txt"
+      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
   popd
 }
 
