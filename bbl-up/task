@@ -6,7 +6,7 @@ source cf-deployment-concourse-tasks/shared-functions
 function check_fast_fails() {
   set +x
 
-  if [ "${IS_BOSH_LITE}" == "true" ]; then
+  if [ "${create_lbs}" != "true" ]; then
     if [ "${BBL_IAAS}" != "gcp" ]; then
       echo "\$IS_BOSH_LITE requires \$BBL_IAAS to be set to 'gcp'"
       exit 1
@@ -69,6 +69,12 @@ function main() {
   local root_dir
   root_dir="${1}"
 
+  create_lbs=false
+
+  if [ "${IS_BOSH_LITE}" == "false" ] && [ "${SKIP_LB_CREATION}" == "false" ]; then
+    create_lbs=true
+  fi
+
   check_fast_fails
 
   local ops_arguments
@@ -87,14 +93,6 @@ function main() {
 
   mkdir -p "env-repo/${BBL_STATE_DIR}"
   pushd "env-repo/${BBL_STATE_DIR}"
-    if [ "${IS_BOSH_LITE}" != "true" ]; then
-      local bbl_cert_chain_flag
-      bbl_cert_chain_flag=""
-      local bbl_cert_path
-      local bbl_cert_key
-      write_bbl_certs
-    fi
-
     bbl version
 
     local name_flag
@@ -104,40 +102,34 @@ function main() {
       name_flag="--name ${BBL_ENV_NAME}"
     fi
 
-    if [ "${IS_BOSH_LITE}" == "true" ]; then
-      bbl plan \
-        ${name_flag} \
-        ${ops_arguments} \
-        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+    local lb_flags
+    lb_flags=""
 
-      cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
+    if [ "${create_lbs}" == "true" ]; then
+      local bbl_cert_chain_flag
+      bbl_cert_chain_flag=""
+      local bbl_cert_path
+      local bbl_cert_key
+      write_bbl_certs
 
-      bbl --debug up \
-        ${name_flag} \
-        ${ops_arguments} \
-        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
-    else
-      bbl plan \
-        ${name_flag} \
-        ${ops_arguments} \
-        --lb-type=cf \
-        --lb-cert="${bbl_cert_path}" \
-        ${bbl_cert_chain_flag} \
-        --lb-key="${bbl_key_path}" \
-        --lb-domain="${LB_DOMAIN}" \
-        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
-
-      bbl --debug up \
-        ${name_flag} \
-        ${ops_arguments} \
-        --lb-type=cf \
-        --lb-cert="${bbl_cert_path}" \
-        ${bbl_cert_chain_flag} \
-        --lb-key="${bbl_key_path}" \
-        --lb-domain="${LB_DOMAIN}" \
-        ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
+      lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
     fi
 
+    bbl plan \
+      ${name_flag} \
+      ${ops_arguments} \
+      ${lb_flags} \
+      ${BBL_EXTRA_FLAGS} | tee "${root_dir}/bbl_plan.txt"
+
+    if [ "${IS_BOSH_LITE}" == "true" ]; then
+      cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
+    fi
+
+    bbl --debug up \
+      ${name_flag} \
+      ${lb_flags} \
+      ${ops_arguments} \
+      ${BBL_EXTRA_FLAGS} | tee "${root_dir}/bbl_up.txt"
   popd
 }
 
