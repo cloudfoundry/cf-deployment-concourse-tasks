@@ -96,6 +96,12 @@ function main() {
   local root_dir
   root_dir="${1}"
 
+  create_lbs=false
+
+  if [ "${IS_BOSH_LITE}" == "false" ] && [ "${SKIP_LB_CREATION}" == "false" ]; then
+    create_lbs=true
+  fi
+
   check_fast_fails
 
   local ops_arguments
@@ -108,12 +114,6 @@ function main() {
 
   mkdir -p "bbl-state/${BBL_STATE_DIR}"
   pushd "bbl-state/${BBL_STATE_DIR}"
-    local bbl_cert_chain_flag
-    bbl_cert_chain_flag=""
-    local bbl_cert_path
-    local bbl_cert_key
-    write_bbl_certs
-
     bbl version
 
     local name_flag
@@ -134,17 +134,30 @@ function main() {
       write_service_account_key
     fi
 
-    bbl --debug up ${name_flag} ${ops_arguments} ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
+    local lb_flags
+    lb_flags=""
 
-    # The two commands below amount to "create or update"
-    bbl \
-      --debug \
-      create-lbs \
-      --type="${BBL_LB_TYPE}" \
-      --cert="${bbl_cert_path}" \
-      ${bbl_cert_chain_flag} \
-      --key="${bbl_key_path}" \
-      ${domain_flag} > "${root_dir}/bbl_create_lbs.txt"
+    if [ "${create_lbs}" == "true" ]; then
+      local bbl_cert_chain_flag
+      bbl_cert_chain_flag=""
+      local bbl_cert_path
+      local bbl_cert_key
+      write_bbl_certs
+
+      lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
+    fi
+
+    bbl plan \
+      ${name_flag} \
+      ${ops_arguments} \
+      ${lb_flags} \
+      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+
+    bbl --debug up \
+      ${name_flag} \
+      ${lb_flags} \
+      ${ops_arguments} \
+      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
 
   popd
 }
