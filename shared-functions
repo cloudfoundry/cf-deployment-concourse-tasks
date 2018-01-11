@@ -128,11 +128,6 @@ function bosh_interpolate() {
     arguments="${arguments} -l vars-files/${vf}"
   done
 
-  for var in ${VARS}
-  do
-    arguments="${arguments} -v '${var}'"
-  done
-
   if [ -n "${release_name}" ]; then
     cat << EOF > create-provided-release.yml
 ---
