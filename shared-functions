@@ -100,7 +100,9 @@ function close_bbl_ssh_connection() {
 
 function close_bbl_ssh_connection_and_commit_vars_store() {
   close_bbl_ssh_connection
-  commit_vars_store
+  if ${USE_VARS_STORE}; then
+    commit_vars_store
+  fi
 }
 
 function bosh_interpolate() {
@@ -116,7 +118,11 @@ function bosh_interpolate() {
   bosh_manifest="cf-deployment/${MANIFEST_FILE}"
 
   local arguments
-  arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
+  if ${USE_VARS_STORE}; then
+    arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
+  else
+    arguments="-v system_domain=${SYSTEM_DOMAIN}"
+  fi
 
   for op in ${OPS_FILES}
   do

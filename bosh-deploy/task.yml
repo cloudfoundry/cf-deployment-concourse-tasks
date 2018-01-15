@@ -40,6 +40,11 @@ params:
   # - Filepath to the BOSH deployment vars-store yaml file
   # - The path is relative to root of the `vars-store` input
 
+  USE_VARS_STORE: true
+  # - Required
+  # - Should use a file based vars-store, if set to false will
+  # - use credhub.
+
   SYSTEM_DOMAIN:
   # - Required
   # - CF system base domain e.g. `my-cf.com`
