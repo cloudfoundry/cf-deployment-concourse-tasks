@@ -152,12 +152,20 @@ EOF
 
   # We are intentionally passing a series of arguments here:
   # shellcheck disable=SC2086
-  bosh \
-    -n \
-    interpolate ${arguments} \
-    --var-errs \
-    "${bosh_manifest}" \
-    > "${INTERPOLATED_MANIFEST}"
+  if ${USE_VARS_STORE}; then
+    bosh \
+      -n \
+      interpolate ${arguments} \
+      --var-errs \
+      "${bosh_manifest}" \
+      > "${INTERPOLATED_MANIFEST}"
+  else
+    bosh \
+      -n \
+      interpolate ${arguments} \
+      "${bosh_manifest}" \
+      > "${INTERPOLATED_MANIFEST}"
+  fi
 }
 
 write_uptimer_deploy_config() {
