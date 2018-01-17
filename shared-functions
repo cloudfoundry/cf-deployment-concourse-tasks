@@ -153,6 +153,7 @@ EOF
   # We are intentionally passing a series of arguments here:
   # shellcheck disable=SC2086
   local bosh_arguments
+  bosh_arguments=""
   if ${USE_VARS_STORE}; then
     bosh_arguments="--var-errors"
   fi
