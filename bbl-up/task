@@ -129,7 +129,7 @@ function main() {
 
     if [ -n "${BBL_CUSTOMISATIONS}" ]; then
 	  for CUSTOMISATION in ${BBL_CUSTOMISATIONS}; do
-		cp bbl-customisations/${CUSTOMISATION} terraform/
+		cp ../../bbl-customisations/${CUSTOMISATION} terraform/
 	  done
 	fi 
 
