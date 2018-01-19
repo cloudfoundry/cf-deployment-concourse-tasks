@@ -128,7 +128,9 @@ function main() {
 	ls env-repo/${BBL_STATE_DIR}/terraform/
 
     if [ -n "${BBL_CUSTOMISATIONS}" ]; then
-	  echo "Adding bbl customisations...  ${BBL_CUSTOMISATIONS}"
+	  for CUSTOMISATION in ${BBL_CUSTOMISATIONS}; do
+		cp bbl-customisations/${CUSTOMISATION} env-repo/${BBL_STATE_DIR}/terraform/
+	  done
 	fi 
 
 
