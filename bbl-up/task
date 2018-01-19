@@ -125,13 +125,11 @@ function main() {
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
     fi
 	
-	ls env-repo
-	ls env-repo/${BBL_STATE_DIR}/
-	ls env-repo/${BBL_STATE_DIR}/terraform/
+	ls terraform/
 
     if [ -n "${BBL_CUSTOMISATIONS}" ]; then
 	  for CUSTOMISATION in ${BBL_CUSTOMISATIONS}; do
-		cp bbl-customisations/${CUSTOMISATION} env-repo/${BBL_STATE_DIR}/terraform/
+		cp bbl-customisations/${CUSTOMISATION} terraform/
 	  done
 	fi 
 
