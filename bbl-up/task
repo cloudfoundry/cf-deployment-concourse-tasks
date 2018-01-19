@@ -125,6 +125,13 @@ function main() {
       cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/* .
     fi
 
+	ls env-repo/${BBL_STATE_DIR}/terraform/
+
+    if [ -n "${BBL_CUSTOMISATIONS}" ]; then
+	  echo "Adding bbl customisations...  ${BBL_CUSTOMISATIONS}"
+	fi 
+
+
     bbl --debug up \
       ${name_flag} \
       ${lb_flags} \

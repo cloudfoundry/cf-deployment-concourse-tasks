@@ -11,6 +11,7 @@ inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: env-repo  # - The env repo containing the Director's bbl state dir
 - name: ops-files
+- name: bbl-customisations
 # - A directory containing ops files
 #   to be specifed with the `OPS_FILES` param
 # - If no ops files are necessary in your case,
@@ -86,6 +87,10 @@ params:
   # - Optional
   # - Extra flags to pass into bbl up
   # - Can be used for experimental features such as `--credhub`
+
+  BBL_CUSTOMISATIONS:
+  # - Optional
+  # - a list of terraform customisations to be added to bbl
 
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
