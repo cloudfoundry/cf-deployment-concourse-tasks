@@ -3,6 +3,7 @@ FROM ubuntu:trusty
 ENV GO_VERSION 1.9
 ENV JQ_VERSION 1.5
 ENV CF_CLI_VERSION 6.23.1
+ENV CREDHUB_CLI_VERSION 1.5.3
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
 ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
@@ -93,3 +94,9 @@ RUN go get -u github.com/cloudfoundry/uptimer && \
   cd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
     ginkgo -r -randomizeSuites -randomizeAllSpecs && \
   cd -
+
+RUN \
+  wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/${CREDHUB_CLI_VERSION}/credhub-linux-${CREDHUB_CLI_VERSION}.tgz -P /tmp && \
+  tar xvf /tmp/credhub-linux-${CREDHUB_CLI_VERSION}.tgz --strip-components=1 -C /usr/local/bin/ && \
+  cd /usr/local/bin && \
+  chmod +x credhub
