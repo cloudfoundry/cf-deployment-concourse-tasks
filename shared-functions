@@ -155,7 +155,7 @@ EOF
   local bosh_arguments
   bosh_arguments=""
   if ${USE_VARS_STORE}; then
-    bosh_arguments="--var-errors"
+    bosh_arguments="--var-errs"
   fi
 
   bosh \
