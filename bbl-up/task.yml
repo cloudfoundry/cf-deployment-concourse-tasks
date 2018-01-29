@@ -17,7 +17,9 @@ inputs:
 #   we suggest you use `input_mapping`
 #   to map your `env-repo` resource to `ops-files`
 #   in order to satisfy this required input.
-
+- name: bbl-customisations
+# - A directory containing a list of extra terraform
+#   scripts to be applied with bbl
 outputs:
 - name: updated-env-repo
 # - The env-repo resource, with changes git committed,
@@ -86,6 +88,12 @@ params:
   # - Optional
   # - Extra flags to pass into bbl up
   # - Can be used for experimental features such as `--credhub`
+
+  BBL_CUSTOMISATIONS:
+  # - Optional
+  # - a list of terraform customisations to be added to bbl
+  # - Files will be added to the terraform directory before the
+  # - plan is applied.
 
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
