@@ -76,7 +76,7 @@ This task requires
 a certificate and key
 (unless you are `bbl`ing up a bosh-lite environment)
 which can be generated using
-the commands specified [here][gcp-deployment-guide-on-certificates].
+the commands specified [here][deployment-guide-on-certificates].
 
 ### [bosh-cleanup][bosh-cleanup-task-yaml]
 This performs a BOSH cleanup
