@@ -1,6 +1,6 @@
 # cf-deployment-concourse-tasks
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
-If you are trying to deploy to GCP, you may wish to check the [GCP Deployment Guide][gcp-deployment-guide].
+If you are trying to deploy to IAAS, you may wish to check the [Deployment Guide][deployment-guide].
 Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
 a supporting task file, and a Dockerfile.
@@ -76,7 +76,7 @@ This task requires
 a certificate and key
 (unless you are `bbl`ing up a bosh-lite environment)
 which can be generated using
-the commands specified [here][gcp-deployment-guide-on-certificates].
+the commands specified [here][deployment-guide-on-certificates].
 
 ### [bosh-cleanup][bosh-cleanup-task-yaml]
 This performs a BOSH cleanup
