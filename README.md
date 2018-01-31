@@ -1,6 +1,6 @@
 # cf-deployment-concourse-tasks
 This repo contains concourse tasks for use with [cf-deployment][cf-deployment-repo].
-If you are trying to deploy to GCP, you may wish to check the [GCP Deployment Guide][gcp-deployment-guide].
+If you are trying to deploy to IAAS, you may wish to check the [Deployment Guide][deployment-guide].
 Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
 a supporting task file, and a Dockerfile.
