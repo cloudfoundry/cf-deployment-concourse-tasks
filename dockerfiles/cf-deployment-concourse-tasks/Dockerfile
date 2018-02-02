@@ -2,11 +2,10 @@ FROM ubuntu:trusty
 
 ENV GO_VERSION 1.9
 ENV JQ_VERSION 1.5
-ENV CF_CLI_VERSION 6.23.1
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
-ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
 
+ENV cf_cli_version 6.23.1
 ENV bosh_cli_version 2.0.48
 ENV bbl_version 5.11.6
 ENV terraform_version 0.11.3
@@ -54,8 +53,7 @@ RUN \
 # cf-cli
 RUN \
   cd /tmp && \
-  wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${CF_CLI_VERSION}&source=github-rel" && \
-  echo "${CF_CLI_CHECKSUM} cf.deb" | sha1sum -c - && \
+  wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
   dpkg -i cf.deb && \
   rm cf.deb
 
