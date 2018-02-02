@@ -10,6 +10,7 @@ ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
 ENV bosh_cli_version 2.0.48
 ENV bbl_version 5.11.6
 ENV terraform_version 0.11.3
+ENV credhub_cli_version 1.5.2
 
 RUN \
   apt-get update && \
@@ -57,6 +58,12 @@ RUN \
   echo "${CF_CLI_CHECKSUM} cf.deb" | sha1sum -c - && \
   dpkg -i cf.deb && \
   rm cf.deb
+
+# credhub-cli
+RUN \
+  wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-${credhub_cli_version}.tgz -P /tmp && \
+  tar xzvf /tmp/credhub-linux-${credhub_cli_version}.tgz -C /usr/local/bin && \
+  chmod +x /usr/local/bin/credhub
 
 # bbl and dependencies
 RUN \
