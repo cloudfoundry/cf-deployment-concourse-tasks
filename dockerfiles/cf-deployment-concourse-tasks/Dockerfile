@@ -10,7 +10,7 @@ ENV CF_CLI_CHECKSUM b25260f46bf24d1e2586c1f4d67db3fdd89f0144
 ENV bosh_cli_version 2.0.48
 ENV bbl_version 5.11.6
 ENV terraform_version 0.11.3
-ENV credhub_cli_version 1.5.2
+ENV credhub_cli_version 1.5.3
 
 RUN \
   apt-get update && \
