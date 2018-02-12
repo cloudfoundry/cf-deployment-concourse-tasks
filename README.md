@@ -157,8 +157,8 @@ a vars-store.
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [collect-ops-files]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/collect-ops-files/task.yml
 [deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
-[gcp-deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md
-[gcp-deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/gcp-deployment-guide.md#on-certificates
+[deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md
+[deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
