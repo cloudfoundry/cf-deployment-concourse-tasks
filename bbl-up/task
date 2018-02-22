@@ -18,7 +18,7 @@ function commit_bbl_state_dir_new {
 
   pushd "${root_dir}"
     shopt -s dotglob
-    cp -R env-repo/* updated-env-repo/
+    cp -R bbl-state/* updated-bbl-state/
   popd
 }
 
