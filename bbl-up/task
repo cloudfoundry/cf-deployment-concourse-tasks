@@ -3,6 +3,25 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+function commit_bbl_state_dir_new {
+  local root_dir
+  root_dir="${1}"
+  commit_message="${2}"
+
+  pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
+    if [[ -n $(git status --porcelain) ]]; then
+      set_git_config
+      git add --all .
+      git commit -m "${commit_message}"
+    fi
+  popd
+
+  pushd "${root_dir}"
+    shopt -s dotglob
+    cp -R env-repo/* updated-env-repo/
+  popd
+}
+
 function check_fast_fails() {
   set +x
 
@@ -133,6 +152,6 @@ function main() {
   popd
 }
 
-trap "commit_bbl_state_dir ${PWD} 'Update bbl state dir'" EXIT
+trap "commit_bbl_state_dir_new ${PWD} 'Update bbl state dir'" EXIT
 
 main ${PWD}
