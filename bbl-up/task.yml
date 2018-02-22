@@ -9,8 +9,8 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
-- name: env-repo  # - The env repo containing the Director's bbl state dir
-- name: ops-files
+- name: bbl-state # - The env repo containing the Director's bbl state dir
+- name: bbl-config
 # - A directory containing ops files
 #   to be specifed with the `OPS_FILES` param
 # - If no ops files are necessary in your case,
@@ -46,6 +46,8 @@ params:
   # - The path is relative to the `env-repo` input
   # - If blank or '.', uses `env-repo` input as the location for bbl state
   # - If the specified path does not exist, it will be created
+
+  BBL_CONFIG_DIR: bbl-config
 
   BBL_IAAS:
   # - Required
