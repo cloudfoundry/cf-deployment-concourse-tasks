@@ -137,9 +137,7 @@ function main() {
 
     # TODO: if bbl-state != bbl-config
     # TODO: guard against attempts to use both OPS_FILES && plan patch - one or the other only!
-    if [ -d ${root_dir}/bbl-config/${BBL_CONFIG_DIR} ]; then
-      cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
-    fi
+    cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. . 2>/dev/null | true
 
     bbl plan \
       ${name_flag} \
