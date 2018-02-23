@@ -137,8 +137,7 @@ function main() {
 
     # TODO: if bbl-state != bbl-config
     # TODO: guard against attempts to use both OPS_FILES && plan patch - one or the other only!
-    cp -r /var/repos/bosh-bootloader/plan-patches/bosh-lite-gcp/. .
-    # cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
+    cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
 
     bbl plan \
       ${name_flag} \
