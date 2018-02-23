@@ -10,7 +10,7 @@ image_resource:
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: bbl-state  # - The env repo containing the Director's bbl state dir
-- name: bbl-config
+- name: bbl-config  # - The env repo containing the Director's bbl config dir
 # - A directory containing ops files
 #   to be specifed with the `OPS_FILES` param
 # - If no ops files are necessary in your case,
