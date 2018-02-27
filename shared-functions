@@ -56,7 +56,7 @@ function commit_bbl_state_dir {
 
   pushd "${root_dir}"
     shopt -s dotglob
-    cp -R "${commit_dir}/*" "updated-${commit_dir}/"
+    cp -R "${commit_dir}/." "updated-${commit_dir}/"
   popd
 }
 
