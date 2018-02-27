@@ -134,14 +134,13 @@ function main() {
       lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
     fi
 
-
-    cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. . 2>/dev/null | true
-
     bbl plan \
       ${name_flag} \
       ${ops_arguments} \
       ${lb_flags} \
       ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+
+    cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. . 2>/dev/null | true
 
     bbl --debug up \
       ${name_flag} \
