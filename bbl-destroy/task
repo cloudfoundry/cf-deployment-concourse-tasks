@@ -9,12 +9,12 @@ function main() {
 
   check_bbl_input_params
 
-  pushd "env-repo/${BBL_STATE_DIR}"
+  pushd "bbl-state/${BBL_STATE_DIR}"
     local bbl_iaas
     bbl_iaas=$(jq -r .iaas bbl-state.json)
 
     if [ "${bbl_iaas}" == "gcp" ]; then
-      pushd "${root_dir}/env-repo"
+      pushd "${root_dir}/bbl-state"
         write_gcp_service_account_key
       popd
     fi
@@ -29,6 +29,6 @@ function main() {
   close_bbl_ssh_connection
 }
 
-trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir'" EXIT
+trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir' 'bbl-state'" EXIT
 
 main ${PWD}
