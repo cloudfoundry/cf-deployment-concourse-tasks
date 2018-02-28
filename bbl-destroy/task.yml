@@ -11,7 +11,7 @@ inputs:
 - name: bbl-state   # - The env repo containing the Director's bbl state dir
 
 outputs:
-- name: updated-env-repo
+- name: updated-bbl-state
 # - The env-repo resource, with changes git committed,
 #   ready to be `put` to a git resource.
 # - This output _must_ be persisted for these tasks to function properly
