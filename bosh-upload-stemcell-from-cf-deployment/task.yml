@@ -18,33 +18,14 @@ run:
 params:
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to the `env-repo` input
-  # - If blank or '.', uses `env-repo` input as the location for bbl state
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
   # - If the specified path does not exist, it will be created
 
   INFRASTRUCTURE: google
   # - Required
   # - Used to determine which stemcell will be uploaded
   # - Must be one of: aws, bosh-lite, google, or vsphere
-
-  # AWS Configuration Params
-  # - Required for AWS
-  #   if environment was created with bbl up --credhub
-  # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl_state.json,
-  #   so these are unnecessary.
-  BBL_AWS_ACCESS_KEY_ID:
-  BBL_AWS_SECRET_ACCESS_KEY:
-
-  # GCP Configuration Params
-  # - Required for GCP
-  #   if environment was created with bbl up --credhub
-  # - Absent the `--credhub` flag,
-  #   the IaaS credentials are instead stored in the bbl_state.json,
-  #   so these are unnecessary.
-  BBL_GCP_SERVICE_ACCOUNT_KEY:
-  # - Key content or path to the file containing credentials downloaded from GCP
-  # - Path is relative to the BBL_STATE_DIR specified a
 
   MANIFEST_FILE: cf-deployment.yml
   # - Required
