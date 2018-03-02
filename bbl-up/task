@@ -6,12 +6,7 @@ source cf-deployment-concourse-tasks/shared-functions
 function check_fast_fails() {
   set +x
 
-  if [ "${create_lbs}" != "true" ]; then
-    if [ "${BBL_IAAS}" != "gcp" ]; then
-      echo "\$IS_BOSH_LITE requires \$BBL_IAAS to be set to 'gcp'"
-      exit 1
-    fi
-  else
+  if [ "${SKIP_LB_CREATION}" == "false" ]; then
     if [ -z "${LB_DOMAIN}" ]; then
       echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
       exit 1
@@ -69,21 +64,7 @@ function main() {
   local root_dir
   root_dir="${1}"
 
-  create_lbs=false
-
-  if [ "${IS_BOSH_LITE}" == "false" ] && [ "${SKIP_LB_CREATION}" == "false" ]; then
-    create_lbs=true
-  fi
-
   check_fast_fails
-
-  local ops_arguments
-  ops_arguments=""
-
-  if [ -n "${OPS_FILES}" ]; then
-    make_concatenated_operations_file ${root_dir}
-    ops_arguments="--ops-file ${root_dir}/bbl-config/concatenated-operations.yml"
-  fi
 
   if [ "${BBL_IAAS}" == "gcp" ]; then
     pushd "bbl-state"
@@ -105,7 +86,7 @@ function main() {
     local lb_flags
     lb_flags=""
 
-    if [ "${create_lbs}" == "true" ]; then
+    if [ "${SKIP_LB_CREATION}" == "false" ]; then
       local bbl_cert_chain_flag
       bbl_cert_chain_flag=""
       local bbl_cert_path
@@ -117,20 +98,18 @@ function main() {
 
     bbl plan \
       ${name_flag} \
-      ${ops_arguments} \
-      ${lb_flags} \
-      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_plan.txt"
+      ${lb_flags} > "${root_dir}/bbl_plan.txt"
 
-    cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. . 2>/dev/null | true
+    if [ -n "${BBL_CONFIG_DIR}" ]; then
+      cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
+    fi
 
     bbl --debug up \
       ${name_flag} \
-      ${lb_flags} \
-      ${ops_arguments} \
-      ${BBL_EXTRA_FLAGS} > "${root_dir}/bbl_up.txt"
+      ${lb_flags} > "${root_dir}/bbl_up.txt"
   popd
 }
 
-trap "commit_bbl_state_dir ${PWD} 'Update bbl state dir' 'bbl-state'" EXIT
+trap "commit_bbl_state_dir ${PWD} 'Update bbl state dir'" EXIT
 
 main ${PWD}

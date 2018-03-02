@@ -5,21 +5,20 @@ image_resource:
   type: docker-image
   source:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v4.12.0
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: bbl-state  # - The env repo containing the Director's bbl state dir
-- name: bbl-config  # - The env repo containing the Director's bbl config dir
-# - A directory containing ops files
-#   to be specifed with the `OPS_FILES` param
-# - If no ops files are necessary in your case,
+- name: bbl-config  # - The repo containing bbl plan patches
+# - If no plan patches are necessary in your case,
 #   we suggest you use `input_mapping`
-#   to map your `env-repo` resource to `ops-files`
+#   to map your `bbl-state` resource to `bbl-config`
 #   in order to satisfy this required input.
 
 outputs:
 - name: updated-bbl-state
-# - The env-repo resource, with changes git committed,
+# - The bbl-state resource, with changes git committed,
 # - ready to be `put` to a git resource.
 # - This output _must_ be persisted for these tasks to function properly
 
@@ -37,16 +36,18 @@ params:
   # - Required for GCP
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
-  # - Path is relative to the `env-repo` input
+  # - Path is relative to the `bbl-state` input
   BBL_GCP_REGION:
 
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to the `env-repo` input
-  # - If blank or '.', uses `env-repo` input as the location for bbl state
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
   # - If the specified path does not exist, it will be created
 
-  BBL_CONFIG_DIR: bbl-config
+  BBL_CONFIG_DIR:
+  # - Path to the directory containing bbl plan patches
+  # - The path is relative to the `bbl-config` input
 
   BBL_IAAS:
   # - Required
@@ -54,7 +55,7 @@ params:
   # - Must be either `aws` or `gcp`
 
   BBL_LB_CERT:
-  # - Required if `IS_BOSH_LITE` is false
+  # - Required if `SKIP_LB_CREATION` is false
   # - PEM encoded certificate to be associated with the load balancer
   #   for SSL termination
   # - Can be either the certificate content or a path to the certificate
@@ -68,14 +69,14 @@ params:
   # - If a path is provided, path is relative to the BBL_STATE_DIR
 
   BBL_LB_KEY:
-  # - Required if `IS_BOSH_LITE` is false
+  # - Required if `SKIP_LB_CREATION` is false
   # - PEM-encoded private key to be used for TLS termination on the load
   #   balancer.
   # - Can be either the key content or a path to the key
   # - If a path is provided, path is relative to the BBL_STATE_DIR
 
   LB_DOMAIN:
-  # - Required if `IS_BOSH_LITE` is false
+  # - Required if `SKIP_LB_CREATION` is false
   # - The domain which bbl will register
 
   BBL_ENV_NAME:
@@ -111,5 +112,5 @@ params:
 
   SKIP_LB_CREATION: false
   # - Optional
-  # - Set to `true` to skip load balancer creation
-  # - Ignored if IS_BOSH_LITE is set to `true`
+  # - Set to `true` to skip load balancer creation,
+  # - for example, a BOSH Lite environment

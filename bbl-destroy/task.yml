@@ -5,6 +5,7 @@ image_resource:
   type: docker-image
   source:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v4.12.0
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
@@ -12,7 +13,7 @@ inputs:
 
 outputs:
 - name: updated-bbl-state
-# - The env-repo resource, with changes git committed,
+# - The bbl-state resource, with changes git committed,
 #   ready to be `put` to a git resource.
 # - This output _must_ be persisted for these tasks to function properly
 
@@ -22,14 +23,13 @@ run:
 params:
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
-  # - The path is relative to the `env-repo` input
-  # - If blank or '.', uses `env-repo` input as the location for bbl state
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
 
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
   # - Optional
-  # - You may choose the git committer username and email address by setting these
-  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+  # - You may choose the git committer username and email address by setting these - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
 
   # AWS Configuration Params
   # - Required for AWS
@@ -40,4 +40,4 @@ params:
   # - Required for GCP
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
-  # - Path is relative to the `env-repo` input
+  # - Path is relative to the `bbl-state` input

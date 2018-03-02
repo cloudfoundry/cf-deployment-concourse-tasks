@@ -29,6 +29,6 @@ function main() {
   close_bbl_ssh_connection
 }
 
-trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir' 'bbl-state'" EXIT
+trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir'" EXIT
 
 main ${PWD}

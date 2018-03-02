@@ -43,10 +43,8 @@ function commit_bbl_state_dir {
   root_dir="${1}"
   local commit_message
   commit_message="${2}"
-  local commit_dir
-  commit_dir="${3:-env-repo}"
 
-  pushd "${root_dir}/${commit_dir}/${BBL_STATE_DIR}"
+  pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
       git add --all .
@@ -56,7 +54,7 @@ function commit_bbl_state_dir {
 
   pushd "${root_dir}"
     shopt -s dotglob
-    cp -R "${commit_dir}/." "updated-${commit_dir}/"
+    cp -R "bbl-state/." "updated-bbl-state/"
   popd
 }
 
@@ -87,10 +85,8 @@ function commit_vars_store() {
 }
 
 function setup_bosh_env_vars() {
-  local bbl_state_dir
-  bbl_state_dir="${1:-env-repo}"
   set +ux
-  pushd "${bbl_state_dir}/${BBL_STATE_DIR}"
+  pushd "bbl-state/${BBL_STATE_DIR}"
     eval "$(bbl print-env)"
   popd
   set -ux
