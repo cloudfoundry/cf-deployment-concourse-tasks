@@ -92,12 +92,6 @@ params:
   # - If you leave them blank, they are set to
   #   'CI Bot' and 'cf-release-integration@pivotal.io'
 
-  IS_BOSH_LITE: false
-  # - Optional
-  # - Set to `true` to deploy bosh in a lite configuration
-  # - NOTE - Requires BBL_IAAS=`gcp` -
-  #   AWS is not currently supported.
-
   SKIP_LB_CREATION: false
   # - Optional
   # - Set to `true` to skip load balancer creation,
