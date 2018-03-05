@@ -17,6 +17,4 @@ function main() {
   bosh_clean_up
 }
 
-trap close_bbl_ssh_connection EXIT
-
 main

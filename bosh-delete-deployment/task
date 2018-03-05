@@ -4,8 +4,6 @@ set -exu
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-trap close_bbl_ssh_connection EXIT
-
 function check_delete_deployment_params() {
   if [ -z "$DEPLOYMENT_NAME" ]; then
     echo "DEPLOYMENT_NAME has not been set"

@@ -92,15 +92,7 @@ function setup_bosh_env_vars() {
   set -ux
 }
 
-function close_bbl_ssh_connection() {
-  # Kill all ssh connections on exit.
-  # This is needed so that tasks using bbl print-env in a credhub environment
-  # don't hang after the script is finished.
-  pkill ssh || true
-}
-
 function close_bbl_ssh_connection_and_commit_vars_store() {
-  close_bbl_ssh_connection
   if ${USE_VARS_STORE}; then
     commit_vars_store
   fi
