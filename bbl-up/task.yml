@@ -84,11 +84,6 @@ params:
   # - A label to apply to the bbl environment
   # - Label will appear in the IaaS metadata/interface
 
-  BBL_EXTRA_FLAGS:
-  # - Optional
-  # - Extra flags to pass into bbl up
-  # - Can be used for experimental features such as `--credhub`
-
   GIT_COMMIT_EMAIL:
   GIT_COMMIT_USERNAME:
   # - Optional
