@@ -3,6 +3,10 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+if [ "$USE_VARS_STORE" == true ]; then
+  trap commit_vars_store EXIT
+fi
+
 optional_submodule_bump() {
   set +x
     if [ -z "${BUMP_SUBMODULE}" ] && ! [ -z "${SUBMODULE_BRANCH}" ]; then
@@ -37,7 +41,5 @@ main() {
   bosh_interpolate "${root_dir}" "$(grep final_name release/config/final.yml | awk '{print $2}')"
   bosh_deploy
 }
-
-trap close_bbl_ssh_connection_and_commit_vars_store EXIT
 
 main "${PWD}"

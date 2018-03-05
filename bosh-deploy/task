@@ -3,16 +3,18 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+if [ "$USE_VARS_STORE" == true ]; then
+  trap commit_vars_store EXIT
+fi
+
 function main() {
   check_input_params
   setup_bosh_env_vars
-  if ${REGENERATE_VARS_STORE}; then
+  if [ "$REGENERATE_VARS_STORE" == true ]; then
     remove_vars_store
   fi
   bosh_interpolate
   bosh_deploy
 }
-
-trap close_bbl_ssh_connection_and_commit_vars_store EXIT
 
 main
