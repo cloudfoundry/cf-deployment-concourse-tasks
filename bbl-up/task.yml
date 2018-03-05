@@ -46,8 +46,10 @@ params:
   # - If the specified path does not exist, it will be created
 
   BBL_CONFIG_DIR:
+  # - Optional
   # - Path to the directory containing bbl plan patches
   # - The path is relative to the `bbl-config` input
+  # - If left empty, no customizations (i.e. ops-files, terraform templates, etc.) will be applied during `bbl up`
 
   BBL_IAAS:
   # - Required
