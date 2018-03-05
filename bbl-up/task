@@ -51,15 +51,6 @@ function write_bbl_certs() {
   set -x
 }
 
-function make_concatenated_operations_file() {
-  local root_dir
-  root_dir="${1}"
-
-  pushd "${root_dir}/bbl-config"
-    cat $OPS_FILES | grep -v "\-\-\-" > concatenated-operations.yml
-  popd
-}
-
 function main() {
   local root_dir
   root_dir="${1}"

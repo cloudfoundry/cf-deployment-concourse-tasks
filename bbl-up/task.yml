@@ -92,13 +92,6 @@ params:
   # - If you leave them blank, they are set to
   #   'CI Bot' and 'cf-release-integration@pivotal.io'
 
-  OPS_FILES:
-  # - Optional
-  # - List of operations files to be applied to the manifest
-  # - Quoted and space-separated
-  # - Ops will be applied in the order they're listed
-  # - Paths are relative to root of the `ops-files` input
-
   IS_BOSH_LITE: false
   # - Optional
   # - Set to `true` to deploy bosh in a lite configuration
