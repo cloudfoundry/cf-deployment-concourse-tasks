@@ -22,6 +22,20 @@ run:
 
 params:
   NODES: 12
+  # - Optional
+  # - Number of parallel ginkgo nodes.
+
   CONFIG_FILE_PATH: integration_config.json
+  # - Optional
+  # - Path to the CATs integration configuration file.
+  # - The path is relative to the `integration-config` input.
+
   SKIP_REGEXP:
+  # - Optional
+  # - A regular expression to be passed to the ginkgo's `-skip` flag.
+  # - If set, ginkgo will skip tests that match this regular experession.
+
   CAPTURE_LOGS: false
+  # - Optional
+  # - If set to `true`, the task will capture logs and save them
+  #   to the output directory

@@ -135,6 +135,14 @@ the operations file
 from the second ("new") set
 wins.
 
+### [run-cats][run-cats-task-yaml]
+This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
+against a CF environment specified by the CATs integration file.
+
+### [run-cats-with-provided-cli][run-cats-with-provided-cli-task-yaml]
+This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
+with a provided CF CLI binary.
+
 ### [set-feature-flags][set-feature-flags-task-yaml]
 This will
 toggle
@@ -160,6 +168,8 @@ a vars-store.
 [deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md
 [deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[run-cats-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/run-cats/task.yml
+[run-cats-with-provided-cli-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/run-cats-with-provided-cli/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
 [update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
