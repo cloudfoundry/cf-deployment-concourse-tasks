@@ -1,0 +1,27 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v5.0.0
+
+inputs:
+- name: cf-deployment-concourse-tasks
+- name: cf-acceptance-tests
+- name: integration-config
+- name: cf-cli
+# - Input to run your own cf-cli binary
+
+outputs:
+- name: cats-trace-output
+
+run:
+  path: cf-deployment-concourse-tasks/run-cats-with-provided-cli/task
+
+params:
+  NODES: 12
+  CONFIG_FILE_PATH: integration_config.json
+  SKIP_REGEXP:
+  CAPTURE_LOGS: false

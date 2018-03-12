@@ -1,0 +1,39 @@
+#!/bin/bash
+set -xeu
+
+build_dir=${PWD}
+
+export CONFIG
+original_config="$PWD/integration-config/${CONFIG_FILE_PATH}"
+
+if ${CAPTURE_LOGS}; then
+  CONFIG=$(mktemp)
+  jq ".artifacts_directory=\"${build_dir}/cats-trace-output\"" ${original_config} > ${CONFIG}
+else
+  CONFIG=${original_config}
+fi
+
+CF_GOPATH=/go/src/github.com/cloudfoundry/
+
+echo "Moving cf-acceptance-tests onto the gopath..."
+mkdir -p $CF_GOPATH
+cp -R cf-acceptance-tests $CF_GOPATH
+
+cd /go/src/github.com/cloudfoundry/cf-acceptance-tests
+
+export CF_DIAL_TIMEOUT=11
+
+export CF_PLUGIN_HOME=$HOME
+
+./bin/test \
+-keepGoing \
+-randomizeAllSpecs \
+-skipPackage=helpers \
+-slowSpecThreshold=120 \
+-nodes="${NODES}" \
+-skip="${SKIP_REGEXP}" \
+-flakeAttempts=2 \
+-noisySkippings=false
+#! flakeAttempts re-added 9/15 to mitigate reliability issues with Load Balancer 502s.
+#! This is a temporary measure, and should be removed
+#! as soon as the 502 issues are resolved or mitigated some other way.
