@@ -67,9 +67,8 @@ to create your infrastructure
 and deploy a BOSH director.
 Debug output
 is written to
-bbl_up.txt,
-bbl_create_lbs.txt,
-and bbl_update_lbs.txt
+`bbl_plan.txt` and
+`bbl_up.txt`
 to help debug failures
 in this task.
 This task requires
@@ -141,7 +140,7 @@ against a CF environment specified by the CATs integration file.
 
 ### [run-cats-with-provided-cli][run-cats-with-provided-cli-task-yaml]
 This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
-with a provided CF CLI binary.
+with the provided CF CLI binary.
 
 ### [set-feature-flags][set-feature-flags-task-yaml]
 This will
