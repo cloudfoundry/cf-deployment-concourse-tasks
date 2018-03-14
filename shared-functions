@@ -241,15 +241,17 @@ function bosh_deploy() {
   local deployment_name
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
-  if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
-    uptimer_bosh_deploy
-  else
-    bosh \
-      -n \
-      -d "${deployment_name}" \
-      deploy \
-      "${INTERPOLATED_MANIFEST}"
-  fi
+  pushd cf-deployment > /dev/null
+    if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
+      uptimer_bosh_deploy
+    else
+      bosh \
+        -n \
+        -d "${deployment_name}" \
+        deploy \
+        "${INTERPOLATED_MANIFEST}"
+    fi
+  popd
 }
 
 function remove_vars_store() {
