@@ -223,11 +223,13 @@ function uptimer_bosh_deploy() {
 
   uptimer_config=$(mktemp)
   write_uptimer_deploy_config "${deployment_name}" "${INTERPOLATED_MANIFEST}" > ${uptimer_config}
-  set +e
-  local exitStatus
-  uptimer -configFile ${uptimer_config}
-  exitStatus=$?
-  set -e
+  pushd cf-deployment > /dev/null
+    set +e
+    local exitStatus
+    uptimer -configFile ${uptimer_config}
+    exitStatus=$?
+    set -e
+  popd
 
   # exitStatus 64 means that there was downtime, but the deployment was successful
   if [ "${FAIL_ON_DOWNTIME}" = "false" ] && [ $exitStatus == 64 ]; then
@@ -241,17 +243,17 @@ function bosh_deploy() {
   local deployment_name
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
-  pushd cf-deployment > /dev/null
-    if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
-      uptimer_bosh_deploy
-    else
+  if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
+    uptimer_bosh_deploy
+  else
+    pushd cf-deployment > /dev/null
       bosh \
         -n \
         -d "${deployment_name}" \
         deploy \
         "${INTERPOLATED_MANIFEST}"
-    fi
-  popd
+    popd
+  fi
 }
 
 function remove_vars_store() {
