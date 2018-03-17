@@ -1,0 +1,55 @@
+#!/bin/bash -exu
+
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+if [ -z "${SYSTEM_DOMAIN}" ]; then
+  echo '$SYSTEM_DOMAIN is a required parameter'
+  exit 1
+fi
+
+function set_enabled_feature_flags() {
+  if [ ! -z "${ENABLED_FEATURE_FLAGS}" ]; then
+    for flag in $ENABLED_FEATURE_FLAGS; do
+      set_feature_flag "$flag" true
+    done
+  fi
+}
+
+function set_disabled_feature_flags() {
+  if [ ! -z "${DISABLED_FEATURE_FLAGS}" ]; then
+    for flag in $DISABLED_FEATURE_FLAGS; do
+      set_feature_flag "$flag" false
+    done
+  fi
+}
+
+function set_feature_flag() {
+  if [ $2 == true ]; then
+    cf enable-feature-flag "$1"
+  else
+    cf disable-feature-flag "$1"
+  fi
+}
+
+function cf_login() {
+  set +x
+  echo "Authenticating as CF admin"
+  local cf_password=$(credhub find -j -n cf_admin_password | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
+  cf auth admin ${cf_password}
+  set -x
+}
+
+function main() {
+  cf api --skip-ssl-validation "api.${SYSTEM_DOMAIN}"
+
+  setup_bosh_env_vars
+  cf_login
+
+  set_enabled_feature_flags
+  set_disabled_feature_flags
+
+  cf feature-flags
+}
+
+main
