@@ -9,7 +9,10 @@ image_resource:
 
 inputs:
 - name: cf-deployment-concourse-tasks # - This repo
-- name: bbl-state # - Repo with output of `bbl up`
+- name: bbl-state  # - The repo containing the Director's bbl state dir
+
+run:
+  path: cf-deployment-concourse-tasks/credhub-compatible/set-feature-flags/task
 
 params:
   SYSTEM_DOMAIN:
@@ -30,6 +33,3 @@ params:
   DISABLED_FEATURE_FLAGS:
   # - Optional
   # - Space seperated list of feature flag names to disable
-
-run:
-  path: cf-deployment-concourse-tasks/credhub-compatible/set-feature-flags/task

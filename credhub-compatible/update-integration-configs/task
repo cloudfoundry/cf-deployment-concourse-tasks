@@ -1,0 +1,94 @@
+#!/bin/bash -eu
+set -o pipefail
+
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+function check_fast_fails() {
+  if [ ! -f "integration-configs/$CATS_INTEGRATION_CONFIG_FILE" -a ! -f "integration-configs/$RATS_INTEGRATION_CONFIG_FILE" ]; then
+    echo "Neither cats_integration_config file nor rats_integration_config file is present...Exiting"
+    exit 1
+  fi
+}
+
+
+function commit_integration_configs {
+  set -x
+  pushd integration-configs
+    if [[ -n $(git status --porcelain) ]]; then
+      set_git_config
+
+      if [ -f "${CATS_INTEGRATION_CONFIG_FILE}" ]; then
+        git add "${CATS_INTEGRATION_CONFIG_FILE}"
+      fi
+
+      if [ -f "${RATS_INTEGRATION_CONFIG_FILE}" ]; then
+        git add "${RATS_INTEGRATION_CONFIG_FILE}"
+      fi
+
+      if [ -f "${WATS_INTEGRATION_CONFIG_FILE}" ]; then
+        git add "${WATS_INTEGRATION_CONFIG_FILE}"
+      fi
+
+      git commit -m "Update integration configs"
+    fi
+  popd
+
+  git clone integration-configs/ updated-integration-configs
+  set +x
+}
+
+function main() {
+  local root_dir
+  root_dir="${1}"
+
+  check_fast_fails
+  setup_bosh_env_vars
+
+  local admin_password
+  admin_password=$(get_password_from_credhub cf_admin_password)
+
+  if [ -f "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}" ]; then
+    echo "updating CATs integration config file: ${CATS_INTEGRATION_CONFIG_FILE}..."
+
+    local new_cats_integration_config
+    new_cats_integration_config=$(cat "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}" | jq ".admin_password=\"${admin_password}\"")
+
+    local credhub_secret=$(get_password_from_credhub uaa_clients_cc_service_key_client_secret)
+    new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".credhub_secret=\"${credhub_secret}\"")
+
+    if [ -n "${SYSTEM_DOMAIN}" ]; then
+      new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".api=\"api.${SYSTEM_DOMAIN}\" | .apps_domain=\"${SYSTEM_DOMAIN}\"")
+    fi
+
+    echo "${new_cats_integration_config}" > "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}"
+  fi
+
+  if [ -f "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}" ]; then
+    echo "updating RATs integration config file: ${RATS_INTEGRATION_CONFIG_FILE}..."
+
+    local uaa_clients_routing_api_client_secret
+    uaa_clients_routing_api_client_secret=$(get_password_from_credhub uaa_clients_routing_api_client_secret)
+
+    local new_rats_integration_config
+    new_rats_integration_config=$(cat "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}")
+    new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".admin_password=\"${admin_password}\"")
+    new_rats_integration_config=$(echo ${new_rats_integration_config} | jq ".oauth*={\"client_secret\":\"${uaa_clients_routing_api_client_secret}\"}")
+
+    echo "${new_rats_integration_config}" > "integration-configs/${RATS_INTEGRATION_CONFIG_FILE}"
+  fi
+
+  if [ -f "integration-configs/${WATS_INTEGRATION_CONFIG_FILE}" ]; then
+    echo "updating WATs integration config file: ${WATS_INTEGRATION_CONFIG_FILE}..."
+
+    local new_cats_integration_config
+    new_wats_integration_config=$(cat "integration-configs/${WATS_INTEGRATION_CONFIG_FILE}" | jq ".admin_password=\"${admin_password}\"")
+
+    echo "${new_wats_integration_config}" > "integration-configs/${WATS_INTEGRATION_CONFIG_FILE}"
+  fi
+
+}
+
+trap commit_integration_configs EXIT
+
+main "${PWD}"

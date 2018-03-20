@@ -1,0 +1,48 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v5.4.0
+
+inputs:
+- name: bbl-state  # - The repo containing the Director's bbl state dir
+- name: cf-deployment-concourse-tasks # - This repo
+- name: integration-configs # - Integration configs to be updated
+
+outputs:
+- name: updated-integration-configs
+  # The integration-configs input, with changes git committed,
+  # ready to be `put` to a git resource.
+
+run:
+  path: cf-deployment-concourse-tasks/credhub-compatible/update-integration-configs/task
+
+params:
+  # Config Filepaths
+  # - At least one of these must be specified and present
+  # - It's fine to set both
+  # - These paths are relative to root of the `integration-configs` input
+  CATS_INTEGRATION_CONFIG_FILE: cats_integration_config.json
+  RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
+  WATS_INTEGRATION_CONFIG_FILE: wats_integration_config.json
+
+  BBL_STATE_DIR: bbl-state
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
+
+  SYSTEM_DOMAIN:
+  # - Optional
+  # - CF system base domain e.g. `my-cf.com`
+  # - Should match the value passed to `bosh-deploy`
+
+  GIT_COMMIT_EMAIL:
+  GIT_COMMIT_USERNAME:
+  # - Optional
+  # - You may choose the git committer username and email address by setting these
+  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively

@@ -85,11 +85,27 @@ function commit_vars_store() {
 }
 
 function setup_bosh_env_vars() {
-  set +ux
+  local stealth_mode=true
+
+  if [[ "$-" == *x* ]]; then
+    stealth_mode=false
+  fi
+
+  if [ ${stealth_mode} == false ]; then
+    set +ux
+  else
+    set +u
+  fi
+
   pushd "bbl-state/${BBL_STATE_DIR}"
     eval "$(bbl print-env)"
   popd
-  set -ux
+
+  if [ "${steath_mode}" == false ]; then
+    set -ux
+  else
+    set -u
+  fi
 }
 
 function bosh_interpolate() {
