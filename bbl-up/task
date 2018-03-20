@@ -3,6 +3,10 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+if [ -z "${GIT_COMMIT_MESSAGE}" ]; then
+  GIT_COMMIT_MESSAGE="Update bbl state dir"
+fi
+
 function check_fast_fails() {
   set +x
 
@@ -101,6 +105,6 @@ function main() {
   popd
 }
 
-trap "commit_bbl_state_dir ${PWD} 'Update bbl state dir'" EXIT
+trap "commit_bbl_state_dir ${PWD} '${GIT_COMMIT_MESSAGE}'" EXIT
 
 main ${PWD}
