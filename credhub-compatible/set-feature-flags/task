@@ -35,8 +35,7 @@ function set_feature_flag() {
 function cf_login() {
   set +x
   echo "Authenticating as CF admin"
-  local cf_password=$(credhub find -j -n cf_admin_password | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
-  cf auth admin ${cf_password}
+  cf auth admin $(get_password_from_credhub cf_admin_password)
   set -x
 }
 

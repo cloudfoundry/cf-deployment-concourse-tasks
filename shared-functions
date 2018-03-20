@@ -270,3 +270,10 @@ write_gcp_service_account_key() {
   export BBL_GCP_SERVICE_ACCOUNT_KEY="/tmp/google_service_account.json"
   set -x
 }
+
+get_password_from_credhub() {
+  set +x
+  local bosh_manifest_password_variable_name=$1
+  echo $(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
+  set -x
+}
