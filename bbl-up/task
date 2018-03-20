@@ -3,10 +3,6 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-if [ -z "${GIT_COMMIT_MESSAGE}" ]; then
-  GIT_COMMIT_MESSAGE="Update bbl state dir"
-fi
-
 function check_fast_fails() {
   set +x
 
