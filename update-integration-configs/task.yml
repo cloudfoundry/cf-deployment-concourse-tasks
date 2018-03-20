@@ -39,9 +39,7 @@ params:
   # - CF system base domain e.g. `my-cf.com`
   # - Should match the value passed to `bosh-deploy`
 
-  GIT_COMMIT_EMAIL:
-  GIT_COMMIT_USERNAME:
+  GIT_COMMIT_EMAIL: "cf-release-integration@pivotal.io"
+  GIT_COMMIT_USERNAME: "CI Bot"
   # - Optional
   # - You may choose the git committer username and email address by setting these
-  # - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
-

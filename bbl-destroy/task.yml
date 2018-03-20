@@ -26,10 +26,10 @@ params:
   # - The path is relative to the `bbl-state` input
   # - If blank or '.', uses `bbl-state` input as the location for bbl state
 
-  GIT_COMMIT_EMAIL:
-  GIT_COMMIT_USERNAME:
+  GIT_COMMIT_EMAIL: "cf-release-integration@pivotal.io"
+  GIT_COMMIT_USERNAME: "CI Bot"
   # - Optional
-  # - You may choose the git committer username and email address by setting these - If you leave them blank, they are set to 'CI Bot' and 'cf-release-integration@pivotal.io', respectively
+  # - You may choose the git committer username and email address by setting these
 
   # AWS Configuration Params
   # - Required for AWS
