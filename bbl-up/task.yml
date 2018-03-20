@@ -86,8 +86,8 @@ params:
   # - A label to apply to the bbl environment
   # - Label will appear in the IaaS metadata/interface
 
-  GIT_COMMIT_EMAIL: "CI Bot"
-  GIT_COMMIT_USERNAME: "cf-release-integration@pivotal.io"
+  GIT_COMMIT_EMAIL: "cf-release-integration@pivotal.io"
+  GIT_COMMIT_USERNAME: "CI Bot"
   GIT_COMMIT_MESSAGE: "Update bbl state dir"
   # - Optional
   # - You may choose the git committer
