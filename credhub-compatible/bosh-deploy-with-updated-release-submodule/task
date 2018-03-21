@@ -1,0 +1,30 @@
+#!/bin/bash -eux
+
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+submodule_bump() {
+  rm -rf "release/${BUMP_SUBMODULE}"
+  git clone submodule "release/${BUMP_SUBMODULE}"
+}
+
+main() {
+  local root_dir
+  root_dir="${1}"
+
+  export USE_VARS_STORE="false"
+
+  if [ -z "$BUMP_SUBMODULE" ]; then
+    echo "BUMP_SUBMODULE has not been set"
+    exit 1
+  fi
+
+  check_input_params
+
+  submodule_bump
+  setup_bosh_env_vars
+  bosh_interpolate "${root_dir}" "$(grep final_name release/config/final.yml | awk '{print $2}')"
+  bosh_deploy
+}
+
+main "${PWD}"
