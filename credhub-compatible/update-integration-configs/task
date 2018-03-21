@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -eux
 set -o pipefail
 
 # shellcheck disable=SC1091
@@ -13,7 +13,6 @@ function check_fast_fails() {
 
 
 function commit_integration_configs {
-  set -x
   pushd integration-configs
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
@@ -35,7 +34,6 @@ function commit_integration_configs {
   popd
 
   git clone integration-configs/ updated-integration-configs
-  set +x
 }
 
 function main() {
@@ -45,6 +43,7 @@ function main() {
   check_fast_fails
   setup_bosh_env_vars
 
+  set +x
   local admin_password
   admin_password=$(get_password_from_credhub cf_admin_password)
 
@@ -86,6 +85,7 @@ function main() {
 
     echo "${new_wats_integration_config}" > "integration-configs/${WATS_INTEGRATION_CONFIG_FILE}"
   fi
+  set -x
 
 }
 
