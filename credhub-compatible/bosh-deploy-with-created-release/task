@@ -34,6 +34,9 @@ main() {
   optional_submodule_bump
   setup_bosh_env_vars
   bosh_interpolate "${root_dir}" "$(grep final_name release/config/final.yml | awk '{print $2}')"
+  if [ "$REGENERATE_CREDENTIALS" == true ]; then
+    remove_credentials_from_credhub
+  fi
   bosh_deploy
 }
 

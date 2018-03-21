@@ -259,6 +259,23 @@ function remove_vars_store() {
   rm -f vars-store/"${VARS_STORE_FILE}"
 }
 
+function remove_credentials_from_credhub() {
+  local director_name
+  director_name=$(jq -r .bosh.directorName bbl-state/${BBL_STATE_DIR}/bbl-state.json)
+
+  local deployment_name
+  deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
+
+  echo "Removing /${director_name}/${deployment_name}/* credentials from CredHub"
+
+  set +x
+  for cred in $(credhub f -p ${director_name}/${deployment_name} -j | jq -r .credentials[].name)
+  do
+    credhub d -n $cred > /dev/null
+  done
+  set -x
+}
+
 write_gcp_service_account_key() {
   set +x
   if [ -f "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ]; then
