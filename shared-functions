@@ -19,7 +19,7 @@ function check_input_params() {
     exit 1
   fi
 
-  if [ -z "$VARS_STORE_FILE" ]; then
+  if [ $USE_VARS_STORE == "true" ] && [ -z "$VARS_STORE_FILE" ]; then
     echo "VARS_STORE_FILE has not been set"
     exit 1
   fi
@@ -162,8 +162,15 @@ write_uptimer_deploy_config() {
   fi
 
   set +x
+  local cf_admin_password
+  if [ $USE_VARS_STORE == "false" ]; then
+    cf_admin_password=$(get_password_from_credhub cf_admin_password)
+  else
+    cf_admin_password=$(bosh int vars-store/${VARS_STORE_FILE} --path /cf_admin_password)
+  fi
+
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
-    --arg admin_password $(bosh int --path=/cf_admin_password vars-store/"${VARS_STORE_FILE}") \
+    --arg admin_password ${cf_admin_password} \
     --arg app_domain ${SYSTEM_DOMAIN} \
     --arg manifest $manifest \
     --arg deployment_name $deployment_name \

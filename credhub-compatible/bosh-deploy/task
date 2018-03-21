@@ -1,0 +1,15 @@
+#!/bin/bash -eux
+
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+function main() {
+  export USE_VARS_STORE="false"
+
+  check_input_params
+  setup_bosh_env_vars
+  bosh_interpolate
+  bosh_deploy
+}
+
+main
