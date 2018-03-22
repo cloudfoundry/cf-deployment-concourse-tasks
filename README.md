@@ -84,6 +84,9 @@ from time to time
 to avoid
 running out of space.
 
+### [bosh-delete-deployment][bosh-delete-deployment-task-yaml]
+This deletes a BOSH deployment.
+
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH deployment
 and outputs a vars-store.
