@@ -162,6 +162,7 @@ a vars-store.
 [bosh-cleanup-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-cleanup/task.yml
 [bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
+[bosh-delete-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-delete-deployment/task.yml
 [bosh-upload-stemcell-from-cf-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
