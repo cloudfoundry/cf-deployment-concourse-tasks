@@ -94,6 +94,10 @@ RUN \
   mkdir ${GOPATH} && \
   rm -rf /tmp/*
 
+# Log Cache CLI
+RUN go get -u code.cloudfoundry.org/log-cache-cli && \
+    cf install-plugin ${GOPATH}/bin/log-cache-cli -f
+
 RUN go get -u github.com/cloudfoundry/uptimer && \
   go get -u github.com/onsi/ginkgo/... && \
   cd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
