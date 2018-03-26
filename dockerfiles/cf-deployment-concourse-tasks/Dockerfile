@@ -9,7 +9,7 @@ ENV cf_cli_version 6.35.2
 ENV bosh_cli_version 3.0.1
 ENV bbl_version 6.4.8
 ENV terraform_version 0.11.5
-ENV credhub_cli_version 1.7.1
+ENV credhub_cli_version 1.7.3
 
 RUN \
   apt-get update && \
