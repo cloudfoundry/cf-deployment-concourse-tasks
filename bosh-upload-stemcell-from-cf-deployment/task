@@ -27,22 +27,13 @@ check_upload_stemcell_params() {
 upload_stemcell() {
   # Read potentially variable stemcell paramaters out of cf-deployment with bosh
   local os
-  os=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/${MANIFEST_FILE})
+  os=$1
   local version
-  version=$(bosh interpolate --path=/stemcells/alias=default/version cf-deployment/${MANIFEST_FILE})
+  version=$2
 
   # Hardcode a couple of stable stemcell paramaters
   local stemcells_url
   stemcells_url="https://bosh.io/d/stemcells"
-  local bosh_agent
-  bosh_agent="go_agent"
-
-  # Ask bosh if it already has our OS / version stemcell combination
-  # As of this writing, the new bosh cli doesn't have --skip-if-exists
-  set +e
-  local existing_stemcell
-  existing_stemcell=$(bosh stemcells | grep "${os}" | awk '{print $2}' | tr -d "\*" | grep ^"${version}"$ )
-  set -e
 
   local stemcell_name
 
@@ -60,7 +51,7 @@ upload_stemcell() {
     stemcell_name="bosh-azure-hyperv"
   fi
 
-  stemcell_name="${stemcell_name}-${os}-${bosh_agent}"
+  stemcell_name="${stemcell_name}-${os}-go_agent"
   if [ "$version" = "latest" ]; then
     full_stemcell_url="${stemcells_url}/${stemcell_name}"
   else
@@ -87,13 +78,32 @@ upload_stemcell() {
     -n \
     upload-stemcell \
     "${full_stemcell_url}"
-  set -x
+}
+
+function upload_stemcells() {
+  local arguments=''
+  for op in ${OPS_FILES_WITH_STEMCELLS}
+  do
+    arguments="${arguments} -o cf-deployment/${op}"
+  done
+
+  bosh interpolate ${arguments} cf-deployment/${MANIFEST_FILE} > /tmp/cf.yml
+
+  local stemcells_json=$(ruby -rjson -ryaml -e "puts YAML.load_file('/tmp/cf.yml').to_json" | jq .stemcells)
+  local size=$(echo ${stemcells_json} | jq 'length')
+
+  for i in `seq 0 $((size - 1))`
+  do
+    local os=$(echo ${stemcells_json} | jq -r .[$i].os)
+    local version=$(echo ${stemcells_json} | jq -r .[$i].version)
+    upload_stemcell ${os} ${version}
+  done
 }
 
 main() {
   check_upload_stemcell_params
-  setup_bosh_env_vars 'bbl-state'
-  upload_stemcell
+  setup_bosh_env_vars
+  upload_stemcells
 }
 
 main

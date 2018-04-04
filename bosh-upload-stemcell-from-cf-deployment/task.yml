@@ -31,3 +31,9 @@ params:
   # - Required
   # - Filepath to the manifest file within the cf-deployment resource
   # - The path is relative to root of the `cf-deployment` input
+
+  OPS_FILES_WITH_STEMCELLS:
+  # - Optional
+  # - List of operations files that contain additional stemcells to be uploaded
+  # - Quoted and space-separated
+  # - Paths are relative to root of the `cf-deployment` input
