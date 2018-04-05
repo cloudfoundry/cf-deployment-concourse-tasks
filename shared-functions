@@ -259,6 +259,21 @@ function remove_vars_store() {
   rm -f vars-store/"${VARS_STORE_FILE}"
 }
 
+function remove_credentials_from_credhub_in_directory() {
+  local directory_name
+  directory_name=$1
+  credentials_in_directory=$(credhub f -p ${directory_name} -j | jq -r .credentials[].name)
+
+  echo "Deleting credentials in the ${directory_name} directory from CredHub:"
+  echo ${credentials_in_directory}
+  set +x
+  for cred in ${credentials_in_directory}
+    do
+      credhub d -n $cred > /dev/null
+  done
+  set -x
+}
+
 function remove_credentials_from_credhub() {
   local director_name
   director_name=$(jq -r .bosh.directorName bbl-state/${BBL_STATE_DIR}/bbl-state.json)
@@ -266,14 +281,7 @@ function remove_credentials_from_credhub() {
   local deployment_name
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
-  echo "Removing /${director_name}/${deployment_name}/* credentials from CredHub"
-
-  set +x
-  for cred in $(credhub f -p ${director_name}/${deployment_name} -j | jq -r .credentials[].name)
-  do
-    credhub d -n $cred > /dev/null
-  done
-  set -x
+  remove_credentials_from_credhub_in_directory "/${director_name}/${deployment_name}"
 }
 
 write_gcp_service_account_key() {
