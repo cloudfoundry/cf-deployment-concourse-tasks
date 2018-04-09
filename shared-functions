@@ -262,11 +262,11 @@ function remove_vars_store() {
 function remove_credentials_from_credhub_in_directory() {
   local directory_name
   directory_name=$1
+  set +x
   credentials_in_directory=$(credhub f -p ${directory_name} -j | jq -r .credentials[].name)
 
   echo "Deleting credentials in the ${directory_name} directory from CredHub:"
-  echo ${credentials_in_directory}
-  set +x
+  echo "${credentials_in_directory}"
   for cred in ${credentials_in_directory}
     do
       credhub d -n $cred > /dev/null
