@@ -12,7 +12,7 @@ inputs:
 - name: cf-deployment-concourse-tasks
 
 run:
-  path: cf-deployment-concourse-tasks/credhub-compatible/run-errand/task
+  path: cf-deployment-concourse-tasks/run-errand/task
 
 params:
   BBL_STATE_DIR: bbl-state
