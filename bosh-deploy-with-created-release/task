@@ -4,7 +4,7 @@
 source cf-deployment-concourse-tasks/shared-functions
 
 if [ "$USE_VARS_STORE" == true ]; then
-  trap commit_vars_store EXIT
+  trap "commit_vars_store ${PWD}" EXIT
 fi
 
 optional_submodule_bump() {

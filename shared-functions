@@ -64,7 +64,10 @@ function set_git_config() {
 }
 
 function commit_vars_store() {
-  pushd vars-store
+  local root_dir
+  root_dir="${1}"
+
+  pushd "${root_dir}"/vars-store
     if [[ -n $(git status --porcelain) ]]; then
       set_git_config
       git add "${VARS_STORE_FILE}"
@@ -73,7 +76,7 @@ function commit_vars_store() {
   popd
 
   shopt -s dotglob
-  cp -R vars-store/* updated-vars-store/
+  cp -R "${root_dir}"/vars-store/* "${root_dir}"/updated-vars-store/
 }
 
 function setup_bosh_env_vars() {

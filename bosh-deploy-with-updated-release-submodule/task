@@ -27,6 +27,6 @@ main() {
   bosh_deploy
 }
 
-trap commit_vars_store EXIT
+trap "commit_vars_store ${PWD}" EXIT
 
 main "${PWD}"
