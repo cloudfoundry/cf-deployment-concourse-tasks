@@ -14,3 +14,4 @@ docker push relintdockerhubpushbot/cf-deployment-concourse-tasks:$MAJOR_VERSION
 perl -pi -e "s/$OLD_VERSION/$NEW_VERSION/g" **/task.yml
 perl -pi -e "s/$OLD_VERSION/$NEW_VERSION/g" credhub-compatible/**/task.yml
 git add */task.yml
+git add credhub-compatible/*/task.yml
