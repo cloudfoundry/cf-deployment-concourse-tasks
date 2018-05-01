@@ -36,6 +36,13 @@ params:
   BBL_AWS_ACCESS_KEY_ID:
   BBL_AWS_SECRET_ACCESS_KEY:
 
+  # Azure Configuration Params
+  # - Required for Azure
+  BBL_AZURE_CLIENT_ID:
+  BBL_AZURE_CLIENT_SECRET:
+  BBL_AZURE_TENANT_ID:
+  BBL_AZURE_SUBSCRIPTION_ID:
+                
   # GCP Configuration Params
   # - Required for GCP
   BBL_GCP_SERVICE_ACCOUNT_KEY:

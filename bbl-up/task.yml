@@ -32,6 +32,14 @@ params:
   BBL_AWS_SECRET_ACCESS_KEY:
   BBL_AWS_REGION:
 
+  # Azure Configuration Params
+  # - Required for Azure
+  BBL_AZURE_CLIENT_ID:
+  BBL_AZURE_CLIENT_SECRET:
+  BBL_AZURE_TENANT_ID:
+  BBL_AZURE_SUBSCRIPTION_ID:
+  BBL_AZURE_REGION:
+
   # GCP Configuration Params
   # - Required for GCP
   BBL_GCP_SERVICE_ACCOUNT_KEY:
@@ -54,7 +62,7 @@ params:
   BBL_IAAS:
   # - Required
   # - The target IAAS which bbl will create infrastructure
-  # - Must be either `aws` or `gcp`
+  # - Must be `aws` or `azure` or `gcp`
 
   BBL_LB_CERT:
   # - Required if `SKIP_LB_CREATION` is false

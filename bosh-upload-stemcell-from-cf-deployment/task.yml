@@ -25,7 +25,7 @@ params:
   INFRASTRUCTURE: google
   # - Required
   # - Used to determine which stemcell will be uploaded
-  # - Must be one of: aws, bosh-lite, google, or vsphere
+  # - Must be one of: aws, bosh-lite, google, vsphere or azure
 
   MANIFEST_FILE: cf-deployment.yml
   # - Required

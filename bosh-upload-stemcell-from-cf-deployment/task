@@ -10,7 +10,7 @@ function check_upload_stemcell_params() {
     exit 1
   fi
   local supported_infrastructures
-  supported_infrastructures=("aws" "google" "boshlite" "bosh-lite" "vsphere")
+  supported_infrastructures=("aws" "google" "boshlite" "bosh-lite" "vsphere" "azure")
   any_matched=false
   for iaas in ${supported_infrastructures[*]}; do
     if [ "${INFRASTRUCTURE}" == "${iaas}" ]; then
@@ -57,6 +57,8 @@ function upload_stemcell() {
     stemcell_name="${stemcell_name}-warden-boshlite"
   elif [ "$INFRASTRUCTURE" = "vsphere" ]; then
     stemcell_name="${stemcell_name}-vsphere-esxi"
+  elif [ "$INFRASTRUCTURE" = "azure" ]; then
+    stemcell_name="${stemcell_name}-azure-hyperv"
   fi
 
   stemcell_name="${stemcell_name}-${os}-${bosh_agent}"
