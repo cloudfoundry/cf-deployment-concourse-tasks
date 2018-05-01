@@ -45,20 +45,19 @@ function upload_stemcell() {
   set -e
 
   local stemcell_name
-  stemcell_name="bosh"
 
   if [ "$INFRASTRUCTURE" = "aws" ]; then
-    stemcell_name="${stemcell_name}-aws-xen-hvm"
+    stemcell_name="bosh-aws-xen-hvm"
   elif [ "$INFRASTRUCTURE" = "google" ]; then
-    stemcell_name="${stemcell_name}-google-kvm"
+    stemcell_name="bosh-google-kvm"
   elif [ "$INFRASTRUCTURE" = "boshlite" ]; then
-    stemcell_name="${stemcell_name}-warden-boshlite"
+    stemcell_name="bosh-warden-boshlite"
   elif [ "$INFRASTRUCTURE" = "bosh-lite" ]; then
-    stemcell_name="${stemcell_name}-warden-boshlite"
+    stemcell_name="bosh-warden-boshlite"
   elif [ "$INFRASTRUCTURE" = "vsphere" ]; then
-    stemcell_name="${stemcell_name}-vsphere-esxi"
+    stemcell_name="bosh-vsphere-esxi"
   elif [ "$INFRASTRUCTURE" = "azure" ]; then
-    stemcell_name="${stemcell_name}-azure-hyperv"
+    stemcell_name="bosh-azure-hyperv"
   fi
 
   stemcell_name="${stemcell_name}-${os}-${bosh_agent}"
