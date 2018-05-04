@@ -32,7 +32,7 @@ export CF_PLUGIN_HOME=$HOME
 -slowSpecThreshold=120 \
 -nodes="${NODES}" \
 -skip="${SKIP_REGEXP}" \
--flakeAttempts=2 \
+-flakeAttempts=${FLAKE_ATTEMPTS} \
 -noisySkippings=false
 #! flakeAttempts re-added 9/15 to mitigate reliability issues with Load Balancer 502s.
 #! This is a temporary measure, and should be removed

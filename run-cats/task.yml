@@ -37,3 +37,7 @@ params:
   # - Optional
   # - If set to `true`, the task will capture logs and save them
   #   to the output directory
+
+  FLAKE_ATTEMPTS: 2
+  # - Optional
+  # - The number of times to retry a single failed test
