@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-ENV GO_VERSION 1.9
+ENV GO_VERSION 1.10
 ENV JQ_VERSION 1.5
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
@@ -95,8 +95,8 @@ RUN \
   rm -rf /tmp/*
 
 # Log Cache CLI
-RUN go get -u code.cloudfoundry.org/log-cache-cli && \
-    cf install-plugin ${GOPATH}/bin/log-cache-cli -f
+RUN go get -u code.cloudfoundry.org/log-cache-cli/cmd/cf-lc-plugin && \
+    cf install-plugin ${GOPATH}/bin/cf-lc-plugin -f
 
 RUN go get -u github.com/cloudfoundry/uptimer && \
   go get -u github.com/onsi/ginkgo/... && \
