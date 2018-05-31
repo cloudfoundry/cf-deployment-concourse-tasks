@@ -10,6 +10,7 @@ ENV bosh_cli_version 3.0.1
 ENV bbl_version 6.6.11
 ENV terraform_version 0.11.7
 ENV credhub_cli_version 1.7.5
+ENV git_crypt_version 0.6.0
 
 RUN \
   apt-get update && \
@@ -84,6 +85,14 @@ RUN \
   mv /tmp/terraform /usr/local/bin/terraform && \
   cd /usr/local/bin && \
   chmod +x terraform && \
+  rm -rf /tmp/*
+
+# git-crypt
+RUN \
+  wget https://github.com/AGWA/git-crypt/archive/${git_crypt_version}.tar.gz -O /tmp/git-crypt.tar.gz && \
+  tar xzvf /tmp/git-crypt.tar.gz -C /tmp && \
+  cd /tmp/git-crypt-${git_crypt_version} && \
+  make PREFIX=/usr/local install && \
   rm -rf /tmp/*
 
 ENV GOPATH /go
