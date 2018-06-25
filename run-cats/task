@@ -16,9 +16,11 @@ else
 fi
 
 if [ -f ${reporter_config} ]; then
+  set +x
   reporter_config_value="$(cat ${reporter_config})"
-  combined_config_value="$(cat ${CONFIG} | jq --argjson reporter "$reporter_config" '. + $reporter')"
+  combined_config_value="$(cat ${CONFIG} | jq --argjson reporter "$reporter_config_value" '. + $reporter')"
   echo "$combined_config_value" > ${CONFIG}
+  set -x
 fi
 
 CF_GOPATH=/go/src/github.com/cloudfoundry/
