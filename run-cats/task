@@ -4,13 +4,21 @@ set -xeu
 build_dir=${PWD}
 
 export CONFIG
-original_config="$PWD/integration-config/${CONFIG_FILE_PATH}"
+CONFIG=$(mktemp)
+
+original_config="${build_dir}/integration-config/${CONFIG_FILE_PATH}"
+reporter_config="${build_dir}/integration-config/${REPORTER_CONFIG_FILE_PATH}"
 
 if ${CAPTURE_LOGS}; then
-  CONFIG=$(mktemp)
   jq ".artifacts_directory=\"${build_dir}/cats-trace-output\"" ${original_config} > ${CONFIG}
 else
-  CONFIG=${original_config}
+  cp ${original_config} ${CONFIG}
+fi
+
+if [ -f ${reporter_config} ]; then
+  reporter_config_value="$(cat ${reporter_config})"
+  combined_config_value="$(cat ${CONFIG} | jq --argjson reporter "$reporter_config" '. + $reporter')"
+  echo "$combined_config_value" > ${CONFIG}
 fi
 
 CF_GOPATH=/go/src/github.com/cloudfoundry/
