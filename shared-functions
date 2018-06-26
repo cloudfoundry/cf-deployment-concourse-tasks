@@ -233,9 +233,12 @@ function uptimer_bosh_deploy() {
     set -e
   popd
 
-  # exitStatus 64 means that there was downtime, but the deployment was successful
-  if [ "${FAIL_ON_DOWNTIME}" = "false" ] && [ $exitStatus == 64 ]; then
-    exit 0
+  if [ "${FAIL_ON_DOWNTIME}" = "false" ]; then
+    # exitStatus 64 means that there was downtime, but the deployment was successful
+    # exitStatus 70 means that there was a measurement setup failure, but the deployment was successful
+    if [ $exitStatus == 64 ] || [ $exitStatus == 70 ]; then
+      exit 0
+    fi
   fi
 
   exit $exitStatus
