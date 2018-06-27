@@ -19,6 +19,11 @@ if [ -f ${reporter_config} ]; then
   set +x
   reporter_config_value="$(cat ${reporter_config})"
   combined_config_value="$(cat ${CONFIG} | jq --argjson reporter "$reporter_config_value" '. + $reporter')"
+
+  pushd "${build_dir}/cf-acceptance-tests"
+    combined_config_value="$(echo ${combined_config_value} | jq ".reporter_config.custom_tags.cats_git_sha=\"$(git rev-parse HEAD)\"" )"
+  popd
+
   echo "$combined_config_value" > ${CONFIG}
   set -x
 fi
