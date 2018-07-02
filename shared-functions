@@ -311,6 +311,10 @@ get_password_from_credhub() {
 setup_password_from_credhub() {
   set +x
   local bosh_manifest_password_variable_name=$1
-  export "${bosh_manifest_password_variable_name}"=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
+  local environment_variable_name=$1
+  if [ "$#" -gt 1 ]; then
+    environment_variable_name=$2
+  fi
+  export "${environment_variable_name}"=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
   set -x
 }
