@@ -36,7 +36,7 @@ params:
   # - The path is relative to root of the `cf-deployment` input
 
   VARS_STORE_FILE: deployment-vars.yml
-  # - Required
+  # - Required (with default) unless USE_VARS_STORE is `false`
   # - Filepath to the BOSH deployment vars-store yaml file
   # - The path is relative to root of the `vars-store` input
 
