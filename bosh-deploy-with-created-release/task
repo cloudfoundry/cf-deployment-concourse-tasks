@@ -3,10 +3,6 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-if [ "$USE_VARS_STORE" == true ]; then
-  trap "commit_vars_store ${PWD}" EXIT
-fi
-
 optional_submodule_bump() {
   set +x
     if [ -z "${BUMP_SUBMODULE}" ] && ! [ -z "${SUBMODULE_BRANCH}" ]; then
@@ -32,13 +28,16 @@ main() {
   local root_dir
   root_dir="${1}"
 
+  export USE_VARS_STORE="false"
+
   check_input_params
   optional_submodule_bump
   setup_bosh_env_vars
-  if ${REGENERATE_VARS_STORE}; then
-    remove_vars_store
-  fi
   bosh_interpolate "${root_dir}" "$(grep final_name release/config/final.yml | awk '{print $2}')"
+  if [ "$REGENERATE_CREDENTIALS" == true ]; then
+    remove_credentials_from_credhub
+  fi
+  bosh_update_dns_runtime_config
   bosh_deploy
 }
 

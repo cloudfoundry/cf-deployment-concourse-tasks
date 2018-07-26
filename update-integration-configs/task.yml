@@ -8,9 +8,9 @@ image_resource:
     tag: v5.14.0
 
 inputs:
+- name: bbl-state  # - The repo containing the Director's bbl state dir
 - name: cf-deployment-concourse-tasks # - This repo
 - name: integration-configs # - Integration configs to be updated
-- name: vars-store # - The BOSH deployment's vars-store yaml file
 
 outputs:
 - name: updated-integration-configs
@@ -29,10 +29,12 @@ params:
   RATS_INTEGRATION_CONFIG_FILE: rats_integration_config.json
   WATS_INTEGRATION_CONFIG_FILE: wats_integration_config.json
 
-  VARS_STORE_FILE: deployment-vars.yml
-  # - Required
-  # - Filepath to the vars-store yaml file creds will be drawn from
-  # - The path is relative to root of the `vars-store` input
+  BBL_STATE_DIR: bbl-state
+  # - Optional
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
 
   SYSTEM_DOMAIN:
   # - Optional

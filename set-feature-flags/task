@@ -1,7 +1,10 @@
 #!/bin/bash -exu
 
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
 if [ -z "${SYSTEM_DOMAIN}" ]; then
-  echo "\$SYSTEM_DOMAIN is a required parameter"
+  echo '$SYSTEM_DOMAIN is a required parameter'
   exit 1
 fi
 
@@ -31,14 +34,15 @@ function set_feature_flag() {
 
 function cf_login() {
   set +x
-  echo "Authenticating as admin"
-  cf auth admin $(bosh interpolate vars-store/${VARS_STORE_FILE} --path=/cf_admin_password)
+  echo "Authenticating as CF admin"
+  cf auth admin $(get_password_from_credhub cf_admin_password)
   set -x
 }
 
 function main() {
   cf api --skip-ssl-validation "api.${SYSTEM_DOMAIN}"
 
+  setup_bosh_env_vars
   cf_login
 
   set_enabled_feature_flags
