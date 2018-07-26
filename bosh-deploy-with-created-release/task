@@ -28,8 +28,6 @@ main() {
   local root_dir
   root_dir="${1}"
 
-  export USE_VARS_STORE="false"
-
   check_input_params
   optional_submodule_bump
   setup_bosh_env_vars

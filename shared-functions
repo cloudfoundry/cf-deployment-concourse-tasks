@@ -19,11 +19,6 @@ function check_input_params() {
     exit 1
   fi
 
-  if [ $USE_VARS_STORE == "true" ] && [ -z "$VARS_STORE_FILE" ]; then
-    echo "VARS_STORE_FILE has not been set"
-    exit 1
-  fi
-
   if [ -z "$SYSTEM_DOMAIN" ]; then
     echo "SYSTEM_DOMAIN has not been set"
     exit 1
@@ -63,21 +58,6 @@ function set_git_config() {
   git config user.email "${GIT_COMMIT_EMAIL}"
 }
 
-function commit_vars_store() {
-  local root_dir
-  root_dir="${1}"
-
-  pushd "${root_dir}"/vars-store
-    if [[ -n $(git status --porcelain) ]]; then
-      set_git_config
-      git add "${VARS_STORE_FILE}"
-      git commit -m "Update vars-store after deploy"
-    fi
-  popd
-
-  shopt -s dotglob
-  cp -R "${root_dir}"/vars-store/* "${root_dir}"/updated-vars-store/
-}
 
 function setup_bosh_env_vars() {
   set +x
@@ -100,11 +80,7 @@ function bosh_interpolate() {
   bosh_manifest="cf-deployment/${MANIFEST_FILE}"
 
   local arguments
-  if ${USE_VARS_STORE}; then
-    arguments="--vars-store vars-store/${VARS_STORE_FILE} -v system_domain=${SYSTEM_DOMAIN}"
-  else
-    arguments="-v system_domain=${SYSTEM_DOMAIN}"
-  fi
+  arguments="-v system_domain=${SYSTEM_DOMAIN}"
 
   for op in ${OPS_FILES}
   do
@@ -136,9 +112,6 @@ EOF
   # shellcheck disable=SC2086
   local bosh_arguments
   bosh_arguments=""
-  if ${USE_VARS_STORE}; then
-    bosh_arguments="--var-errs"
-  fi
 
   bosh \
     -n \
@@ -166,11 +139,7 @@ write_uptimer_deploy_config() {
 
   set +x
   local cf_admin_password
-  if [ $USE_VARS_STORE == "false" ]; then
-    cf_admin_password=$(get_password_from_credhub cf_admin_password)
-  else
-    cf_admin_password=$(bosh int vars-store/${VARS_STORE_FILE} --path /cf_admin_password)
-  fi
+  cf_admin_password=$(get_password_from_credhub cf_admin_password)
 
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
     --arg admin_password ${cf_admin_password} \
@@ -265,10 +234,6 @@ function bosh_update_dns_runtime_config() {
   bosh -n update-runtime-config \
     ${BBL_STATE_DIR}/bbl-state/bosh-deployment/runtime-configs/dns.yml \
     --name dns
-}
-
-function remove_vars_store() {
-  rm -f vars-store/"${VARS_STORE_FILE}"
 }
 
 function remove_credentials_from_credhub_in_directory() {

@@ -88,13 +88,12 @@ running out of space.
 This deletes a BOSH deployment.
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
-This performs a BOSH deployment
-and outputs a vars-store.
+This performs a BOSH deployment.
 Optionally, operations files may be applied
 to the deployment manifest.
 
 It's also configurable to
-regenerate the vars-store
+regenerate deployment credentials
 on each deployment
 though this is not the default behavior.
 This is helpful for testing
@@ -155,7 +154,7 @@ based on their boolean values.
 This updates integration files
 to be consumed by CATs and RATs
 with credentials drawn from
-a vars-store.
+CredHub.
 
 [bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
 [bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
