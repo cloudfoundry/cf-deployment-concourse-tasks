@@ -261,6 +261,12 @@ function bosh_deploy() {
   fi
 }
 
+function bosh_update_dns_runtime_config() {
+  bosh -n update-runtime-config \
+    ${BBL_STATE_DIR}/bosh-deployment/runtime-configs/dns.yml \
+    --name dns
+}
+
 function remove_vars_store() {
   rm -f vars-store/"${VARS_STORE_FILE}"
 }
