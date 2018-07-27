@@ -136,6 +136,9 @@ write_uptimer_deploy_config() {
   if [ -z "${AVAILABLE_PORT}" ]; then
     AVAILABLE_PORT="-1"
   fi
+  if [ -z "${USE_SINGLE_APP_INSTANCE}" ]; then
+    USE_SINGLE_APP_INSTANCE=false
+  fi
 
   set +x
   local cf_admin_password
@@ -153,6 +156,7 @@ write_uptimer_deploy_config() {
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
+    --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
     --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
     '{
       "while": [{
@@ -165,7 +169,8 @@ write_uptimer_deploy_config() {
         "admin_user": "admin",
         "admin_password": $admin_password,
         "tcp_domain": $tcp_domain,
-        "available_port": $available_port | tonumber
+        "available_port": $available_port | tonumber,
+        "use_single_app_instance": $use_single_app_instance | ascii_downcase | contains("true")
       },
       "allowed_failures": {
         "app_pushability": $app_pushability | tonumber,
