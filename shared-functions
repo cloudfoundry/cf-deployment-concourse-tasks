@@ -232,7 +232,7 @@ function bosh_deploy() {
 
 function bosh_update_dns_runtime_config() {
   bosh -n update-runtime-config \
-    ${BBL_STATE_DIR}/bbl-state/bosh-deployment/runtime-configs/dns.yml \
+    bbl-state/${BBL_STATE_DIR}/bosh-deployment/runtime-configs/dns.yml \
     --name dns
 }
 
