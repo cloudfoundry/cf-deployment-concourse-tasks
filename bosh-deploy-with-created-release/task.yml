@@ -16,6 +16,7 @@ inputs:
 # - BOSH release source repo
 # - A dev release will be created from this repo and used in the deployment
 - name: cf-deployment-concourse-tasks  # - This repo
+- name: dev-release
 
 run:
   path: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task

@@ -92,15 +92,30 @@ function bosh_interpolate() {
     arguments="${arguments} -l vars-files/${vf}"
   done
 
-  if [ -n "${release_name}" ]; then
+  if [ -z "${RELEASE_TARBALL}" ]; then
+    if [ -n "${release_name}" ]; then
+      cat << EOF > create-provided-release.yml
+  ---
+  - type: replace
+    path: /releases/name=${release_name}
+    value:
+      name: ${release_name}
+      version: create
+      url: file://${root_dir}/release
+EOF
+      arguments="${arguments} -o create-provided-release.yml"
+    fi
+  else
+    RELEASE_TARBALL=$(readlink -f -- ${RELEASE_TARBALL})
+    version=$(echo ${RELEASE_TARBALL} | sed -E $(echo "s/.*${release_name}-(.*).tgz/\1/g"))
     cat << EOF > create-provided-release.yml
 ---
 - type: replace
   path: /releases/name=${release_name}
   value:
     name: ${release_name}
-    version: create
-    url: file://${root_dir}/release
+    version: ${version}
+    url: file://${RELEASE_TARBALL}
 EOF
     arguments="${arguments} -o create-provided-release.yml"
   fi
