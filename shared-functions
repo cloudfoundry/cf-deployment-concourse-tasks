@@ -157,7 +157,12 @@ write_uptimer_deploy_config() {
 
   set +x
   local cf_admin_password
-  cf_admin_password=$(get_password_from_credhub cf_admin_password)
+
+  if [ -z "${CF_ADMIN_PASSWORD}" ]; then
+     cf_admin_password=$(get_password_from_credhub cf_admin_password)
+  else
+    cf_admin_password=$(echo ${CF_ADMIN_PASSWORD})
+  fi
 
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
     --arg admin_password ${cf_admin_password} \
