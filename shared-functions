@@ -92,15 +92,30 @@ function bosh_interpolate() {
     arguments="${arguments} -l vars-files/${vf}"
   done
 
-  if [ -n "${release_name}" ]; then
+  if [ -z "${RELEASE_TARBALL}" ]; then
+    if [ -n "${release_name}" ]; then
+      cat << EOF > create-provided-release.yml
+  ---
+  - type: replace
+    path: /releases/name=${release_name}
+    value:
+      name: ${release_name}
+      version: create
+      url: file://${root_dir}/release
+EOF
+      arguments="${arguments} -o create-provided-release.yml"
+    fi
+  else
+    RELEASE_TARBALL=$(readlink -f -- ${RELEASE_TARBALL})
+    version=$(echo ${RELEASE_TARBALL} | sed -E $(echo "s/.*${release_name}-(.*).tgz/\1/g"))
     cat << EOF > create-provided-release.yml
 ---
 - type: replace
   path: /releases/name=${release_name}
   value:
     name: ${release_name}
-    version: create
-    url: file://${root_dir}/release
+    version: ${version}
+    url: file://${RELEASE_TARBALL}
 EOF
     arguments="${arguments} -o create-provided-release.yml"
   fi
@@ -136,10 +151,18 @@ write_uptimer_deploy_config() {
   if [ -z "${AVAILABLE_PORT}" ]; then
     AVAILABLE_PORT="-1"
   fi
+  if [ -z "${USE_SINGLE_APP_INSTANCE}" ]; then
+    USE_SINGLE_APP_INSTANCE=false
+  fi
 
   set +x
   local cf_admin_password
-  cf_admin_password=$(get_password_from_credhub cf_admin_password)
+
+  if [ -z "${CF_ADMIN_PASSWORD}" ]; then
+     cf_admin_password=$(get_password_from_credhub cf_admin_password)
+  else
+    cf_admin_password=$(echo ${CF_ADMIN_PASSWORD})
+  fi
 
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
     --arg admin_password ${cf_admin_password} \
@@ -153,6 +176,7 @@ write_uptimer_deploy_config() {
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
+    --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
     --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
     '{
       "while": [{
@@ -165,7 +189,8 @@ write_uptimer_deploy_config() {
         "admin_user": "admin",
         "admin_password": $admin_password,
         "tcp_domain": $tcp_domain,
-        "available_port": $available_port | tonumber
+        "available_port": $available_port | tonumber,
+        "use_single_app_instance": $use_single_app_instance | ascii_downcase | contains("true")
       },
       "allowed_failures": {
         "app_pushability": $app_pushability | tonumber,
