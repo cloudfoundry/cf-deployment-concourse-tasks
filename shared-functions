@@ -130,12 +130,10 @@ write_uptimer_deploy_config() {
 
   # Give bogus values for TCP_DOMAIN and AVAILABLE_PORT
   # so that we don't have to do jq magic.
-  if [ -z "${TCP_DOMAIN}" ]; then
-    TCP_DOMAIN=" "
-  fi
-  if [ -z "${AVAILABLE_PORT}" ]; then
-    AVAILABLE_PORT="-1"
-  fi
+  local tcp_domain
+  tcp_domain=${TCP_DOMAIN:-" "}
+  local available_port
+  available_port=${AVAILABLE_PORT:-"-1"}
 
   set +x
   local cf_admin_password
@@ -144,11 +142,11 @@ write_uptimer_deploy_config() {
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
     --arg admin_password ${cf_admin_password} \
     --arg app_domain ${SYSTEM_DOMAIN} \
-    --arg manifest $manifest \
-    --arg deployment_name $deployment_name \
+    --arg manifest ${manifest} \
+    --arg deployment_name ${deployment_name} \
     --arg run_app_syslog_availability ${MEASURE_SYSLOG_AVAILABILITY} \
-    --arg tcp_domain "${TCP_DOMAIN}" \
-    --arg available_port ${AVAILABLE_PORT} \
+    --arg tcp_domain "${tcp_domain}" \
+    --arg available_port ${available_port} \
     --arg app_pushability ${APP_PUSHABILITY_THRESHOLD} \
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
