@@ -93,11 +93,6 @@ params:
   # - Available port within the 'reservable_ports' range,
   # - used to create a tcp route for the syslog availability measurement.
 
-  FAIL_ON_DOWNTIME: false
-  # - Optional
-  # - This will cause the task to fail if you are not using the DEPLOY_WITH_UPTIME_MEASUREMENTS flag
-  # - It will cause the concourse task to fail if you do not have perfect uptime
-
   APP_PUSHABILITY_THRESHOLD: 0
   # - Optional
   # - This sets the maximum number of allowed uptimer failures for app pushability
