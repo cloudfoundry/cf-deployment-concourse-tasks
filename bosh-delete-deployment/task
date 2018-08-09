@@ -15,7 +15,7 @@ function bosh_delete_deployment() {
   local force_flag
 
   if [ "$IGNORE_ERRORS" = true ]; then
-    force_flag = "--force"
+    force_flag="--force"
   fi
 
   bosh \
