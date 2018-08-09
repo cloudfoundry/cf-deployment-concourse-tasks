@@ -12,9 +12,16 @@ function check_delete_deployment_params() {
 }
 
 function bosh_delete_deployment() {
+  local force_flag
+
+  if [ "$IGNORE_ERRORS" = true ]; then
+    force_flag = "--force"
+  fi
+
   bosh \
     -n \
-    delete-deployment -d ${DEPLOYMENT_NAME}
+    delete-deployment -d ${DEPLOYMENT_NAME} \
+    ${force_flag}
 }
 
 function main() {

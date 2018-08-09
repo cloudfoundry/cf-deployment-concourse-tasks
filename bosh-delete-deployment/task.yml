@@ -22,3 +22,7 @@ params:
   # - If the specified path does not exist, it will be created
 
   DEPLOYMENT_NAME: cf
+
+  IGNORE_ERRORS: false
+  # - Optional
+  # - When true, passes the `--force` flag to the delete-deployment BOSH command
