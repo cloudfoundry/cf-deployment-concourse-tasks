@@ -135,9 +135,6 @@ write_uptimer_deploy_config() {
   local available_port
   available_port=${AVAILABLE_PORT:-"-1"}
 
-  if [ -z "${USE_SINGLE_APP_INSTANCE}" ]; then
-    USE_SINGLE_APP_INSTANCE=false
-  fi
   set +x
   local cf_admin_password
 
