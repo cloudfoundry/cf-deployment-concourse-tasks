@@ -79,3 +79,7 @@ params:
   # - Optional
   # - This will cause the task to fail if you are not using the DEPLOY_WITH_UPTIME_MEASUREMENTS flag
   # - It will cause the concourse task to fail if you do not have perfect uptime
+
+  CF_ADMIN_PASSWORD:
+  # - Optional
+  # - Temporarily here so the Diego can support non-Credhub environments in the interim.
