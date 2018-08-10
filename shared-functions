@@ -137,6 +137,7 @@ write_uptimer_deploy_config() {
 
   set +x
   local cf_admin_password
+
   cf_admin_password=$(get_password_from_credhub cf_admin_password)
 
   echo '{}' | jq --arg cf_api api.${SYSTEM_DOMAIN} \
@@ -151,6 +152,7 @@ write_uptimer_deploy_config() {
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
+    --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
     --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
     '{
       "while": [{
@@ -163,7 +165,8 @@ write_uptimer_deploy_config() {
         "admin_user": "admin",
         "admin_password": $admin_password,
         "tcp_domain": $tcp_domain,
-        "available_port": $available_port | tonumber
+        "available_port": $available_port | tonumber,
+        "use_single_app_instance": $use_single_app_instance | ascii_downcase | contains("true")
       },
       "allowed_failures": {
         "app_pushability": $app_pushability | tonumber,
