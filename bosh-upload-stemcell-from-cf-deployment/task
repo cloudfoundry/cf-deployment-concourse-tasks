@@ -4,7 +4,7 @@ set -eux
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-function check_upload_stemcell_params() {
+check_upload_stemcell_params() {
   if [ -z "$INFRASTRUCTURE" ]; then
     echo "INFRASTRUCTURE has not been set"
     exit 1
@@ -24,7 +24,7 @@ function check_upload_stemcell_params() {
   fi
 }
 
-function upload_stemcell() {
+upload_stemcell() {
   # Read potentially variable stemcell paramaters out of cf-deployment with bosh
   local os
   os=$(bosh interpolate --path=/stemcells/alias=default/os cf-deployment/${MANIFEST_FILE})
@@ -74,6 +74,7 @@ function upload_stemcell() {
     return
   fi
 
+  # If bosh.io doesn't have our stemcell, exit 2
   local stemcell_exists
   stemcell_exists=$(wget -S --spider "${full_stemcell_url}" > /dev/null 2>&1)
   if [ stemcell_exists -ne 0 ]; then
@@ -89,7 +90,7 @@ function upload_stemcell() {
   set -x
 }
 
-function main() {
+main() {
   check_upload_stemcell_params
   setup_bosh_env_vars 'bbl-state'
   upload_stemcell
