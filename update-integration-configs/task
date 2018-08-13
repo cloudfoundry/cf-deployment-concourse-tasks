@@ -5,8 +5,8 @@ set -o pipefail
 source cf-deployment-concourse-tasks/shared-functions
 
 function check_fast_fails() {
-  if [ ! -f "integration-configs/$CATS_INTEGRATION_CONFIG_FILE" -a ! -f "integration-configs/$RATS_INTEGRATION_CONFIG_FILE" ]; then
-    echo "Neither cats_integration_config file nor rats_integration_config file is present...Exiting"
+  if [ ! -f "integration-configs/$CATS_INTEGRATION_CONFIG_FILE" -a ! -f "integration-configs/$RATS_INTEGRATION_CONFIG_FILE" -a ! -f "integration-configs/$WATS_INTEGRATION_CONFIG_FILE" ]; then
+    echo "One of the following files should be present, but none were found: cats_integration_config, rats_integration_config, wats_integration_config. Exiting."
     exit 1
   fi
 }
