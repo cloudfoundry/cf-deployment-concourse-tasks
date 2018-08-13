@@ -74,6 +74,13 @@ function upload_stemcell() {
     return
   fi
 
+  local stemcell_exists
+  stemcell_exists=$(wget -S --spider "${full_stemcell_url}" > /dev/null 2>&1)
+  if [ stemcell_exists -ne 0 ]; then
+    echo "Error: Could not find a [ $os ] stemcell for IaaS [ $INFRASTRUCTURE ] on bosh.io. Please double-check that the IaaS/OS combination is supported."
+    exit 2 #POSIX 'No such file or directory'
+  fi
+
   # ... otherwise, begin the upload process
   bosh \
     -n \
