@@ -34,6 +34,13 @@ upload_stemcell() {
   # Hardcode a couple of stable stemcell paramaters
   local stemcells_url
   stemcells_url="https://bosh.io/d/stemcells"
+  
+  # Ask bosh if it already has our OS / version stemcell combination
+  # As of this writing, the new bosh cli doesn't have --skip-if-exists
+  set +e
+  local existing_stemcell
+  existing_stemcell=$(bosh stemcells | grep "${os}" | awk '{print $2}' | tr -d "\*" | grep ^"${version}"$ )
+  set -e
 
   local stemcell_name
 
@@ -61,7 +68,7 @@ upload_stemcell() {
   # If bosh already has our stemcell, exit 0
   if [ "${existing_stemcell}" ]; then
     echo "Task bosh-upload-stemcell-from-cf-deployment:"
-    echo "Stemcell '${stemcell_name}/${version}' already exists.  Exiting..."
+    echo "Stemcell '${stemcell_name}/${version}' already exists.  Skipping..."
     return
   fi
 
@@ -82,9 +89,9 @@ upload_stemcell() {
 
 function upload_stemcells() {
   local arguments=''
-  for op in ${OPS_FILES_WITH_STEMCELLS}
+  for op in ${OPS_FILES}
   do
-    arguments="${arguments} -o stemcells-ops-files/${op}"
+    arguments="${arguments} -o ops-files/${op}"
   done
 
   bosh interpolate ${arguments} cf-deployment/${MANIFEST_FILE} > /tmp/cf.yml

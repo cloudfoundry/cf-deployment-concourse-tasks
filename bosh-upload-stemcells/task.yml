@@ -11,11 +11,11 @@ inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: cf-deployment  # - The cf-deployment manifest
 - name: bbl-state  # - The repo containing the Director's bbl state dir
-- name: stemcells-ops-files  # - Stemcells operations files to be made available
+- name: ops-files  # - Oplitonal operations files to be made available
   optional: true
 
 run:
-  path: cf-deployment-concourse-tasks/bosh-upload-stemcell-from-cf-deployment/task
+  path: cf-deployment-concourse-tasks/bosh-upload-stemcells/task
 
 params:
   BBL_STATE_DIR: bbl-state
@@ -34,8 +34,10 @@ params:
   # - Filepath to the manifest file within the cf-deployment resource
   # - The path is relative to root of the `cf-deployment` input
 
-  OPS_FILES_WITH_STEMCELLS:
+  OPS_FILES:
   # - Optional
-  # - List of operations files that contain additional stemcells to be uploaded
+  # - List of operations files to be applied to the manifest.
+  # - Additional stemcells specified by operations will also be uploaded.
   # - Quoted and space-separated
-  # - Paths are relative to root of the `stemcell-ops-files` input
+  # - Ops will be applied in the order they're listed
+  # - Paths are relative to root of the `ops-files` input
