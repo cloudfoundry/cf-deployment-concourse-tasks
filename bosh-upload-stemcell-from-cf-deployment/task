@@ -84,7 +84,7 @@ function upload_stemcells() {
   local arguments=''
   for op in ${OPS_FILES_WITH_STEMCELLS}
   do
-    arguments="${arguments} -o cf-deployment/${op}"
+    arguments="${arguments} -o stemcells-ops-files/${op}"
   done
 
   bosh interpolate ${arguments} cf-deployment/${MANIFEST_FILE} > /tmp/cf.yml
