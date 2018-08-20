@@ -46,7 +46,7 @@ upload_stemcell() {
   # Hardcode a couple of stable stemcell paramaters
   local stemcells_url
   stemcells_url="https://bosh.io/d/stemcells"
-  
+
   # Ask bosh if it already has our OS / version stemcell combination
   # As of this writing, the new bosh cli doesn't have --skip-if-exists
   set +e
@@ -114,6 +114,10 @@ function upload_stemcells() {
 
   local stemcells_json=$(ruby -rjson -ryaml -e "puts YAML.load_file('/tmp/cf.yml').to_json" | jq .stemcells)
   local size=$(echo ${stemcells_json} | jq 'length')
+  if [ ${size} -eq 0 ]; then
+    echo "Error: Did not find any stemcells to upload."
+    exit 1
+  fi
 
   for i in `seq 0 $((size - 1))`
   do
