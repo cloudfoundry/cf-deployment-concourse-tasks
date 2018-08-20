@@ -24,6 +24,18 @@ check_upload_stemcell_params() {
   fi
 }
 
+verify_ops_file_modifies_stemcell_section() {
+  local ops_file
+  ops_file=$1
+
+  set +e
+    if ! grep 'path: /stemcells/' ops-files/${ops_file} > /dev/null; then
+      echo "Error: Could not find any stemcells to be uploaded from ${ops_file} ops file."
+      exit 1
+    fi
+  set -e
+}
+
 upload_stemcell() {
   # Read potentially variable stemcell paramaters out of cf-deployment with bosh
   local os
@@ -94,6 +106,7 @@ function upload_stemcells() {
   local arguments=''
   for op in ${OPS_FILES}
   do
+    verify_ops_file_modifies_stemcell_section ${op}
     arguments="${arguments} -o ops-files/${op}"
   done
 
