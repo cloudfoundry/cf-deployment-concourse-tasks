@@ -36,7 +36,7 @@ main() {
     remove_credentials_from_credhub
   fi
   bosh_update_dns_runtime_config
-  bosh_deploy
+  bosh_deploy ${BOSH_DEPLOY_ARGS}
 }
 
 main "${PWD}"

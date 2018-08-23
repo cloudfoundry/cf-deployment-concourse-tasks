@@ -226,7 +226,8 @@ function bosh_deploy() {
         -n \
         -d "${deployment_name}" \
         deploy \
-        "${INTERPOLATED_MANIFEST}"
+        "${INTERPOLATED_MANIFEST}" \
+        ${@}
     popd
   fi
 }

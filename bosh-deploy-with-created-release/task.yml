@@ -122,3 +122,7 @@ params:
   # - Optional
   # - Configures uptimer to deploy with a single app instance rather than two.
   # - This is primarily used by Diego to validate new uptime features.
+
+  BOSH_DEPLOY_ARGS:
+  # - Optional
+  # - Supplies additional arguments to the bosh deploy command
