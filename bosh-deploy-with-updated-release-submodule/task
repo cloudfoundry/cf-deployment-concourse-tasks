@@ -26,7 +26,8 @@ main() {
     remove_credentials_from_credhub
   fi
   bosh_update_dns_runtime_config
-  bosh_deploy
+  # shellcheck disable=SC2086
+  bosh_deploy ${BOSH_DEPLOY_ARGS}
 }
 
 main "${PWD}"
