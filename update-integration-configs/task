@@ -55,6 +55,7 @@ function main() {
 
     local credhub_secret=$(get_password_from_credhub credhub_admin_client_secret)
     new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".credhub_secret=\"${credhub_secret}\"")
+    new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".credhub_client=\"credhub_admin_client\"")
 
     if [ -n "${SYSTEM_DOMAIN}" ]; then
       new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".api=\"api.${SYSTEM_DOMAIN}\" | .apps_domain=\"${SYSTEM_DOMAIN}\"")
