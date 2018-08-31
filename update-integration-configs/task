@@ -53,7 +53,7 @@ function main() {
     local new_cats_integration_config
     new_cats_integration_config=$(cat "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}" | jq ".admin_password=\"${admin_password}\"")
 
-    local credhub_secret=$(get_password_from_credhub uaa_clients_cc_service_key_client_secret)
+    local credhub_secret=$(get_password_from_credhub credhub_admin_client_secret)
     new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".credhub_secret=\"${credhub_secret}\"")
 
     if [ -n "${SYSTEM_DOMAIN}" ]; then
