@@ -126,3 +126,4 @@ params:
   BOSH_DEPLOY_ARGS:
   # - Optional
   # - Supplies additional arguments to the bosh deploy command
+  # - For example, '--recreate'
