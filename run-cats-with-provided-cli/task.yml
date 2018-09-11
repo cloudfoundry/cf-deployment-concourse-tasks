@@ -30,6 +30,14 @@ params:
   # - Path to the CATs integration configuration file.
   # - The path is relative to the `integration-config` input.
 
+  REPORTER_CONFIG_FILE_PATH: reporter_config.json
+  # - Optional
+  # - Path to the CATs reporter configuration file.
+  # - The path is relative to the `integration-config` input.
+  # - If this file exists, it will automatically be combined with the config file above.
+  # - The intent is to allow for the configuration of a CATs' custom reporter.
+
+
   SKIP_REGEXP:
   # - Optional
   # - A regular expression to be passed to the ginkgo's `-skip` flag.
@@ -39,3 +47,7 @@ params:
   # - Optional
   # - If set to `true`, the task will capture logs and save them
   #   to the output directory
+
+  FLAKE_ATTEMPTS: 2
+  # - Optional
+  # - The number of times to retry a single failed test
