@@ -40,7 +40,8 @@ function commit_bbl_state_dir {
   commit_message="${2}"
 
   pushd "${root_dir}/bbl-state/${BBL_STATE_DIR}"
-    if [[ -n $(git status --porcelain) ]]; then
+    status="$(git status --porcelain)"
+    if [[ -n "$status" ]]; then
       set_git_config
       git add --all .
       git commit -m "${commit_message}"
