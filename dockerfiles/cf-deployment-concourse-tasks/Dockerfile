@@ -1,10 +1,10 @@
 FROM ubuntu:bionic
 
-ENV GO_VERSION 1.10.3
 ENV JQ_VERSION 1.5
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
 
+ENV go_version 1.10.3
 ENV cf_cli_version 6.40.0
 ENV bosh_cli_version 5.3.1
 ENV bbl_version 6.10.18
@@ -98,8 +98,8 @@ RUN \
 ENV GOPATH /go
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 RUN \
-  wget https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz -P /tmp && \
-  tar xzvf /tmp/go${GO_VERSION}.linux-amd64.tar.gz -C /usr/local && \
+  wget https://golang.org/dl/go${go_version}.linux-amd64.tar.gz -P /tmp && \
+  tar xzvf /tmp/go${go_version}.linux-amd64.tar.gz -C /usr/local && \
   mkdir ${GOPATH} && \
   rm -rf /tmp/*
 
