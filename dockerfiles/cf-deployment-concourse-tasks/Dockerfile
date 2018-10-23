@@ -17,7 +17,7 @@ RUN \
   apt-get -y install \
     build-essential \
     git \
-    libreadline6 \
+    libreadline7 \
     libreadline6-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -35,8 +35,8 @@ RUN \
   add-apt-repository ppa:brightbox/ruby-ng -y && \
   apt-get update && \
   apt-get -y install \
-    ruby2.3 \
-    ruby2.3-dev && \
+    ruby2.5 \
+    ruby2.5-dev && \
   apt-get remove -y --purge software-properties-common
 
 # jq
