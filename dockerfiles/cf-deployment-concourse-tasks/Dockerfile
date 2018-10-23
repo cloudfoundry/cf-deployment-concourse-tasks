@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:bionic
 
 ENV GO_VERSION 1.10.3
 ENV JQ_VERSION 1.5
