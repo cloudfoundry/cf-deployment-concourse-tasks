@@ -15,6 +15,7 @@ ENV git_crypt_version 0.6.0
 RUN \
   apt-get update && \
   apt-get -y install \
+    apt-utils \
     build-essential \
     git \
     libreadline7 \
