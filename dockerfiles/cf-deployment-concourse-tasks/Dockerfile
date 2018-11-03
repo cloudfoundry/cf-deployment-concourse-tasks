@@ -4,7 +4,7 @@ ENV JQ_VERSION 1.5
 
 ENV JQ_CHECKSUM d8e36831c3c94bb58be34dd544f44a6c6cb88568
 
-ENV go_version 1.11.1
+ENV go_version 1.11.2
 ENV cf_cli_version 6.40.1
 ENV bosh_cli_version 5.3.1
 ENV bbl_version 6.10.18
