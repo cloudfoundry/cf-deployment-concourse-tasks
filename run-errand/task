@@ -19,7 +19,13 @@ function main() {
   check_input_params
   setup_bosh_env_vars
 
-  bosh -d "${DEPLOYMENT_NAME}" run-errand "${ERRAND_NAME}"
+  PARAMS=""
+
+  if [ "$KEEP_ALIVE" = true ]; then
+    PARAMS="$PARAMS --keep-alive"
+  fi
+
+  bosh -d "${DEPLOYMENT_NAME}" run-errand "${ERRAND_NAME}" $PARAMS
 }
 
 main
