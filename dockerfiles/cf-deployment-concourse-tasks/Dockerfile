@@ -25,6 +25,7 @@ RUN \
     libxml2-dev \
     libxslt-dev \
     libyaml-dev \
+    netcat-openbsd \
     openssl \
     software-properties-common \
     sqlite \
