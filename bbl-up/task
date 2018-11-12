@@ -87,9 +87,9 @@ function main() {
       lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
     fi
 
-    bbl plan \
+    bbl plan --debug \
       ${name_flag} \
-      ${lb_flags} > "${root_dir}/bbl_plan.txt"
+      ${lb_flags} > "${root_dir}/bbl_plan.log"
 
     if [ -n "${BBL_CONFIG_DIR}" ]; then
       cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
@@ -97,7 +97,7 @@ function main() {
 
     bbl --debug up \
       ${name_flag} \
-      ${lb_flags} > "${root_dir}/bbl_up.txt"
+      ${lb_flags} > "${root_dir}/bbl_up.log"
   popd
 }
 
