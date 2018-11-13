@@ -105,3 +105,9 @@ params:
   # - Optional
   # - Set to `true` to skip load balancer creation,
   # - for example, a BOSH Lite environment
+
+  DEBUG_MODE: false
+  # - Optional
+  # - With `false` all output from BBL calls will be saved in log files inside concourse job only.
+  # - Set this to `true` to see all output straight in the pipeline.
+  # - Be careful. For public pipelines it can cause credentials disclosure.
