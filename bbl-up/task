@@ -87,6 +87,7 @@ function main() {
       lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
     fi
 
+    set -o pipefail
     local drain
     drain=">"
 
@@ -105,8 +106,6 @@ function main() {
     eval bbl --debug up \
       ${name_flag} \
       ${lb_flags} ${drain} "${root_dir}/bbl_up.log"
-    echo $?
-    echo $-
   popd
 }
 
