@@ -105,6 +105,8 @@ function main() {
     eval bbl --debug up \
       ${name_flag} \
       ${lb_flags} ${drain} "${root_dir}/bbl_up.log"
+    echo $?
+    echo $-
   popd
 }
 
