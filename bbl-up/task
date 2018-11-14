@@ -97,7 +97,7 @@ function main() {
 
     eval bbl plan --debug \
       ${name_flag} \
-      ${lb_flags} ${drain} "${root_dir}/bbl_plan.log"
+      ${lb_flags} 2>&1 ${drain} "${root_dir}/bbl_plan.log"
 
     if [ -n "${BBL_CONFIG_DIR}" ]; then
       cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
@@ -105,7 +105,7 @@ function main() {
 
     eval bbl --debug up \
       ${name_flag} \
-      ${lb_flags} ${drain} "${root_dir}/bbl_up.log"
+      ${lb_flags} 2>&1 ${drain} "${root_dir}/bbl_up.log"
   popd
 }
 
