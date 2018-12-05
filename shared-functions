@@ -246,9 +246,9 @@ function remove_credentials_from_credhub_in_directory() {
   credentials_in_directory=$(credhub f -p ${directory_name} -j | jq -r .credentials[].name)
 
   echo "Deleting credentials in the ${directory_name} directory from CredHub:"
-  echo "${credentials_in_directory}"
   for cred in ${credentials_in_directory}
     do
+      echo "Deleting ${cred} from CredHub"
       credhub d -n $cred > /dev/null
   done
   set -x
