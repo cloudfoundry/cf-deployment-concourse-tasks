@@ -289,6 +289,15 @@ setup_password_from_credhub() {
   if [ "$#" -gt 1 ]; then
     environment_variable_name=$2
   fi
+
+  local credential_path=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name )
+  local credential_paths_len=$(echo ${credential_path} | tr ' ' '\n' | wc -l)
+  if [ "${credential_paths_len}" -gt 1 ]; then
+    echo "ambiguous password variable name; expected one got ${credential_paths_len}"
+    echo "${credential_path}" | tr ' ' '\n'
+    exit 1
+  fi
+
   export "${environment_variable_name}"=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
   set -x
 }
