@@ -128,10 +128,10 @@ function upload_stemcells() {
 }
 
 main() {
+  echo "This task has been deprecated! Stemcells are now uploaded as part of 'bosh-deploy' task."
   check_upload_stemcell_params
   setup_bosh_env_vars
   upload_stemcells
 }
 
 main
-

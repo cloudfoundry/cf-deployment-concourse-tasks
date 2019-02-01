@@ -114,3 +114,8 @@ params:
   # - Optional
   # - Supplies additional arguments to the bosh deploy command
   # - For example, '--recreate'
+
+  BOSH_LITE: false
+  # - Optional
+  # - Used to determine whether we should upload a warden stemcell
+  # - Boolean

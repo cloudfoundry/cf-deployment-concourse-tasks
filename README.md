@@ -100,6 +100,10 @@ This is helpful for testing
 changes to variable generation,
 but is only expected to work
 with fresh deployments.
+This also automatically uploads the stemcells present in deployment.
+If you're deploying to bosh-lite environment you need to set the
+`BOSH_LITE` flag to `true`.
+
 
 ### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
 This creates and applies an
@@ -121,9 +125,7 @@ Otherwise identical to the `bosh-deploy-with-created-release` task above.
 concourse resource.
 
 ### [bosh-upload-stemcell-from-cf-deployment][bosh-upload-stemcell-from-cf-deployment-task-yaml]
-This uploads the stemcell version
-specified in `cf-deployment`
-to the BOSH director.
+**DEPRECATED** Stemcell uploading has been moved to the bosh-deploy task.
 
 ### [collect-ops-files][collect-ops-files]
 This collects
