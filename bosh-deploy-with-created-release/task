@@ -36,6 +36,7 @@ main() {
     remove_credentials_from_credhub
   fi
   bosh_update_dns_runtime_config
+  upload_stemcells
   # shellcheck disable=SC2086
   bosh_deploy ${BOSH_DEPLOY_ARGS}
 }
