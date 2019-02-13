@@ -1,0 +1,40 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+
+inputs:
+- name: bbl-state
+- name: runtime-ci
+- name: cf-deployment-concourse-tasks
+
+run:
+  path: runtime-ci/tasks/open-asgs-for-bosh-instance-group/task
+
+params:
+  BBL_STATE_DIR: bbl-state
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
+
+  BOSH_DEPLOYMENT: cf
+  # - Required
+  # - Name of the deployment that has the Instance Group you want to allow
+  # - communication to
+
+  INSTANCE_GROUP_NAME:
+  # - Required
+  # - Name of the Instance Group from your deployment that you want to allow
+  # - communication to
+
+  SYSTEM_DOMAIN:
+  # - Required
+  # - CF system base domain e.g. `my-cf.com`
+
+  SECURITY_GROUP_NAME:
+  # - Required
+  # - CF Application Security Group you wish to set

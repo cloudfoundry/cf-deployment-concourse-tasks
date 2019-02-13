@@ -1,0 +1,36 @@
+#!/bin/bash -exu
+
+# Not able to resolve our import via shellcheck, so disable warning
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+function create_asg_json() {
+  local asg_json_path
+  asg_json_path=$1
+
+  runtime-ci/tasks/open-asgs-for-bosh-instance-group/create_asgs_json.rb "${INSTANCE_GROUP_NAME}" "${asg_json_path}"
+}
+
+function main() {
+  setup_bosh_env_vars
+
+  cf api api."${SYSTEM_DOMAIN}" --skip-ssl-validation
+
+  set +x
+    local cf_admin_password
+    cf_admin_password=$(get_password_from_credhub "cf_admin_password")
+    cf auth admin "${cf_admin_password}"
+  set -x
+
+  local asgs_json
+  asgs_json=$(mktemp)
+  create_asg_json "${asgs_json}"
+
+  cf delete-security-group "${SECURITY_GROUP_NAME}" -f
+  cf create-security-group "${SECURITY_GROUP_NAME}" "${asgs_json}"
+
+  cf bind-running-security-group "${SECURITY_GROUP_NAME}"
+  cf bind-staging-security-group "${SECURITY_GROUP_NAME}"
+}
+
+main
