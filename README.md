@@ -163,23 +163,23 @@ This opens Application Security Groups for BOSH
 instance groups.
 
 
-[bbl-destroy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-destroy/task.yml
-[bbl-up-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bbl-up/task.yml
-[bosh-cleanup-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-cleanup/task.yml
-[bosh-deploy-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy/task.yml
-[bosh-deploy-with-created-release-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task.yml
-[bosh-delete-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-delete-deployment/task.yml
-[bosh-upload-stemcell-from-cf-deployment-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-upload-stemcell-from-cf-deployment/task.yml
+[bbl-destroy-task-yaml]: bbl-destroy/task.yml
+[bbl-up-task-yaml]: bbl-up/task.yml
+[bosh-cleanup-task-yaml]: bosh-cleanup/task.yml
+[bosh-deploy-task-yaml]: bosh-deploy/task.yml
+[bosh-deploy-with-created-release-task-yaml]: bosh-deploy-with-created-release/task.yml
+[bosh-delete-deployment-task-yaml]: bosh-delete-deployment/task.yml
+[bosh-upload-stemcell-from-cf-deployment-task-yaml]: bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
-[collect-ops-files]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/collect-ops-files/task.yml
-[deploy-with-created-lines]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/bosh-deploy-with-created-release/task#L49-L55
+[collect-ops-files]: collect-ops-files/task.yml
+[deploy-with-created-lines]: bosh-deploy-with-created-release/task#L49-L55
 [deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md
 [deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
-[run-cats-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/run-cats/task.yml
-[run-cats-with-provided-cli-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/run-cats-with-provided-cli/task.yml
+[run-cats-task-yaml]: run-cats/task.yml
+[run-cats-with-provided-cli-task-yaml]: run-cats-with-provided-cli/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
-[set-feature-flags-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/set-feature-flags/task.yml
-[update-integration-configs-task-yaml]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/update-integration-configs/task.yml
-[open-asgs-for-bosh-instance-group-task-yaml]:  https://github.com/cloudfoundry/cf-deployment-concourse-tasks/blob/master/open-asgs-for-bosh-instance-group/task.yml
+[set-feature-flags-task-yaml]: set-feature-flags/task.yml
+[update-integration-configs-task-yaml]: update-integration-configs/task.yml
+[open-asgs-for-bosh-instance-group-task-yaml]:  open-asgs-for-bosh-instance-group/task.yml
