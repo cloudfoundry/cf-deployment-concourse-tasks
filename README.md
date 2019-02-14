@@ -104,7 +104,6 @@ This also automatically uploads the stemcells present in deployment.
 If you're deploying to **bosh-lite** environment you need to set the
 `BOSH_LITE` flag to `true` so the task uploads the correct stemcell(s).
 
-
 ### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
 This creates and applies an
 additional operations file to `cf-deployment.yml`,
@@ -122,14 +121,10 @@ for the submodule version bumped
 when creating a dev release
 from the provided release folder.
 Otherwise identical to the `bosh-deploy-with-created-release` task above.
-concourse resource.
 
 ### [bosh-upload-stemcells][bosh-upload-stemcells-task-yaml]
 This uploads stemcell(s) associated with the manifest and/or ops files provided.
 This task can be used to upload stemcells within jobs that do not contain a bosh-deploy* task (which handles uploading stemcells as well as executing the bosh deployment). 
-
-### [bosh-upload-stemcell-from-cf-deployment][bosh-upload-stemcell-from-cf-deployment-task-yaml]
-**DEPRECATED** Stemcell uploading has been moved to the bosh-deploy task.
 
 ### [collect-ops-files][collect-ops-files]
 This collects
@@ -165,7 +160,6 @@ CredHub.
 ### [open-asgs-for-bosh-instance-group][open-asgs-for-bosh-instance-group-task-yaml]
 This opens Application Security Groups for BOSH
 instance groups.
-
 
 [bbl-destroy-task-yaml]: bbl-destroy/task.yml
 [bbl-up-task-yaml]: bbl-up/task.yml
