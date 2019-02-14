@@ -88,7 +88,7 @@ running out of space.
 This deletes a BOSH deployment.
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
-This performs a BOSH deployment.
+This performs a BOSH upload-stemcell and BOSH deployment.
 Optionally, operations files may be applied
 to the deployment manifest.
 
@@ -101,8 +101,8 @@ changes to variable generation,
 but is only expected to work
 with fresh deployments.
 This also automatically uploads the stemcells present in deployment.
-If you're deploying to bosh-lite environment you need to set the
-`BOSH_LITE` flag to `true`.
+If you're deploying to **bosh-lite** environment you need to set the
+`BOSH_LITE` flag to `true` so the task uploads the correct stemcell(s).
 
 
 ### [bosh-deploy-with-created-release][bosh-deploy-with-created-release-task-yaml]
@@ -123,6 +123,10 @@ when creating a dev release
 from the provided release folder.
 Otherwise identical to the `bosh-deploy-with-created-release` task above.
 concourse resource.
+
+### [bosh-upload-stemcells][bosh-upload-stemcells-task-yaml]
+This uploads stemcell(s) associated with the manifest and/or ops files provided.
+This task can be used to upload stemcells within jobs that do not contain a bosh-deploy* task (which handles uploading stemcells as well as executing the bosh deployment). 
 
 ### [bosh-upload-stemcell-from-cf-deployment][bosh-upload-stemcell-from-cf-deployment-task-yaml]
 **DEPRECATED** Stemcell uploading has been moved to the bosh-deploy task.
@@ -169,6 +173,7 @@ instance groups.
 [bosh-deploy-task-yaml]: bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: bosh-deploy-with-created-release/task.yml
 [bosh-delete-deployment-task-yaml]: bosh-delete-deployment/task.yml
+[bosh-upload-stemcells-task-yaml]: bosh-upload-stemcells/task.yml
 [bosh-upload-stemcell-from-cf-deployment-task-yaml]: bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
