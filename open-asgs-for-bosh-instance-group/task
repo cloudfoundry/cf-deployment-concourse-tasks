@@ -8,7 +8,7 @@ function create_asg_json() {
   local asg_json_path
   asg_json_path=$1
 
-  runtime-ci/tasks/open-asgs-for-bosh-instance-group/create_asgs_json.rb "${INSTANCE_GROUP_NAME}" "${asg_json_path}"
+  cf-deployment-concourse-tasks/open-asgs-for-bosh-instance-group/create_asgs_json.rb "${INSTANCE_GROUP_NAME}" "${asg_json_path}"
 }
 
 function main() {

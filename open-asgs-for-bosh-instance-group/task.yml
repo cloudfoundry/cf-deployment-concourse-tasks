@@ -12,7 +12,7 @@ inputs:
 - name: cf-deployment-concourse-tasks
 
 run:
-  path: runtime-ci/tasks/open-asgs-for-bosh-instance-group/task
+  path: cf-deployment-concourse-tasks/open-asgs-for-bosh-instance-group/task
 
 params:
   BBL_STATE_DIR: bbl-state
