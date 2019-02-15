@@ -18,4 +18,5 @@ params:
   BBL_STATE_DIR: bbl-state
   DEPLOYMENT_NAME: cf
   ERRAND_NAME:
+  INSTANCE:
   KEEP_ALIVE: false
