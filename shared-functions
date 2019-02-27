@@ -233,12 +233,6 @@ function bosh_deploy() {
   fi
 }
 
-function bosh_update_dns_runtime_config() {
-  bosh -n update-runtime-config \
-    bbl-state/${BBL_STATE_DIR}/bosh-deployment/runtime-configs/dns.yml \
-    --name dns
-}
-
 function remove_credentials_from_credhub_in_directory() {
   local directory_name
   directory_name=$1
