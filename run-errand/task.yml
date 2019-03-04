@@ -16,7 +16,26 @@ run:
 
 params:
   BBL_STATE_DIR: bbl-state
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
+
   DEPLOYMENT_NAME: cf
+  # - Optional
+  # - Deployment name for errand to be ran on
+  # - Defaults to cf
+
   ERRAND_NAME:
+  # - Required
+  # - Errand name to be run
+
   INSTANCE:
+  # - Optional
+  # - Allows jobs to disambiguate between different copies of the same errand
+  # - with different configurations
+
   KEEP_ALIVE: false
+  # - Optional
+  # - Specifies whether or not to keep instance alive after errand completion
+  # - Defaults to false

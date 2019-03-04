@@ -145,6 +145,10 @@ against a CF environment specified by the CATs integration file.
 This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
 with the provided CF CLI binary.
 
+### [run-errand][run-errand-yaml]
+This runs a bosh errand
+with the provided deployment and errand name.
+
 ### [set-feature-flags][set-feature-flags-task-yaml]
 This will
 toggle
@@ -178,6 +182,7 @@ instance groups.
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [run-cats-task-yaml]: run-cats/task.yml
 [run-cats-with-provided-cli-task-yaml]: run-cats-with-provided-cli/task.yml
+[run-errand-yaml]: run-errand/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: set-feature-flags/task.yml
 [update-integration-configs-task-yaml]: update-integration-configs/task.yml
