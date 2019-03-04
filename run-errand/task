@@ -25,7 +25,11 @@ function main() {
     PARAMS="$PARAMS --keep-alive"
   fi
 
-  bosh -d "${DEPLOYMENT_NAME}" run-errand "${ERRAND_NAME}" $PARAMS
+  if [ -n "${INSTANCE}" ]; then
+    PARAMS="${PARAMS} --instance=${INSTANCE}"
+  fi
+
+  bosh -d "${DEPLOYMENT_NAME}" run-errand "${ERRAND_NAME}" ${PARAMS}
 }
 
 main
