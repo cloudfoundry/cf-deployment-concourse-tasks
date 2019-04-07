@@ -6,7 +6,7 @@ source cf-deployment-concourse-tasks/shared-functions
 function check_fast_fails() {
   set +x
 
-  if [ "${SKIP_LB_CREATION}" == "false" ]; then
+  if [[ "${SKIP_LB_CREATION}" == "false" && "${BBL_LB_TYPE}" == "cf" ]]; then
     if [ -z "${LB_DOMAIN}" ]; then
       echo "\$LB_DOMAIN is a required parameter.  Please set the domain."
       exit 1
@@ -77,7 +77,7 @@ function main() {
     local lb_flags
     lb_flags=""
 
-    if [ "${SKIP_LB_CREATION}" == "false" ]; then
+    if [[ "${SKIP_LB_CREATION}" == "false" && "${BBL_LB_TYPE}" == "cf" ]]; then
       local bbl_cert_chain_flag
       bbl_cert_chain_flag=""
       local bbl_cert_path
@@ -85,6 +85,8 @@ function main() {
       write_bbl_certs
 
       lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
+    elif [[ "${SKIP_LB_CREATION}" == "false" && -n "${BBL_LB_TYPE}" ]]; then
+      lb_flags="--lb-type=${BBL_LB_TYPE}"
     fi
 
     set -o pipefail

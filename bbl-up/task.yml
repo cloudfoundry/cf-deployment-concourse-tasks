@@ -89,6 +89,12 @@ params:
   # - Required if `SKIP_LB_CREATION` is false
   # - The domain which bbl will register
 
+  BBL_LB_TYPE: cf
+  # - Optional
+  # - The type of Load Balancer bbl should create
+  # - Only used if `SKIP_LB_CREATION` is false
+  # - Must be `cf` or `concourse`
+
   BBL_ENV_NAME:
   # - Optional
   # - A label to apply to the bbl environment
