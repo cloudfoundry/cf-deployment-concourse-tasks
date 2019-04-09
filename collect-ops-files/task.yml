@@ -21,7 +21,7 @@ params:
   # - Directory in the `base-ops-files` input that contains the base ops files
   # - If unspecified, input `base-ops-files` will be the root for finding
   #   the base set of operations files
-  # - If specified, the path must exist.
+  # - If specified, the path must exist in the base-ops-files resource.
 
   NEW_OPS_FILES:
   # - Optional
