@@ -21,6 +21,10 @@ params:
   # - If blank or '.', uses `bbl-state` input as the location for bbl state
   # - If the specified path does not exist, it will be created
 
+  DELETE_ALL_DEPLOYMENTS: false
+  # - Optional
+  # - When true, deletes ALL BOSH deployments
+
   DEPLOYMENT_NAME: cf
 
   IGNORE_ERRORS: false

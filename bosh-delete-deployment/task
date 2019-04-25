@@ -4,6 +4,21 @@ set -exu
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+function bosh_delete_all_deployments() {
+    local deployments
+    deployments=$(bosh deployments --json | jq -r '.Tables[].Rows[].name')
+
+    for deployment in ${deployments}; do
+      if [ -n "${deployment}" ]; then
+        echo "Deleting deployment: ${deployment}"
+      	bosh \
+          -n \
+        	delete-deployment -d "${deployment}" \
+      		${force_flag}
+    	fi
+    done
+}
+
 function check_delete_deployment_params() {
   if [ -z "$DEPLOYMENT_NAME" ]; then
     echo "DEPLOYMENT_NAME has not been set"
@@ -25,9 +40,13 @@ function bosh_delete_deployment() {
 }
 
 function main() {
-  check_delete_deployment_params
   setup_bosh_env_vars
-  bosh_delete_deployment
+  if [ "$DELETE_ALL_DEPLOYMENTS" = true ]; then
+    bosh_delete_all_deployments
+  else
+    check_delete_deployment_params
+    bosh_delete_deployment
+  fi
 }
 
 main
