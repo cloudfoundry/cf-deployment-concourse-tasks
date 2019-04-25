@@ -86,6 +86,7 @@ running out of space.
 
 ### [bosh-delete-deployment][bosh-delete-deployment-task-yaml]
 This deletes a BOSH deployment.
+If you want to delete all of the available BOSH deployments you can set the `DELETE_ALL_DEPLOYMENTS` flag to `true`.
 
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH upload-stemcell and BOSH deployment.
