@@ -5,7 +5,7 @@ image_resource:
   type: docker-image
   source:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
-    tag: v6.8.0
+    tag: v6.9.0
 
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
