@@ -42,9 +42,15 @@ params:
   BBL_AZURE_CLIENT_SECRET:
   BBL_AZURE_TENANT_ID:
   BBL_AZURE_SUBSCRIPTION_ID:
-                
+
   # GCP Configuration Params
   # - Required for GCP
   BBL_GCP_SERVICE_ACCOUNT_KEY:
   # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the `bbl-state` input
+
+  STORE_BBL_STATE_AS_TARBALL: false
+  # - Optional
+  # - Creates a tarball of the bbl-state directory, instead of treating it
+  # - as a git repo and committing.
+  # - This is useful if you want to store your state file in S3 or GCS.
