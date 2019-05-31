@@ -103,7 +103,7 @@ function main() {
       cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
     fi
 
-    eval bbl --debug up \
+    eval bbl up --debug \
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_up.log"
   popd
