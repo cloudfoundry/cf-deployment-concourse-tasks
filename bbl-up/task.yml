@@ -111,3 +111,9 @@ params:
   # - BE CAREFUL! For public pipelines it can cause credentials disclosure.
   # - With `false` all output from BBL calls will be saved in log files inside concourse job only.
   # - Set this to `true` to see all output straight in the pipeline.
+
+  STORE_BBL_STATE_AS_TARBALL: false
+  # - Optional
+  # - Creates a tarball of the bbl-state directory, instead of treating it
+  # - as a git repo and committing.
+  # - This is useful if you want to store your state file in S3 or GCS.
