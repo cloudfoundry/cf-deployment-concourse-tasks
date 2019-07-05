@@ -112,7 +112,7 @@ function main() {
 if [[ "${STORE_BBL_STATE_AS_TARBALL}" == "true" ]]; then
   trap "rm -f ${PWD}/bbl-state/bbl-state.tgz ${PWD}/bbl-state/bbl-state.tgz.uncompressed; tar czf '${PWD}/updated-bbl-state/bbl-state.tgz' -C '${PWD}/bbl-state' ." EXIT
 else
-  trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir'" EXIT
+  trap "commit_bbl_state_dir ${PWD} '${GIT_COMMIT_MESSAGE}'" EXIT
 fi
 
 main ${PWD}
