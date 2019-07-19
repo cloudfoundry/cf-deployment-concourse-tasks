@@ -1,0 +1,22 @@
+#!/bin/bash -eu
+
+# shellcheck disable=SC1091
+source cf-deployment-concourse-tasks/shared-functions
+
+function main() {
+  setup_bosh_env_vars
+
+  TARBALL_VERSION=$(cat version/version)
+
+  echo "TARBALL_PREFIX=${TARBALL_PREFIX}"
+  echo "TARBALL_VERSION=${TARBALL_VERSION}"
+
+  TARBALL_TO_UPLOAD="release-tarball/${TARBALL_PREFIX}-${TARBALL_VERSION}.tgz"
+
+  echo "Uploading release ${TARBALL_TO_UPLOAD}"
+
+  bosh upload-release ${TARBALL_TO_UPLOAD}
+
+}
+
+main
