@@ -1,0 +1,28 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: v7.2.0
+
+inputs:
+- name: cf-deployment-concourse-tasks  # - This repo
+- name: bbl-state  # - The repo containing the Director's bbl state dir
+- name: tarballs  # Directory containing the tarball to upload to the director
+- name: version  # Directory containing the version of the tarball to upload to the director
+
+run:
+  path: cf-deployment-concourse-tasks/bosh-upload-release/task
+
+params:
+  BBL_STATE_DIR: bbl-state
+  # - Path to the directory containing the `bbl-state.json` file
+  # - The path is relative to the `bbl-state` input
+  # - If blank or '.', uses `bbl-state` input as the location for bbl state
+  # - If the specified path does not exist, it will be created
+
+  TARBALL_NAME: release
+  # - Will look for the tarball at
+  # - <tarballs>/TARBALL_NAME-<version>.tgz

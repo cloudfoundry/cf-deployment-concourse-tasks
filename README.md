@@ -123,6 +123,9 @@ when creating a dev release
 from the provided release folder.
 Otherwise identical to the `bosh-deploy-with-created-release` task above.
 
+### [bosh-upload-release][bosh-upload-release-task-yaml]
+This uploads a single release to the BOSH director.
+
 ### [bosh-upload-stemcells][bosh-upload-stemcells-task-yaml]
 This uploads stemcell(s) associated with the manifest and/or ops files provided.
 This task can be used to upload stemcells within jobs that do not contain a bosh-deploy* task (which handles uploading stemcells as well as executing the bosh deployment). 
@@ -172,6 +175,7 @@ instance groups.
 [bosh-deploy-task-yaml]: bosh-deploy/task.yml
 [bosh-deploy-with-created-release-task-yaml]: bosh-deploy-with-created-release/task.yml
 [bosh-delete-deployment-task-yaml]: bosh-delete-deployment/task.yml
+[bosh-upload-release-task-yaml]: bosh-upload-release/task.yml
 [bosh-upload-stemcells-task-yaml]: bosh-upload-stemcells/task.yml
 [bosh-upload-stemcell-from-cf-deployment-task-yaml]: bosh-upload-stemcell-from-cf-deployment/task.yml
 [cf-deployment-repo]: https://github.com/cloudfoundry/cf-deployment
