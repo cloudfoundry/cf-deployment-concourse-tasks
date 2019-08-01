@@ -8,6 +8,12 @@ function bosh_delete_all_deployments() {
     local deployments
     deployments=$(bosh deployments --json | jq -r '.Tables[].Rows[].name')
 
+    local force_flag=""
+
+    if [ "$IGNORE_ERRORS" = true ]; then
+        force_flag="--force"
+    fi
+
     for deployment in ${deployments}; do
       if [ -n "${deployment}" ]; then
         echo "Deleting deployment: ${deployment}"
