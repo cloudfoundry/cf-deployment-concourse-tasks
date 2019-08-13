@@ -3,6 +3,22 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
+function load_from_json_config() {
+  set +ux
+
+  if [ -z "${BBL_JSON_CONFIG}" ]; then
+    set -ux
+    return
+  fi
+
+  keys=$( jq -r 'keys[]' "${BBL_JSON_CONFIG}" )
+  for key in $keys; do
+    echo "Getting $key from BBL_JSON_CONFIG"
+    export $key=$( jq -r ".$key" "${BBL_JSON_CONFIG}" )
+  done
+  set -ux
+}
+
 function check_fast_fails() {
   set +x
 
@@ -54,6 +70,10 @@ function write_bbl_certs() {
 function main() {
   local root_dir
   root_dir="${1}"
+
+  load_from_json_config
+
+  env | grep BBL
 
   check_fast_fails
 

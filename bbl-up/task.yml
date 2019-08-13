@@ -15,6 +15,8 @@ inputs:
 #   we suggest you use `input_mapping`
 #   to map your `bbl-state` resource to `bbl-config`
 #   in order to satisfy this required input.
+- name: pool-lock
+  optional: true
 
 outputs:
 - name: updated-bbl-state
@@ -117,3 +119,7 @@ params:
   # - Creates a tarball of the bbl-state directory, instead of treating it
   # - as a git repo and committing.
   # - This is useful if you want to store your state file in S3 or GCS.
+
+  BBL_JSON_CONFIG:
+  # - Optional
+  # - For if you need a dynamic config for BBL
