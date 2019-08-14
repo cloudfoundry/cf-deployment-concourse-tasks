@@ -10,6 +10,8 @@ image_resource:
 inputs:
 - name: bbl-state
 - name: cf-deployment-concourse-tasks
+- name: pool-lock
+  optional: true
 
 run:
   path: cf-deployment-concourse-tasks/run-errand/task
@@ -39,3 +41,7 @@ params:
   # - Optional
   # - Specifies whether or not to keep instance alive after errand completion
   # - Defaults to false
+
+  BBL_JSON_CONFIG:
+  # - Optional
+  # - For if you need a dynamic config for BBL
