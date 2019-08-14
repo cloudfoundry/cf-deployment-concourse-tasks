@@ -13,6 +13,8 @@ inputs:
 - name: ops-files  # - Operations files to be made available
 - name: vars-files  # - Variable files to be made available
 - name: cf-deployment-concourse-tasks  # - This repo
+- name: pool-lock
+  optional: true
 
 run:
   path: cf-deployment-concourse-tasks/bosh-deploy/task
@@ -119,3 +121,7 @@ params:
   # - Optional
   # - Used to determine whether we should upload a warden stemcell
   # - Boolean
+
+  BBL_JSON_CONFIG:
+  # - Optional
+  # - For if you need a dynamic config for BBL
