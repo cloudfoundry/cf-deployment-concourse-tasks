@@ -43,8 +43,10 @@ function load_from_json_config() {
 
   keys=$( jq -r 'keys[]' "${BBL_JSON_CONFIG}" )
   for key in $keys; do
-    echo "Getting $key from BBL_JSON_CONFIG"
-    export $key=$( jq -r ".$key" "${BBL_JSON_CONFIG}" )
+    if [[ -v $key ]]; then
+      echo "Getting $key from BBL_JSON_CONFIG"
+      export $key=$( jq -r ".$key" "${BBL_JSON_CONFIG}" )
+    fi
   done
   set -ux
 }
