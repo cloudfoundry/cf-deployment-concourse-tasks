@@ -10,6 +10,8 @@ image_resource:
 inputs:
 - name: bbl-state # - The env repo containing the Director's bbl state dir
 - name: cf-deployment-concourse-tasks  # - This repo
+- name: pool-lock
+  optional: true
 
 run:
   path: cf-deployment-concourse-tasks/bosh-delete-deployment/task
@@ -30,3 +32,7 @@ params:
   IGNORE_ERRORS: false
   # - Optional
   # - When true, passes the `--force` flag to the delete-deployment BOSH command
+
+  BBL_JSON_CONFIG:
+  # - Optional
+  # - For if you need a dynamic config for BBL

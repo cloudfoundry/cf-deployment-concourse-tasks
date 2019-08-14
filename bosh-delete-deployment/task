@@ -46,6 +46,8 @@ function bosh_delete_deployment() {
 }
 
 function main() {
+  load_from_json_config
+
   setup_bosh_env_vars
   if [ "$DELETE_ALL_DEPLOYMENTS" = true ]; then
     bosh_delete_all_deployments
