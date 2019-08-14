@@ -10,6 +10,8 @@ image_resource:
 inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: bbl-state   # - The env repo containing the Director's bbl state dir
+- name: pool-lock
+  optional: true
 
 outputs:
 - name: updated-bbl-state
@@ -54,3 +56,7 @@ params:
   # - Creates a tarball of the bbl-state directory, instead of treating it
   # - as a git repo and committing.
   # - This is useful if you want to store your state file in S3 or GCS.
+
+  BBL_JSON_CONFIG:
+  # - Optional
+  # - For if you need a dynamic config for BBL

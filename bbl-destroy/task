@@ -7,6 +7,8 @@ function main() {
   local root_dir
   root_dir="${1}"
 
+  load_from_json_config
+
   check_bbl_input_params
 
   pushd "bbl-state/${BBL_STATE_DIR}"
