@@ -73,8 +73,6 @@ function main() {
 
   load_from_json_config
 
-  env | grep BBL
-
   check_fast_fails
 
   if [ "${BBL_IAAS}" == "gcp" ]; then
