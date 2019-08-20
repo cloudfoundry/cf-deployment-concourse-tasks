@@ -173,10 +173,11 @@ write_uptimer_deploy_config() {
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
     --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
     --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
+    --arg bosh_deploy_args ${BOSH_DEPLOY_ARGS} \
     '{
       "while": [{
         "command":"bosh",
-        "command_args":["--tty", "-n", "deploy", $manifest, "-d", $deployment_name]
+        "command_args":["--tty", "-n", "deploy", $bosh_deploy_args, $manifest, "-d", $deployment_name]
       }],
       "cf": {
         "api": $cf_api,
