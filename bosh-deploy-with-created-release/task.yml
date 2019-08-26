@@ -13,8 +13,14 @@ inputs:
 - name: ops-files  # - Operations files to be made available
 - name: vars-files  # - Variable files to be made available
 - name: release
-# - BOSH release source repo
-# - A dev release will be created from this repo and used in the deployment
+# - BOSH release source repo or directory containing a release tarball
+# - If the input is a git repository, a dev release will be created from
+#   this repo and used in the deployment. If the input is a directory
+#   containing a pre-built release tarball, then the release_tarball_name
+#   input needs to point at a directory containing a "name" file containing
+#   the full name of the tarball to be used.
+- name: release_tarball_name
+  optional: true
 - name: cf-deployment-concourse-tasks  # - This repo
 
 run:
