@@ -147,6 +147,10 @@ write_uptimer_deploy_config() {
   local manifest
   manifest=${2}
 
+  # The remaining positional parameters are consumed by
+  # jq as bosh deploy args
+  shift 2
+
   # Give bogus values for TCP_DOMAIN and AVAILABLE_PORT
   # so that we don't have to do jq magic.
   local tcp_domain
@@ -173,10 +177,11 @@ write_uptimer_deploy_config() {
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
     --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
     --arg app_syslog_availability ${APP_SYSLOG_AVAILABILITY_THRESHOLD} \
+    --args \
     '{
       "while": [{
         "command":"bosh",
-        "command_args":["--tty", "-n", "deploy", $manifest, "-d", $deployment_name]
+        "command_args":["--tty", "-n", "deploy", $manifest, "-d", $deployment_name, $ARGS.positional[]]
       }],
       "cf": {
         "api": $cf_api,
@@ -197,7 +202,8 @@ write_uptimer_deploy_config() {
       "optional_tests": {
         "run_app_syslog_availability": $run_app_syslog_availability | ascii_downcase | contains("true")
       }
-    }'
+    }' \
+    -- ${@}
   set -x
 }
 
@@ -213,7 +219,7 @@ function uptimer_bosh_deploy() {
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
   uptimer_config=$(mktemp)
-  write_uptimer_deploy_config "${deployment_name}" "${INTERPOLATED_MANIFEST}" > ${uptimer_config}
+  write_uptimer_deploy_config "${deployment_name}" "${INTERPOLATED_MANIFEST}" ${@} > ${uptimer_config}
   pushd cf-deployment > /dev/null
     set +e
     local exitStatus
@@ -238,7 +244,7 @@ function bosh_deploy() {
   deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
 
   if ${DEPLOY_WITH_UPTIME_MEASUREMENTS}; then
-    uptimer_bosh_deploy
+    uptimer_bosh_deploy ${@}
   else
     pushd cf-deployment > /dev/null
       bosh \
