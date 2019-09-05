@@ -120,6 +120,13 @@ params:
   # - as a git repo and committing.
   # - This is useful if you want to store your state file in S3 or GCS.
 
+  DELETE_TERRAFORM_PLUGINS: true
+  # - Optional
+  # - Deletes Terraform plugins in the bbl state directory before pushing or uploading state
+  # - These plugins are very large (around 50 MB for the Google plugin, for instance)
+  # - bbl will replace them on its next operation
+  # - Set this to `false` to keep these plugins
+
   BBL_JSON_CONFIG:
   # - Optional
   # - For if you need a dynamic config for BBL
