@@ -7,7 +7,7 @@ ENV go_version 1.12.10
 ENV cf_cli_version 6.46.1
 ENV bosh_cli_version 6.1.0
 ENV bbl_version 8.2.14
-ENV terraform_version 0.12.9
+ENV terraform_version 0.12.10
 ENV credhub_cli_version 2.6.0
 ENV git_crypt_version 0.6.0
 
