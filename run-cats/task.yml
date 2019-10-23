@@ -11,6 +11,9 @@ inputs:
 - name: cf-deployment-concourse-tasks
 - name: cf-acceptance-tests
 - name: integration-config
+- name: cf-cli
+  optional: true
+# - Input to run your own cf-cli binary
 
 outputs:
 - name: cats-trace-output

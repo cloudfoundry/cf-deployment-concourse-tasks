@@ -141,10 +141,8 @@ wins.
 ### [run-cats][run-cats-task-yaml]
 This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
 against a CF environment specified by the CATs integration file.
-
-### [run-cats-with-provided-cli][run-cats-with-provided-cli-task-yaml]
-This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
-with the provided CF CLI binary.
+If desired, you can use the optional cf-cli input to provide your own CF CLI
+binary.
 
 ### [run-errand][run-errand-yaml]
 This runs a bosh errand
@@ -182,7 +180,6 @@ instance groups.
 [deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [run-cats-task-yaml]: run-cats/task.yml
-[run-cats-with-provided-cli-task-yaml]: run-cats-with-provided-cli/task.yml
 [run-errand-yaml]: run-errand/task.yml
 [runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: set-feature-flags/task.yml
