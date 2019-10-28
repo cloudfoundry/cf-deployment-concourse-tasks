@@ -1,0 +1,117 @@
+resources:
+- name: runtime-ci
+  type: git
+  icon: github-box
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/runtime-ci.git
+
+- name: cf-deployment-concourse-tasks-dockerfile
+  type: git
+  icon: github-box
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
+    private_key: ((cfdct_readwrite_deploy_key.private_key))
+    paths:
+    - dockerfiles/cf-deployment-concourse-tasks/Dockerfile
+
+- name: bosh-cli-github-release
+  type: github-release
+  icon: github-face
+  source:
+    user: cloudfoundry
+    repository: bosh-cli
+    access_token: ((release_integration_download_bot_access_token))
+
+- name: cf-cli-github-release
+  type: github-release
+  icon: github-face
+  source:
+    user: cloudfoundry
+    repository: cli
+    access_token: ((release_integration_download_bot_access_token))
+    tag_filter: 'v(6\.[^v].*)'
+
+- name: credhub-cli-github-release
+  type: github-release
+  icon: github-face
+  source:
+    user: cloudfoundry-incubator
+    repository: credhub-cli
+    access_token: ((release_integration_download_bot_access_token))
+
+- name: golang-1-12-docker-image
+  type: docker-image
+  icon: docker
+  source:
+    repository: golang
+    tag: 1.12
+
+- name: terraform-github-release
+  type: github-release
+  icon: github-face
+  source:
+    user: hashicorp
+    repository: terraform
+    access_token: ((release_integration_download_bot_access_token))
+
+- name: uptimer
+  type: git
+  icon: github-box
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/uptimer.git
+
+- name: cf-deployment-concourse-tasks-pipeline-image
+  type: docker-image
+  icon: docker
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    username: ((dockerhub.username))
+    password: ((dockerhub.password))
+    email: cf-release-integration+dockerhub-push-bot@pivotal.io
+
+- name: ubuntu-bionic-image
+  type: docker-image
+  icon: docker
+  source:
+    repository: ubuntu
+    tag: bionic
+
+jobs:
+- name: build-docker-image
+  serial: true
+  public: true
+  plan:
+  - in_parallel:
+    - get: runtime-ci
+    - get: cf-deployment-concourse-tasks-dockerfile
+      trigger: true
+    - get: bosh-cli-github-release
+      trigger: true
+    - get: cf-cli-github-release
+      trigger: true
+    - get: credhub-cli-github-release
+      trigger: true
+    - get: golang-1-12-docker-image
+      trigger: true
+    - get: terraform-github-release
+      trigger: true
+    - get: ubuntu-bionic-image
+      trigger: true
+    - get: uptimer
+      trigger: true
+  - task: update-dockerfile-versions
+    file: runtime-ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
+    input_mapping:
+      golang-docker-image: golang-1-12-docker-image
+      cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
+  - put: cf-deployment-concourse-tasks-pipeline-image
+    params:
+      build: cf-deployment-concourse-tasks-updated/dockerfiles/cf-deployment-concourse-tasks
+      push: true
+  - put: cf-deployment-concourse-tasks-dockerfile
+    params:
+      repository: cf-deployment-concourse-tasks-updated
+      rebase: true
