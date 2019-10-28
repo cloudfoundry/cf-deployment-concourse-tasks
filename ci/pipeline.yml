@@ -79,6 +79,33 @@ resources:
     repository: ubuntu
     tag: bionic
 
+- name: cf-deployment-concourse-tasks-version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:cloudfoundry/cf-relint-ci-semver.git
+    branch: master
+    private_key: ((cf_relint_ci_semver_readwrite_deploy_key.private_key))
+    git_user: "CF RELINT BOT <cf-release-integration@pivotal.io>"
+    file: cf-deployment-concourse-tasks-version
+
+- name: cf-deployment-concourse-tasks
+  type: git
+  icon: github-box
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
+    private_key: ((cfdct_readwrite_deploy_key.private_key))
+
+- name: cf-deployment-concourse-tasks-latest-release
+  type: git
+  icon: github-box
+  source:
+    branch: master
+    uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
+    private_key: ((cfdct_readwrite_deploy_key.private_key))
+    tag_filter: '*'
+
 jobs:
 - name: build-docker-image
   serial: true
@@ -116,3 +143,126 @@ jobs:
     params:
       repository: cf-deployment-concourse-tasks-updated
       rebase: true
+
+- name: release-notes-template
+  public: true
+  plan:
+  - in_parallel:
+    - get: runtime-ci
+    - get: cf-deployment-concourse-tasks
+      trigger: true
+    - get: cf-deployment-concourse-tasks-latest-release
+  - task: generate-release-notes-template
+    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+
+- name: ship-it-major
+  public: true
+  plan:
+  - in_parallel:
+    - get: runtime-ci
+    - get: cf-deployment-concourse-tasks-version
+      params:
+        bump: major
+    - get: cf-deployment-concourse-tasks
+    - get: cf-deployment-concourse-tasks-pipeline-image
+      params:
+        save: true
+      passed:
+      - build-docker-image
+  ## push to docker with a tagged version
+  - task: generate-major-version-file
+    file: runtime-ci/tasks/generate-major-version-file/task.yml
+    input_mapping:
+      semantic_version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks-pipeline-image
+    params:
+      load: cf-deployment-concourse-tasks-pipeline-image
+      tag_file: major_version/version
+      tag_prefix: v
+    get_params:
+      save: true
+  - put: cf-deployment-concourse-tasks-pipeline-image
+    params:
+      load: cf-deployment-concourse-tasks-pipeline-image
+      tag_file: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+  ## update task yml to a updated dockerimage version and tag
+  - task: update-docker-image-version
+    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    input_mapping:
+      version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks
+    params:
+      repository: cf-deployment-concourse-tasks-updated
+      tag: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+  ## update task yml to point back to latest
+  - task: update-docker-image-version
+    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    params:
+      NEW_VERSION: latest
+    input_mapping:
+      version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks
+    params:
+      repository: cf-deployment-concourse-tasks-updated
+      rebase: true
+  - put: cf-deployment-concourse-tasks-version
+    params:
+      bump: major
+
+- name: ship-it-minor
+  public: true
+  plan:
+  - in_parallel:
+    - get: runtime-ci
+    - get: cf-deployment-concourse-tasks-version
+      params:
+        bump: minor
+    - get: cf-deployment-concourse-tasks
+    - get: cf-deployment-concourse-tasks-pipeline-image
+      params:
+        save: true
+      passed:
+      - build-docker-image
+  ## push to docker with a tagged version
+  - task: generate-major-version-file
+    file: runtime-ci/tasks/generate-major-version-file/task.yml
+    input_mapping:
+      semantic_version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks-pipeline-image
+    params:
+      load: cf-deployment-concourse-tasks-pipeline-image
+      tag_file: major_version/version
+      tag_prefix: v
+    get_params:
+      save: true
+  - put: cf-deployment-concourse-tasks-pipeline-image
+    params:
+      load: cf-deployment-concourse-tasks-pipeline-image
+      tag_file: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+  ## update task yml to a updated dockerimage version and tag
+  - task: update-docker-image-version
+    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    input_mapping:
+      version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks
+    params:
+      repository: cf-deployment-concourse-tasks-updated
+      tag: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+  ## update task yml to point back to latest
+  - task: update-docker-image-version
+    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    params:
+      NEW_VERSION: latest
+    input_mapping:
+      version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks
+    params:
+      repository: cf-deployment-concourse-tasks-updated
+      rebase: true
+  - put: cf-deployment-concourse-tasks-version
+    params:
+      bump: minor
