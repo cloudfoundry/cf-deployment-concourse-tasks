@@ -1,0 +1,7 @@
+#!/bin/bash -eux
+
+function main() {
+  fly -t relint-ci sp -p cf-deployment-concourse-tasks -c "${PROJECT_DIR}/ci/pipeline.yml"
+}
+
+main "$@"
