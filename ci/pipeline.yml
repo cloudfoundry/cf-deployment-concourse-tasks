@@ -105,8 +105,9 @@ jobs:
   - task: update-dockerfile-versions
     file: runtime-ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
     input_mapping:
-      golang-docker-image: golang-1-12-docker-image
+      cf-cli: cf-cli-github-release
       cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
+      golang-docker-image: golang-1-12-docker-image
   - put: cf-deployment-concourse-tasks-pipeline-image
     params:
       build: cf-deployment-concourse-tasks-updated/dockerfiles/cf-deployment-concourse-tasks
