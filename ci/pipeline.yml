@@ -106,6 +106,14 @@ resources:
     private_key: ((cfdct_readwrite_deploy_key.private_key))
     tag_filter: '*'
 
+- name: cf-deployment-concourse-tasks-github-release
+  type: github-release
+  source:
+    owner: cloudfoundry
+    repository: cf-deployment-concourse-tasks
+    access_token: ((cf_decota_release_bot_access_token))
+    drafts: true
+
 jobs:
 - name: build-docker-image
   serial: true
@@ -152,8 +160,11 @@ jobs:
     - get: cf-deployment-concourse-tasks
       trigger: true
     - get: cf-deployment-concourse-tasks-latest-release
+    - get: cf-deployment-concourse-tasks-version
   - task: generate-release-notes-template
     file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    input_mapping:
+      release-version: cf-deployment-concourse-tasks-version
 
 - name: ship-it-major
   public: true
@@ -164,6 +175,7 @@ jobs:
       params:
         bump: major
     - get: cf-deployment-concourse-tasks
+    - get: cf-deployment-concourse-tasks-latest-release
     - get: cf-deployment-concourse-tasks-pipeline-image
       params:
         save: true
@@ -210,6 +222,17 @@ jobs:
   - put: cf-deployment-concourse-tasks-version
     params:
       bump: major
+  ## generate release notes and push draft release
+  - task: generate-release-notes-template
+    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    input_mapping:
+      release-version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks-github-release
+    params:
+      name: release-notes-template/name
+      tag: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+      body: release-notes-template/template
 
 - name: ship-it-minor
   public: true
@@ -220,6 +243,7 @@ jobs:
       params:
         bump: minor
     - get: cf-deployment-concourse-tasks
+    - get: cf-deployment-concourse-tasks-latest-release
     - get: cf-deployment-concourse-tasks-pipeline-image
       params:
         save: true
@@ -266,3 +290,14 @@ jobs:
   - put: cf-deployment-concourse-tasks-version
     params:
       bump: minor
+  ## generate release notes and push draft release
+  - task: generate-release-notes-template
+    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    input_mapping:
+      release-version: cf-deployment-concourse-tasks-version
+  - put: cf-deployment-concourse-tasks-github-release
+    params:
+      name: release-notes-template/name
+      tag: cf-deployment-concourse-tasks-version/version
+      tag_prefix: v
+      body: release-notes-template/template
