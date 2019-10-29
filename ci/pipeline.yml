@@ -199,7 +199,7 @@ jobs:
       tag_file: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
   ## update task yml to a updated dockerimage version and tag
-  - task: update-docker-image-version
+  - task: update-docker-image-version-for-release
     file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
     input_mapping:
       version: cf-deployment-concourse-tasks-version
@@ -209,12 +209,10 @@ jobs:
       tag: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
   ## update task yml to point back to latest
-  - task: update-docker-image-version
+  - task: update-docker-image-version-back-to-latest
     file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
     params:
       NEW_VERSION: latest
-    input_mapping:
-      version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks
     params:
       repository: cf-deployment-concourse-tasks-updated
@@ -267,7 +265,7 @@ jobs:
       tag_file: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
   ## update task yml to a updated dockerimage version and tag
-  - task: update-docker-image-version
+  - task: update-docker-image-version-for-release
     file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
     input_mapping:
       version: cf-deployment-concourse-tasks-version
@@ -277,12 +275,10 @@ jobs:
       tag: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
   ## update task yml to point back to latest
-  - task: update-docker-image-version
+  - task: update-docker-image-version-back-to-latest
     file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
     params:
       NEW_VERSION: latest
-    input_mapping:
-      version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks
     params:
       repository: cf-deployment-concourse-tasks-updated
