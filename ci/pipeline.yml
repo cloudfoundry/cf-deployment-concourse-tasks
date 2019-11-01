@@ -16,6 +16,14 @@ resources:
     paths:
     - dockerfiles/cf-deployment-concourse-tasks/Dockerfile
 
+- name: bbl-github-release
+  type: github-release
+  icon: github-face
+  source:
+    user: cloudfoundry
+    repository: bosh-bootloader
+    access_token: ((release_integration_download_bot_access_token))
+
 - name: bosh-cli-github-release
   type: github-release
   icon: github-face
@@ -297,3 +305,42 @@ jobs:
       tag: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
       body: release-notes-template/template
+
+- name: check-and-notify-bbl-updates
+  plan:
+  - in_parallel:
+    - get: runtime-ci
+    - get: bbl-github-release
+      trigger: true
+  - task: write-tracker-body
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: relintdockerhubpushbot/relint-base
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          #!/bin/bash
+
+          BBL_VERSION=$(cat bbl-github-release/version)
+
+          cat << EOF > tracker-story-post-body/body.json
+          {
+            "name": "New bbl version: ${BBL_VERSION} is available",
+            "story_type": "chore"
+          }
+          EOF
+      inputs:
+      - name: bbl-github-release
+      outputs:
+      - name: tracker-story-post-body
+  - task: create-pm-story
+    file: runtime-ci/tasks/create-pm-story/task.yml
+    input_mapping:
+      tracker-story-post-body: tracker-story-post-body
+    params:
+      TRACKER_API_TOKEN: ((cf_relint_tracker_api_token))
