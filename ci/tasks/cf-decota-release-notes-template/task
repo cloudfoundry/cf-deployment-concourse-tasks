@@ -1,7 +1,7 @@
 #!/bin/bash
 set -exu
 
-SCRIPT_DIR=runtime-ci/tasks/cf-decota-release-notes-template
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 pushd $SCRIPT_DIR
   PARSED_BUNDLE_VERSION=$(sed -n '/BUNDLED WITH/{;n;p;}' Gemfile.lock)

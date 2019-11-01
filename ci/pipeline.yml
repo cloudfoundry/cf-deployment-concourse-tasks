@@ -1,11 +1,4 @@
 resources:
-- name: runtime-ci
-  type: git
-  icon: github-box
-  source:
-    branch: master
-    uri: https://github.com/cloudfoundry/runtime-ci.git
-
 - name: cf-deployment-concourse-tasks-dockerfile
   type: git
   icon: github-box
@@ -128,7 +121,6 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-deployment-concourse-tasks-dockerfile
       trigger: true
     - get: bosh-cli-github-release
@@ -164,7 +156,6 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-deployment-concourse-tasks
       trigger: true
     - get: cf-deployment-concourse-tasks-latest-release
@@ -178,7 +169,6 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-deployment-concourse-tasks-version
       params:
         bump: major
@@ -244,7 +234,6 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-deployment-concourse-tasks-version
       params:
         bump: minor

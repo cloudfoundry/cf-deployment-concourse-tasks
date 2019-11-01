@@ -2,7 +2,34 @@
 
 # Not able to resolve our import via shellcheck, so disable warning
 # shellcheck disable=SC1091
-source runtime-ci/tasks/shared-functions
+function commit_with_message() {
+  local repo_dir="${1}"
+  local commit_message_file="${2}"
+
+  pushd "${repo_dir}" > /dev/null
+    if [[ -z "$(git status --porcelain)" ]]; then
+      popd > /dev/null
+      return
+    fi
+
+    git config user.name "CF RELINT BOT"
+    git config user.email "cf-release-integration@pivotal.io"
+
+    git add .
+
+    local commit_message
+    commit_message="$(cat "${commit_message_file}")"
+
+    if [[ -z "${commit_message}" ]]; then
+      commit_message="No changes"
+    fi
+
+    git commit -m "${commit_message}"
+
+    git status
+    git show --color | cat
+  popd > /dev/null
+}
 
 function main() {
   local new_version
