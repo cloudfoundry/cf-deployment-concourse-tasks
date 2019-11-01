@@ -9,7 +9,6 @@ image_resource:
 
 inputs:
 - name: bbl-state
-- name: runtime-ci
 - name: cf-deployment-concourse-tasks
 
 run:
