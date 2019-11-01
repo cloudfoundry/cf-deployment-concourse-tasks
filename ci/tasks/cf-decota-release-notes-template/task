@@ -1,0 +1,14 @@
+#!/bin/bash
+set -exu
+
+SCRIPT_DIR=runtime-ci/tasks/cf-decota-release-notes-template
+
+pushd $SCRIPT_DIR
+  PARSED_BUNDLE_VERSION=$(sed -n '/BUNDLED WITH/{;n;p;}' Gemfile.lock)
+  gem uninstall bundler
+  gem install bundler --version "$PARSED_BUNDLE_VERSION"
+  bundle install --without development
+popd
+
+BUNDLE_GEMFILE=$SCRIPT_DIR/Gemfile \
+  bundle exec ruby $SCRIPT_DIR/task.rb

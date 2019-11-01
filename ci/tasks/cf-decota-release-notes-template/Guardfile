@@ -1,0 +1,14 @@
+# vi:syn=ruby
+
+rspec_options = {
+			cmd:          'bundle exec rspec',
+			spec_paths:   ['.'],
+			all_on_start: true
+}
+
+guard :rspec, rspec_options do
+	watch(%r{^.+\.rb$}) do |m|
+		puts "#{m[0]} changed."
+		'.'
+	end
+end

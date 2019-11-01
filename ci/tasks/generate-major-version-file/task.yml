@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+
+inputs:
+- name: runtime-ci
+- name: semantic_version
+
+outputs:
+- name: major_version
+
+run:
+  path: runtime-ci/tasks/generate-major-version-file/task

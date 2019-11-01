@@ -1,0 +1,13 @@
+#!/bin/bash -eu
+
+function main() {
+  if [[ ! -r semantic_version/version ]]; then
+    echo "Missing semantic_version/version input file."
+    exit 1
+  fi
+
+  echo "Extracting major version from $(cat semantic_version/version)..."
+  cat semantic_version/version | cut -d'.' -f1 > major_version/version
+}
+
+main

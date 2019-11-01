@@ -1,0 +1,32 @@
+#!/bin/bash -eu
+
+# Not able to resolve our import via shellcheck, so disable warning
+# shellcheck disable=SC1091
+source runtime-ci/tasks/shared-functions
+
+function main() {
+  local new_version
+  if [[ -n "${NEW_VERSION}" ]]; then
+    new_version="${NEW_VERSION}"
+  elif [[ -d version ]]; then
+    new_version="v$(cat version/version)"
+  fi
+
+  if [[ -z "${new_version}" ]]; then
+    echo "version is empty"
+    exit 1
+  fi
+
+  git clone cf-deployment-concourse-tasks cf-deployment-concourse-tasks-updated
+
+  pushd cf-deployment-concourse-tasks-updated
+    local old_version
+    old_version="$(bosh int bbl-up/task.yml --path /image_resource/source/tag)"
+
+    sed -i -e "s/tag: ${old_version}/tag: ${new_version}/g" ./*/task.yml
+
+    commit_with_message "${PWD}" <(echo "Update docker image to ${new_version}")
+  popd
+}
+
+main

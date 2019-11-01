@@ -1,0 +1,23 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: ruby
+    tag: 2.6-slim
+
+inputs:
+- name: runtime-ci
+- name: cf-deployment-concourse-tasks
+- name: cf-deployment-concourse-tasks-latest-release
+- name: release-version
+
+outputs:
+- name: release-notes-template
+
+params:
+  GH_ACCESS_TOKEN: ~
+
+run:
+  path: runtime-ci/tasks/cf-decota-release-notes-template/task

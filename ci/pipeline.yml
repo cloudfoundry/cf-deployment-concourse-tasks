@@ -146,7 +146,7 @@ jobs:
     - get: uptimer
       trigger: true
   - task: update-dockerfile-versions
-    file: runtime-ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
     input_mapping:
       cf-cli: cf-cli-github-release
       cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
@@ -170,7 +170,7 @@ jobs:
     - get: cf-deployment-concourse-tasks-latest-release
     - get: cf-deployment-concourse-tasks-version
   - task: generate-release-notes-template
-    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/cf-decota-release-notes-template/task.yml
     input_mapping:
       release-version: cf-deployment-concourse-tasks-version
 
@@ -191,7 +191,7 @@ jobs:
       - build-docker-image
   ## push to docker with a tagged version
   - task: generate-major-version-file
-    file: runtime-ci/tasks/generate-major-version-file/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/generate-major-version-file/task.yml
     input_mapping:
       semantic_version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks-pipeline-image
@@ -208,7 +208,7 @@ jobs:
       tag_prefix: v
   ## update task yml to a updated dockerimage version and tag
   - task: update-docker-image-version-for-release
-    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/bump-cf-d-ct-docker-image/task.yml
     input_mapping:
       version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks
@@ -218,7 +218,7 @@ jobs:
       tag_prefix: v
   ## update task yml to point back to latest
   - task: update-docker-image-version-back-to-latest
-    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/bump-cf-d-ct-docker-image/task.yml
     params:
       NEW_VERSION: latest
   - put: cf-deployment-concourse-tasks
@@ -230,7 +230,7 @@ jobs:
       bump: major
   ## generate release notes and push draft release
   - task: generate-release-notes-template
-    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/cf-decota-release-notes-template/task.yml
     input_mapping:
       release-version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks-github-release
@@ -257,7 +257,7 @@ jobs:
       - build-docker-image
   ## push to docker with a tagged version
   - task: generate-major-version-file
-    file: runtime-ci/tasks/generate-major-version-file/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/generate-major-version-file/task.yml
     input_mapping:
       semantic_version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks-pipeline-image
@@ -274,7 +274,7 @@ jobs:
       tag_prefix: v
   ## update task yml to a updated dockerimage version and tag
   - task: update-docker-image-version-for-release
-    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/bump-cf-d-ct-docker-image/task.yml
     input_mapping:
       version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks
@@ -284,7 +284,7 @@ jobs:
       tag_prefix: v
   ## update task yml to point back to latest
   - task: update-docker-image-version-back-to-latest
-    file: runtime-ci/tasks/bump-cf-d-ct-docker-image/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/bump-cf-d-ct-docker-image/task.yml
     params:
       NEW_VERSION: latest
   - put: cf-deployment-concourse-tasks
@@ -296,7 +296,7 @@ jobs:
       bump: minor
   ## generate release notes and push draft release
   - task: generate-release-notes-template
-    file: runtime-ci/tasks/cf-decota-release-notes-template/task.yml
+    file: cf-deployment-concourse-tasks/ci/tasks/cf-decota-release-notes-template/task.yml
     input_mapping:
       release-version: cf-deployment-concourse-tasks-version
   - put: cf-deployment-concourse-tasks-github-release
