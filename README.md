@@ -5,7 +5,7 @@ Each task is in its own directory.
 A task will generally be composed of a task.yml to be referenced in pipelines,
 a supporting task file, and a Dockerfile.
 The Dockerfile is built and pushed to Dockerhub regularly
-in CI maintained by the CF Release Integration team [here][runtime-ci-build-docker-images].
+in CI maintained by the CF Release Integration team [here][cf-deployment-concourse-tasks-ci].
 
 It should be clear how to use each task
 from the task.yml
@@ -176,12 +176,12 @@ instance groups.
 [cf-deployment-slack-channel]: https://cloudfoundry.slack.com/messages/cf-deployment/
 [collect-ops-files]: collect-ops-files/task.yml
 [deploy-with-created-lines]: bosh-deploy-with-created-release/task#L49-L55
-[deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md
-[deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/develop/deployment-guide.md#on-certificates
+[deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/master/texts/deployment-guide.md
+[deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/master/texts/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [run-cats-task-yaml]: run-cats/task.yml
 [run-errand-yaml]: run-errand/task.yml
-[runtime-ci-build-docker-images]: https://runtime.ci.cf-app.com/teams/main/pipelines/build-docker-images?groups=cf-deployment-concourse-tasks
+[cf-deployment-concourse-tasks-ci]: https://release-integration.ci.cf-app.com/teams/main/pipelines/cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: set-feature-flags/task.yml
 [update-integration-configs-task-yaml]: update-integration-configs/task.yml
 [open-asgs-for-bosh-instance-group-task-yaml]:  open-asgs-for-bosh-instance-group/task.yml
