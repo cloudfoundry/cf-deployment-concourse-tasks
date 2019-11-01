@@ -8,7 +8,6 @@ image_resource:
     tag: 2.6-slim
 
 inputs:
-- name: runtime-ci
 - name: cf-deployment-concourse-tasks
 - name: cf-deployment-concourse-tasks-latest-release
 - name: release-version
@@ -20,4 +19,4 @@ params:
   GH_ACCESS_TOKEN: ~
 
 run:
-  path: runtime-ci/tasks/cf-decota-release-notes-template/task
+  path: cf-deployment-concourse-tasks/ci/tasks/cf-decota-release-notes-template/task

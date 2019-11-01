@@ -7,7 +7,6 @@ image_resource:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
 
 inputs:
-- name: runtime-ci
 - name: cf-deployment-concourse-tasks
 - name: version
   optional: true
@@ -19,4 +18,4 @@ params:
   NEW_VERSION:
 
 run:
-  path: runtime-ci/tasks/bump-cf-d-ct-docker-image/task
+  path: cf-deployment-concourse-tasks/ci/tasks/bump-cf-d-ct-docker-image/task

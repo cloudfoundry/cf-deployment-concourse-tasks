@@ -7,11 +7,11 @@ image_resource:
     repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
 
 inputs:
-- name: runtime-ci
+- name: cf-deployment-concourse-tasks
 - name: semantic_version
 
 outputs:
 - name: major_version
 
 run:
-  path: runtime-ci/tasks/generate-major-version-file/task
+  path: cf-deployment-concourse-tasks/ci/tasks/generate-major-version-file/task
