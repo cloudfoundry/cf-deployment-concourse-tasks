@@ -1,0 +1,25 @@
+#!/bin/bash -exu
+
+dockerfile="cf-deployment-concourse-tasks/dockerfiles/cf-deployment-concourse-tasks/Dockerfile"
+
+# Set GOLANG_VERSION env variable
+eval $(jq -r .env[1] golang-docker-image/metadata.json)
+
+sed -i "s/ENV bosh_cli_version.*$/ENV bosh_cli_version $(cat bosh-cli-github-release/version)/" $dockerfile
+sed -i "s/ENV terraform_version.*$/ENV terraform_version $(cat terraform-github-release/version)/" $dockerfile
+sed -i "s/ENV credhub_cli_version.*$/ENV credhub_cli_version $(cat credhub-cli-github-release/version)/" $dockerfile
+sed -i "s/ENV cf_cli_version.*$/ENV cf_cli_version $(cat cf-cli/version)/" $dockerfile
+sed -i "s/ENV go_version.*$/ENV go_version ${GOLANG_VERSION}/" $dockerfile
+sed -i "s/ENV uptimer_version.*$/ENV uptimer_version $(git -C uptimer rev-parse HEAD)/" $dockerfile
+
+pushd cf-deployment-concourse-tasks
+  if [[ -n $(git status --porcelain) ]]; then
+    git config user.name "CI Bot"
+    git config user.email "cf-release-integration@pivotal.io"
+    git add .
+    git commit --allow-empty \
+    -m "Update Dockerfile"
+  fi
+popd
+
+git clone cf-deployment-concourse-tasks cf-deployment-concourse-tasks-updated
