@@ -138,7 +138,7 @@ jobs:
     - get: uptimer
       trigger: true
   - task: update-dockerfile-versions
-    file: cf-deployment-concourse-tasks/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
+    file: cf-deployment-concourse-tasks-dockerfile/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
     input_mapping:
       cf-cli: cf-cli-github-release
       cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
