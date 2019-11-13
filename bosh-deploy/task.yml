@@ -11,6 +11,7 @@ inputs:
 - name: bbl-state  # - The repo containing the Director's bbl state dir
 - name: cf-deployment  # - The cf-deployment manifest
 - name: ops-files  # - Operations files to be made available
+  optional: true
 - name: vars-files  # - Variable files to be made available
   optional: true
 - name: cf-deployment-concourse-tasks  # - This repo
