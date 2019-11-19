@@ -9,6 +9,9 @@ image_resource:
 
 inputs:
 - name: bbl-state  # - The repo containing the Director's bbl state dir
+  optional: true
+- name: toolsmiths-env  # - Directory containing Toolsmiths metadata file
+  optional: true
 - name: cf-deployment  # - The cf-deployment manifest
 - name: ops-files  # - Operations files to be made available
   optional: true

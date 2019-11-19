@@ -11,6 +11,9 @@ inputs:
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: cf-deployment  # - The cf-deployment manifest
 - name: bbl-state  # - The repo containing the Director's bbl state dir
+  optional: true
+- name: toolsmiths-env  # - Directory containing Toolsmiths metadata file
+  optional: true
 - name: ops-files  # - Oplitonal operations files to be made available
   optional: true
 

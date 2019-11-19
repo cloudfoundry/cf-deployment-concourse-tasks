@@ -10,6 +10,9 @@ image_resource:
 inputs:
 - name: cf-deployment-concourse-tasks # - This repo
 - name: bbl-state  # - The repo containing the Director's bbl state dir
+  optional: true
+- name: toolsmiths-env  # - Directory containing Toolsmiths metadata file
+  optional: true
 
 run:
   path: cf-deployment-concourse-tasks/set-feature-flags/task

@@ -9,6 +9,9 @@ image_resource:
 
 inputs:
 - name: bbl-state  # - The repo containing the Director's bbl state dir
+  optional: true
+- name: toolsmiths-env  # - Directory containing Toolsmiths metadata file
+  optional: true
 - name: cf-deployment-concourse-tasks # - This repo
 - name: integration-configs # - Integration configs to be updated
 
