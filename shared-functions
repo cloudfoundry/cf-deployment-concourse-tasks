@@ -80,9 +80,18 @@ function set_git_config() {
 
 function setup_bosh_env_vars() {
   set +x
-  pushd "bbl-state/${BBL_STATE_DIR}"
-    eval "$(bbl print-env)"
-  popd
+  if [ -d toolsmiths-env ]; then
+    eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
+  else
+    if [ -d bbl-state ]; then
+      pushd "bbl-state/${BBL_STATE_DIR}"
+        eval "$(bbl print-env)"
+      popd
+    else
+      echo "Must provide either toolsmiths-env or bbl-state as an input"
+      exit 1
+    fi
+  fi
   set -x
 }
 
