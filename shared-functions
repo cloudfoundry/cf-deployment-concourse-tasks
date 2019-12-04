@@ -395,7 +395,8 @@ upload_stemcell() {
 
   local infrastructure
   if [ -d toolsmiths-env ]; then
-    infrastructure="bosh-google-kvm"
+    infrastructure="gcp"
+    stemcell_name="bosh-google-kvm"
   else
     infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
 
