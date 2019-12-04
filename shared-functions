@@ -400,20 +400,21 @@ upload_stemcell() {
   else
     infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
 
-  if [ "${BOSH_LITE}" == "true"  ]; then
-    infrastructure="bosh-lite"
-  fi
+    if [ "${BOSH_LITE}" == "true"  ]; then
+      infrastructure="bosh-lite"
+    fi
 
-  if [ "$infrastructure" = "bosh-lite" ]; then
-    stemcell_name="bosh-warden-boshlite"
-  elif [ "$infrastructure" = "aws" ]; then
-    stemcell_name="bosh-aws-xen-hvm"
-  elif [ "$infrastructure" = "gcp" ]; then
-    stemcell_name="bosh-google-kvm"
-  elif [ "$infrastructure" = "vsphere" ]; then
-    stemcell_name="bosh-vsphere-esxi"
-  elif [ "$infrastructure" = "azure" ]; then
-    stemcell_name="bosh-azure-hyperv"
+    if [ "$infrastructure" = "bosh-lite" ]; then
+      stemcell_name="bosh-warden-boshlite"
+    elif [ "$infrastructure" = "aws" ]; then
+      stemcell_name="bosh-aws-xen-hvm"
+    elif [ "$infrastructure" = "gcp" ]; then
+      stemcell_name="bosh-google-kvm"
+    elif [ "$infrastructure" = "vsphere" ]; then
+      stemcell_name="bosh-vsphere-esxi"
+    elif [ "$infrastructure" = "azure" ]; then
+      stemcell_name="bosh-azure-hyperv"
+    fi
   fi
 
   stemcell_name="${stemcell_name}-${os}-go_agent"
