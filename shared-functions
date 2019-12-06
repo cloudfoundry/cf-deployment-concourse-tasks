@@ -81,7 +81,7 @@ function set_git_config() {
 function setup_bosh_env_vars() {
   set +x
   if [ -d toolsmiths-env ]; then
-    eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
+    eval "$(bbl print-env --metadata-file toolsmiths-env/metadata.json)"
   else
     if [ -d bbl-state ]; then
       pushd "bbl-state/${BBL_STATE_DIR}"
@@ -297,13 +297,18 @@ function remove_credentials_from_credhub_in_directory() {
 }
 
 function remove_credentials_from_credhub() {
-  local director_name
-  director_name=$(jq -r .bosh.directorName bbl-state/${BBL_STATE_DIR}/bbl-state.json)
-
+  local directory_name
   local deployment_name
-  deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
-
-  remove_credentials_from_credhub_in_directory "/${director_name}/${deployment_name}"
+  if [ -d toolsmiths-env ]; then
+    deployment_name=$(jq -r .name toolsmiths-env/metadata.json)
+    directory_name="/bosh-${deployment_name}"
+  else
+    local director_name
+    director_name=$(jq -r .bosh.directorName bbl-state/${BBL_STATE_DIR}/bbl-state.json)
+    deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
+    directory_name="/${director_name}/${deployment_name}"
+  fi
+  remove_credentials_from_credhub_in_directory ${directory_name}
 }
 
 write_gcp_service_account_key() {
@@ -389,22 +394,27 @@ upload_stemcell() {
   local stemcell_name
 
   local infrastructure
-  infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
-
-  if [ "${BOSH_LITE}" == "true"  ]; then
-    infrastructure="bosh-lite"
-  fi
-
-  if [ "$infrastructure" = "bosh-lite" ]; then
-    stemcell_name="bosh-warden-boshlite"
-  elif [ "$infrastructure" = "aws" ]; then
-    stemcell_name="bosh-aws-xen-hvm"
-  elif [ "$infrastructure" = "gcp" ]; then
+  if [ -d toolsmiths-env ]; then
+    infrastructure="gcp"
     stemcell_name="bosh-google-kvm"
-  elif [ "$infrastructure" = "vsphere" ]; then
-    stemcell_name="bosh-vsphere-esxi"
-  elif [ "$infrastructure" = "azure" ]; then
-    stemcell_name="bosh-azure-hyperv"
+  else
+    infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
+
+    if [ "${BOSH_LITE}" == "true"  ]; then
+      infrastructure="bosh-lite"
+    fi
+
+    if [ "$infrastructure" = "bosh-lite" ]; then
+      stemcell_name="bosh-warden-boshlite"
+    elif [ "$infrastructure" = "aws" ]; then
+      stemcell_name="bosh-aws-xen-hvm"
+    elif [ "$infrastructure" = "gcp" ]; then
+      stemcell_name="bosh-google-kvm"
+    elif [ "$infrastructure" = "vsphere" ]; then
+      stemcell_name="bosh-vsphere-esxi"
+    elif [ "$infrastructure" = "azure" ]; then
+      stemcell_name="bosh-azure-hyperv"
+    fi
   fi
 
   stemcell_name="${stemcell_name}-${os}-go_agent"
