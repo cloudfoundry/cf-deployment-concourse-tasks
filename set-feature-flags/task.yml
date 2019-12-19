@@ -19,7 +19,7 @@ run:
 
 params:
   SYSTEM_DOMAIN:
-  # - Required
+  # - Required unless toolsmiths-env optional input is provided
   # - CF system base domain e.g. `my-cf.com`
 
   BBL_STATE_DIR: bbl-state

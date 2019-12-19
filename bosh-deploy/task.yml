@@ -37,7 +37,7 @@ params:
   # - The path is relative to root of the `cf-deployment` input
 
   SYSTEM_DOMAIN:
-  # - Required
+  # - Required unless toolsmiths-env optional input is provided
   # - CF system base domain e.g. `my-cf.com`
 
   OPS_FILES:
