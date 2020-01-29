@@ -3,7 +3,7 @@ FROM ubuntu:bionic
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 
-ENV go_version 1.12.15
+ENV go_version 1.12.16
 ENV cf_cli_version 6.49.0
 ENV bosh_cli_version 6.2.0
 ENV bbl_version 8.4.0
