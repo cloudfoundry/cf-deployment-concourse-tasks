@@ -3,11 +3,6 @@
 # shellcheck disable=SC1091
 source cf-deployment-concourse-tasks/shared-functions
 
-if [ -z "${SYSTEM_DOMAIN}" ]; then
-  echo '$SYSTEM_DOMAIN is a required parameter'
-  exit 1
-fi
-
 function set_enabled_feature_flags() {
   if [ ! -z "${ENABLED_FEATURE_FLAGS}" ]; then
     for flag in $ENABLED_FEATURE_FLAGS; do
@@ -40,9 +35,14 @@ function cf_login() {
 }
 
 function main() {
-  cf api --skip-ssl-validation "api.${SYSTEM_DOMAIN}"
-
   setup_bosh_env_vars
+
+  if [ -z "${SYSTEM_DOMAIN}" ]; then
+    echo "SYSTEM_DOMAIN is a required parameter"
+    exit 1
+  fi
+
+  cf api --skip-ssl-validation "api.${SYSTEM_DOMAIN}"
   cf_login
 
   set_enabled_feature_flags
