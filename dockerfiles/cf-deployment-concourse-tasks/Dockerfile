@@ -57,9 +57,12 @@ RUN \
   cd /tmp && \
   # wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
   echo "TMP: grabbing the edge version of cf-cli" && \
-  wget -q -O cf.deb "https://packages.cloudfoundry.org/edge?arch=linux64&source=github" && \
-  dpkg -i cf.deb && \
-  rm cf.deb
+  wget -q -O cf.tarball "https://packages.cloudfoundry.org/edge?arch=linux64&source=github" && \
+  # dpkg -i cf.deb && \
+  tar xvfz cf.tarball && \
+  chmod +x cf && \
+  mv cf /usr/local/bin/ && \
+  rm cf.tarball
 
 # credhub-cli
 RUN \
