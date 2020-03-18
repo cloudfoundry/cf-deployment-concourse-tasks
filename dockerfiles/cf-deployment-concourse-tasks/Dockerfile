@@ -4,6 +4,7 @@ ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 
 ENV go_version 1.12.17
+ENV cf_cli_version 6.49.0
 ENV bosh_cli_version 6.2.1
 ENV bbl_version 8.4.0
 ENV terraform_version 0.12.23
@@ -55,14 +56,9 @@ RUN \
 # cf-cli
 RUN \
   cd /tmp && \
-  # wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
-  echo "TMP: grabbing the edge version of cf-cli" && \
-  wget -q -O cf.tarball "https://packages.cloudfoundry.org/edge?arch=linux64&source=github" && \
-  # dpkg -i cf.deb && \
-  tar xvfz cf.tarball && \
-  chmod +x cf && \
-  mv cf /usr/local/bin/ && \
-  rm cf.tarball
+  wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
+  dpkg -i cf.deb && \
+  rm cf.deb
 
 # credhub-cli
 RUN \
