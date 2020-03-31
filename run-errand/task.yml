@@ -25,6 +25,7 @@ params:
   # - The path is relative to the `bbl-state` input
   # - If blank or '.', uses `bbl-state` input as the location for bbl state
   # - If the specified path does not exist, it will be created
+  # - This input and parameter will be ignored if toolsmiths-env is provided
 
   DEPLOYMENT_NAME: cf
   # - Optional
