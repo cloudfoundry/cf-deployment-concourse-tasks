@@ -51,6 +51,18 @@ params:
   # - Key content or path to the file containing credentials downloaded from GCP
   # - Path is relative to the `bbl-state` input
 
+  # OpenStack Configuration Params
+  # - Required for OpenStack
+  BBL_OPENSTACK_AUTH_URL:
+  BBL_OPENSTACK_AZ:
+  BBL_OPENSTACK_NETWORK_ID:
+  BBL_OPENSTACK_NETWORK_NAME:
+  BBL_OPENSTACK_PASSWORD:
+  BBL_OPENSTACK_USERNAME:
+  BBL_OPENSTACK_PROJECT:
+  BBL_OPENSTACK_DOMAIN:
+  BBL_OPENSTACK_REGION:
+
   STORE_BBL_STATE_AS_TARBALL: false
   # - Optional
   # - Creates a tarball of the bbl-state directory, instead of treating it

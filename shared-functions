@@ -2,11 +2,11 @@
 
 check_bbl_input_params() {
   set +x
-  # Checks that we have IaaS credentials for GCP or AWS or Azure
-  if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ] || [ ! -z "${BBL_AZURE_CLIENT_ID}" -a ! -z "${BBL_AZURE_CLIENT_SECRET}" -a ! -z "${BBL_AZURE_TENANT_ID}" -a ! -z "${BBL_AZURE_SUBSCRIPTION_ID}" ]; then
+  # Checks that we have IaaS credentials for GCP or AWS or Azure or OpenStack
+  if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ] || [ ! -z "${BBL_AZURE_CLIENT_ID}" -a ! -z "${BBL_AZURE_CLIENT_SECRET}" -a ! -z "${BBL_AZURE_TENANT_ID}" -a ! -z "${BBL_AZURE_SUBSCRIPTION_ID}" ] || [ ! -z "${BBL_OPENSTACK_USERNAME}" -a ! -z "${BBL_OPENSTACK_PASSWORD}" -a ! -z "${BBL_OPENSTACK_DOMAIN}" -a ! -z "${BBL_OPENSTACK_PROJECT}" ]; then
     return 0
   else
-    echo 'The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair, or `BBL_AZURE_CLIENT_ID` `BBL_AZURE_CLIENT_SECRET` `BBL_AZURE_TENANT_ID` `BBL_AZURE_SUBSCRIPTION_ID` tetrad'
+    echo 'The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair, or `BBL_AZURE_CLIENT_ID` `BBL_AZURE_CLIENT_SECRET` `BBL_AZURE_TENANT_ID` `BBL_AZURE_SUBSCRIPTION_ID` tetrad, or `BBL_OPENSTACK_USERNAME` `BBL_OPENSTACK_PASSWORD` `BBL_OPENSTACK_DOMAIN` `BBL_OPENSTACK_PROJECT` tetrad'
     exit 1
   fi
   set -x
@@ -415,6 +415,8 @@ upload_stemcell() {
       stemcell_name="bosh-vsphere-esxi"
     elif [ "$infrastructure" = "azure" ]; then
       stemcell_name="bosh-azure-hyperv"
+    elif [ "$infrastructure" = "openstack" ]; then
+      stemcell_name="bosh-openstack-kvm"
     fi
   fi
 

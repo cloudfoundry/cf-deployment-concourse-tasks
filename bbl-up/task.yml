@@ -49,6 +49,18 @@ params:
   # - Path is relative to the `bbl-state` input
   BBL_GCP_REGION:
 
+  # OpenStack Configuration Params
+  # - Required for OpenStack
+  BBL_OPENSTACK_AUTH_URL:
+  BBL_OPENSTACK_AZ:
+  BBL_OPENSTACK_NETWORK_ID:
+  BBL_OPENSTACK_NETWORK_NAME:
+  BBL_OPENSTACK_PASSWORD:
+  BBL_OPENSTACK_USERNAME:
+  BBL_OPENSTACK_PROJECT:
+  BBL_OPENSTACK_DOMAIN:
+  BBL_OPENSTACK_REGION:
+
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
   # - The path is relative to the `bbl-state` input
@@ -64,7 +76,7 @@ params:
   BBL_IAAS:
   # - Required
   # - The target IAAS which bbl will create infrastructure
-  # - Must be `aws` or `azure` or `gcp`
+  # - Must be `aws` or `azure` or `gcp` or `openstack`
 
   BBL_LB_CERT:
   # - Required if `SKIP_LB_CREATION` is false
