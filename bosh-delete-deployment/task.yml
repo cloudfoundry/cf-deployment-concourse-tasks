@@ -8,7 +8,10 @@ image_resource:
     tag: latest
 
 inputs:
-- name: bbl-state # - The env repo containing the Director's bbl state dir
+- name: bbl-state  # - The repo containing the Director's bbl state dir
+  optional: true
+- name: toolsmiths-env  # - Directory containing Toolsmiths metadata file
+  optional: true
 - name: cf-deployment-concourse-tasks  # - This repo
 - name: pool-lock
   optional: true
