@@ -49,6 +49,18 @@ params:
   # - Path is relative to the `bbl-state` input
   BBL_GCP_REGION:
 
+  # OpenStack Configuration Params
+  # - Required for OpenStack
+  BBL_OPENSTACK_AUTH_URL:
+  BBL_OPENSTACK_AZ:
+  BBL_OPENSTACK_NETWORK_ID:
+  BBL_OPENSTACK_NETWORK_NAME:
+  BBL_OPENSTACK_PASSWORD:
+  BBL_OPENSTACK_USERNAME:
+  BBL_OPENSTACK_PROJECT:
+  BBL_OPENSTACK_DOMAIN:
+  BBL_OPENSTACK_REGION:
+
   # vSphere Configuration Params
   # - Required for vSphere
   BBL_VSPHERE_VCENTER_USER:
@@ -79,7 +91,7 @@ params:
   BBL_IAAS:
   # - Required
   # - The target IAAS which bbl will create infrastructure
-  # - Must be `aws` or `azure` or `gcp` or `vsphere`
+  # - Must be `aws` or `azure` or `gcp` or `openstack` or `vsphere`
 
   BBL_LB_CERT:
   # - Required if `SKIP_LB_CREATION` is false
