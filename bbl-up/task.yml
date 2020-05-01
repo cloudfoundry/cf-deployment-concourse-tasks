@@ -49,6 +49,21 @@ params:
   # - Path is relative to the `bbl-state` input
   BBL_GCP_REGION:
 
+  # vSphere Configuration Params
+  # - Required for vSphere
+  BBL_VSPHERE_VCENTER_USER:
+  BBL_VSPHERE_VCENTER_PASSWORD:
+  BBL_VSPHERE_VCENTER_IP:
+  BBL_VSPHERE_VCENTER_DC:
+  BBL_VSPHERE_VCENTER_CLUSTER:
+  BBL_VSPHERE_VCENTER_RP:
+  BBL_VSPHERE_NETWORK:
+  BBL_VSPHERE_VCENTER_DS:
+  BBL_VSPHERE_SUBNET_CIDR:
+  BBL_VSPHERE_VCENTER_DISKS:
+  BBL_VSPHERE_VCENTER_TEMPLATES:
+  BBL_VSPHERE_VCENTER_VMS:
+
   BBL_STATE_DIR: bbl-state
   # - Path to the directory containing the `bbl-state.json` file
   # - The path is relative to the `bbl-state` input
@@ -64,7 +79,7 @@ params:
   BBL_IAAS:
   # - Required
   # - The target IAAS which bbl will create infrastructure
-  # - Must be `aws` or `azure` or `gcp`
+  # - Must be `aws` or `azure` or `gcp` or `vsphere`
 
   BBL_LB_CERT:
   # - Required if `SKIP_LB_CREATION` is false

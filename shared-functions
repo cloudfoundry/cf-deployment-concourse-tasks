@@ -2,8 +2,11 @@
 
 check_bbl_input_params() {
   set +x
-  # Checks that we have IaaS credentials for GCP or AWS or Azure
-  if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ] || [ ! -z "${BBL_AZURE_CLIENT_ID}" -a ! -z "${BBL_AZURE_CLIENT_SECRET}" -a ! -z "${BBL_AZURE_TENANT_ID}" -a ! -z "${BBL_AZURE_SUBSCRIPTION_ID}" ]; then
+  # Checks that we have IaaS credentials for GCP or AWS or Azure or vSphere
+  if [ ! -z "${BBL_GCP_SERVICE_ACCOUNT_KEY}" ] || \
+      [ ! -z "${BBL_AWS_ACCESS_KEY_ID}" -a ! -z "${BBL_AWS_SECRET_ACCESS_KEY}" ] || \
+      [ ! -z "${BBL_AZURE_CLIENT_ID}" -a ! -z "${BBL_AZURE_CLIENT_SECRET}" -a ! -z "${BBL_AZURE_TENANT_ID}" -a ! -z "${BBL_AZURE_SUBSCRIPTION_ID}" ] || \
+      [ ! -z "${BBL_VSPHERE_VCENTER_USER}" -a ! -z "${BBL_VSPHERE_VCENTER_PASSWORD}" -a ! -z "${BBL_VSPHERE_VCENTER_IP}" ]; then
     return 0
   else
     echo 'The BBL task must be configured with IaaS credentials. Please configure either `BBL_GCP_SERVICE_ACCOUNT_KEY`, or the `BBL_AWS_ACCESS_KEY_ID` `BBL_AWS_SECRET_ACCESS_KEY` pair, or `BBL_AZURE_CLIENT_ID` `BBL_AZURE_CLIENT_SECRET` `BBL_AZURE_TENANT_ID` `BBL_AZURE_SUBSCRIPTION_ID` tetrad'
