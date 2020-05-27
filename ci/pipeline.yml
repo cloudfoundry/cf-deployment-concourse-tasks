@@ -152,19 +152,6 @@ jobs:
       repository: cf-deployment-concourse-tasks-updated
       rebase: true
 
-- name: release-notes-template
-  public: true
-  plan:
-  - in_parallel:
-    - get: cf-deployment-concourse-tasks
-      trigger: true
-    - get: cf-deployment-concourse-tasks-latest-release
-    - get: cf-deployment-concourse-tasks-version
-  - task: generate-release-notes-template
-    file: cf-deployment-concourse-tasks/ci/tasks/cf-decota-release-notes-template/task.yml
-    input_mapping:
-      release-version: cf-deployment-concourse-tasks-version
-
 - name: ship-it-major
   public: true
   plan:
