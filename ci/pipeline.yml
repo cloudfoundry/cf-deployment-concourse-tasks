@@ -282,7 +282,7 @@ jobs:
       tag_prefix: v
       body: release-notes-template/template
 
-- name: check-and-notify-bbl-updates
+- name: notify-bbl-updates
   plan:
   - in_parallel:
     - get: cf-deployment-concourse-tasks
