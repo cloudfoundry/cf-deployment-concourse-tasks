@@ -3,7 +3,6 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
     paths:
@@ -61,7 +60,6 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
     uri: https://github.com/cloudfoundry/uptimer.git
 
 - name: cf-deployment-concourse-tasks-pipeline-image
@@ -94,7 +92,6 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
 
@@ -102,7 +99,6 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
     tag_filter: '*'
