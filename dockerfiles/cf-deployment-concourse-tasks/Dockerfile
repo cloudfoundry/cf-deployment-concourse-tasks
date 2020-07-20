@@ -27,6 +27,7 @@ RUN \
     libyaml-dev \
     netcat-openbsd \
     openssl \
+    python3-pip \
     software-properties-common \
     sqlite \
     unzip \
@@ -47,6 +48,10 @@ RUN \
   cd /usr/bin && \
   echo "${JQ_CHECKSUM} jq" | sha1sum -c - && \
   chmod +x jq
+
+# yq
+RUN \
+  pip3 install yq
 
 # bosh-cli
 RUN \
