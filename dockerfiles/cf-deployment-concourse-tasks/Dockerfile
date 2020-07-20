@@ -2,6 +2,8 @@ FROM ubuntu:bionic
 
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
+ENV YQ_VERSION=3.3.2
+ENV YQ_CHECKSUM=d9967cf4ae2b1678ab048e76da0eefeb5d61dd3d
 
 ENV go_version 1.12.17
 ENV cf_cli_version 6.51.0
@@ -47,6 +49,13 @@ RUN \
   cd /usr/bin && \
   echo "${JQ_CHECKSUM} jq" | sha1sum -c - && \
   chmod +x jq
+
+# yq
+RUN \
+wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64 --output-document="/usr/bin/yq" && \
+  cd /usr/bin && \
+  echo "${YQ_CHECKSUM} yq" | sha1sum -c - && \
+  chmod +x yq
 
 # bosh-cli
 RUN \
