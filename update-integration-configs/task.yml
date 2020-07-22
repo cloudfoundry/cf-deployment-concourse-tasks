@@ -49,3 +49,11 @@ params:
   GIT_COMMIT_USERNAME: "CI Bot"
   # - Optional
   # - You may choose the git committer username and email address by setting these
+
+  PRIVATE_DOCKER_REGISTRY_IMAGE:
+  PRIVATE_DOCKER_REGISTRY_USERNAME:
+  PRIVATE_DOCKER_REGISTRY_PASSWORD:
+  # - Optional
+  # - You may add private docker registry information to the integration-configs
+  # - Specifying PRIVATE_DOCKER_REGISTRY_IMAGE will automatically assume that the
+  # PRIVATE_DOCKER_REGISTRY_USERNAME and PRIVATE_DOCKER_REGISTRY_PASSWORD is defined

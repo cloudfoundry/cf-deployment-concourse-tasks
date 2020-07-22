@@ -61,6 +61,14 @@ function main() {
       new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".api=\"api.${SYSTEM_DOMAIN}\" | .apps_domain=\"${SYSTEM_DOMAIN}\"")
     fi
 
+    if [ -n "${PRIVATE_DOCKER_REGISTRY_IMAGE}" ]; then
+      new_cats_integration_config=$( \
+        echo "${new_cats_integration_config}" | \
+        jq ".private_docker_registry_image=\"${PRIVATE_DOCKER_REGISTRY_IMAGE}\"" | \
+        jq ".private_docker_registry_username=\"${PRIVATE_DOCKER_REGISTRY_USERNAME}\"" | \
+        jq ".private_docker_registry_password=\"${PRIVATE_DOCKER_REGISTRY_PASSWORD}\"")
+    fi
+
     echo "${new_cats_integration_config}" > "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}"
   fi
 
