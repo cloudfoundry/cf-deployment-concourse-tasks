@@ -61,12 +61,15 @@ function main() {
       new_cats_integration_config=$(echo "${new_cats_integration_config}" | jq ".api=\"api.${SYSTEM_DOMAIN}\" | .apps_domain=\"${SYSTEM_DOMAIN}\"")
     fi
 
-    if [ -n "${PRIVATE_DOCKER_REGISTRY_IMAGE}" ]; then
+    if [[ -n "${PRIVATE_DOCKER_REGISTRY_IMAGE}" && -n "${PRIVATE_DOCKER_REGISTRY_USERNAME}" && -n "${PRIVATE_DOCKER_REGISTRY_PASSWORD}" ]]; then
       new_cats_integration_config=$( \
         echo "${new_cats_integration_config}" | \
         jq ".private_docker_registry_image=\"${PRIVATE_DOCKER_REGISTRY_IMAGE}\"" | \
         jq ".private_docker_registry_username=\"${PRIVATE_DOCKER_REGISTRY_USERNAME}\"" | \
         jq ".private_docker_registry_password=\"${PRIVATE_DOCKER_REGISTRY_PASSWORD}\"")
+    elif [[ -n "${PRIVATE_DOCKER_REGISTRY_IMAGE}" || -n "${PRIVATE_DOCKER_REGISTRY_USERNAME}" || -n "${PRIVATE_DOCKER_REGISTRY_PASSWORD}" ]]; then
+      echo "All 3 private docker registry keys must be provided. (PRIVATE_DOCKER_REGISTRY_IMAGE, PRIVATE_DOCKER_REGISTRY_USERNAME, and PRIVATE_DOCKER_REGISTRY_PASSWORD)"
+      exit 1
     fi
 
     echo "${new_cats_integration_config}" > "integration-configs/${CATS_INTEGRATION_CONFIG_FILE}"
