@@ -1,9 +1,8 @@
-FROM ubuntu:bionic
+FROM golang:1.14
 
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 
-ENV go_version 1.12.17
 ENV cf_cli_version 7.0.2
 ENV bosh_cli_version 6.3.1
 ENV bbl_version 8.4.0
@@ -35,12 +34,12 @@ RUN \
     curl \
     zlib1g-dev \
     zlibc && \
-  add-apt-repository ppa:brightbox/ruby-ng -y && \
-  apt-get update && \
   apt-get -y install \
-    ruby2.5 \
-    ruby2.5-dev && \
+    ruby-full && \
   apt-get remove -y --purge software-properties-common
+
+# assert ruby 2.5 is installed
+RUN ruby --version | grep 2\.5
 
 # jq
 RUN \
@@ -104,11 +103,6 @@ RUN \
 
 ENV GOPATH /go
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
-RUN \
-  wget https://golang.org/dl/go${go_version}.linux-amd64.tar.gz -P /tmp && \
-  tar xzvf /tmp/go${go_version}.linux-amd64.tar.gz -C /usr/local && \
-  mkdir ${GOPATH} && \
-  rm -rf /tmp/*
 
 # Log Cache CLI
 RUN go get -u code.cloudfoundry.org/log-cache-cli/cmd/cf-lc-plugin && \
