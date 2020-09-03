@@ -9,7 +9,7 @@ ENV bbl_version 8.4.0
 ENV terraform_version 0.13.2
 ENV credhub_cli_version 2.8.0
 ENV git_crypt_version 0.6.0
-ENV uptimer_version 9eab7c9addae6b611cde4bfaa0adfb97605193cd
+ENV uptimer_version 91053e2bc1b555f472049c22e534b854b5157d09
 
 RUN \
   apt-get update && \
