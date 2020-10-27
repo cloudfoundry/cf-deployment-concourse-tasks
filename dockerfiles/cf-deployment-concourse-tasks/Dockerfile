@@ -113,3 +113,10 @@ RUN go get -u github.com/cloudfoundry/uptimer && \
   cd ${GOPATH}/src/github.com/cloudfoundry/uptimer && \
     ginkgo -r -randomizeSuites -randomizeAllSpecs && \
   cd -
+
+# Add trusted relint ca certificate
+ARG RELINT_CA_CERTIFICATE
+ARG PREVIOUS_RELINT_CA_CERTIFICATE
+RUN echo -n "$RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/relint.crt && \
+    echo -n "$PREVIOUS_RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/previous_relint.crt && \
+  /usr/sbin/update-ca-certificates -f

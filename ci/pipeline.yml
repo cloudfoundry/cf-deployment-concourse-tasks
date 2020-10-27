@@ -144,6 +144,9 @@ jobs:
   - put: cf-deployment-concourse-tasks-pipeline-image
     params:
       build: cf-deployment-concourse-tasks-updated/dockerfiles/cf-deployment-concourse-tasks
+      build_args:
+        RELINT_CA_CERTIFICATE: ((relint_ca.certificate))
+        PREVIOUS_RELINT_CA_CERTIFICATE: ""
       push: true
   - put: cf-deployment-concourse-tasks-dockerfile
     params:
