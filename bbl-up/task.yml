@@ -157,3 +157,7 @@ params:
   BBL_JSON_CONFIG:
   # - Optional
   # - For if you need a dynamic config for BBL
+
+  TRUSTED_CA:
+    # - Optional
+    # - For if you need an additional CA cert to be trusted by BOSH VMs
