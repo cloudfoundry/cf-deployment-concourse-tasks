@@ -111,6 +111,9 @@ function main() {
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_up.log"
 
+    echo "Please configure DNS with the following servers:"
+    bbl outputs | yq '.system_domain_dns_servers' -y | cut -d' ' -f2
+
     if [[ "${DELETE_TERRAFORM_PLUGINS}" == "true" ]]; then
       rm -rf "terraform/.terraform"
     fi
