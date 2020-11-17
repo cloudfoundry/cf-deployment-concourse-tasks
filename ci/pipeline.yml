@@ -4,7 +4,6 @@ resources:
   icon: github-box
   source:
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
-    branch: master
     private_key: ((cfdct_readwrite_deploy_key.private_key))
     paths:
     - dockerfiles/cf-deployment-concourse-tasks/Dockerfile
@@ -93,7 +92,6 @@ resources:
   type: git
   icon: github-box
   source:
-    branch: master
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
 
