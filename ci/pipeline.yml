@@ -1,7 +1,7 @@
 resources:
 - name: cf-deployment-concourse-tasks-dockerfile
   type: git
-  icon: github-box
+  icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
@@ -58,7 +58,7 @@ resources:
 
 - name: uptimer
   type: git
-  icon: github-box
+  icon: github
   source:
     uri: https://github.com/cloudfoundry/uptimer.git
 
@@ -83,21 +83,21 @@ resources:
   source:
     driver: git
     uri: git@github.com:cloudfoundry/cf-relint-ci-semver.git
-    branch: master
+    branch: main
     private_key: ((cf_relint_ci_semver_readwrite_deploy_key.private_key))
     git_user: "CF RELINT BOT <cf-release-integration@pivotal.io>"
     file: cf-deployment-concourse-tasks-version
 
 - name: cf-deployment-concourse-tasks
   type: git
-  icon: github-box
+  icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
 
 - name: cf-deployment-concourse-tasks-latest-release
   type: git
-  icon: github-box
+  icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
     private_key: ((cfdct_readwrite_deploy_key.private_key))
