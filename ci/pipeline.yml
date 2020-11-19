@@ -61,6 +61,7 @@ resources:
   icon: github
   source:
     uri: https://github.com/cloudfoundry/uptimer.git
+    branch: main
 
 - name: cf-deployment-concourse-tasks-pipeline-image
   type: docker-image
