@@ -68,7 +68,7 @@ resources:
   type: docker-image
   icon: docker
   source:
-    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    repository: cloudfoundry/cf-deployment-concourse-tasks
     username: ((dockerhub.username))
     password: ((dockerhub.password))
     email: cf-release-integration+dockerhub-push-bot@pivotal.io

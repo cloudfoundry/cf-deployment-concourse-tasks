@@ -43,7 +43,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    repository: cloudfoundry/cf-deployment-concourse-tasks
     tag: v#{tag_version}
 inputs:
 - name: cf-deployment-concourse-tasks
