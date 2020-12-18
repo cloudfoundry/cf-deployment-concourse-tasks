@@ -11,7 +11,7 @@ resources:
 
 - name: bbl-github-release
   type: github-release
-  icon: github-face
+  icon: github
   source:
     user: cloudfoundry
     repository: bosh-bootloader
@@ -19,7 +19,7 @@ resources:
 
 - name: bosh-cli-github-release
   type: github-release
-  icon: github-face
+  icon: github
   source:
     user: cloudfoundry
     repository: bosh-cli
@@ -27,7 +27,7 @@ resources:
 
 - name: cf-cli-github-release
   type: github-release
-  icon: github-face
+  icon: github
   source:
     user: cloudfoundry
     repository: cli
@@ -36,7 +36,7 @@ resources:
 
 - name: credhub-cli-github-release
   type: github-release
-  icon: github-face
+  icon: github
   source:
     user: cloudfoundry-incubator
     repository: credhub-cli
@@ -51,7 +51,7 @@ resources:
 
 - name: terraform-github-release
   type: github-release
-  icon: github-face
+  icon: github
   source:
     user: hashicorp
     repository: terraform
