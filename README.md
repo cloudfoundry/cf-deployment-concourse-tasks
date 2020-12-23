@@ -32,6 +32,7 @@ Here's an example from our [nats release pipeline](https://github.com/cloudfound
 - name: cf-deployment-concourse-tasks
   type: git
   source:
+    branch: main
     uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks.git
     tag_filter: v3.*
 ```
