@@ -49,14 +49,11 @@ export CF_DIAL_TIMEOUT=11
 export CF_PLUGIN_HOME=$HOME
 
 ./bin/test \
--keepGoing \
--randomizeAllSpecs \
--skipPackage=helpers \
--slowSpecThreshold="${SLOW_SPEC_THRESHOLD}" \
--nodes="${NODES}" \
--skip="${SKIP_REGEXP}" \
--flakeAttempts=${FLAKE_ATTEMPTS} \
--noisySkippings=false
-#! flakeAttempts re-added 9/15 to mitigate reliability issues with Load Balancer 502s.
-#! This is a temporary measure, and should be removed
-#! as soon as the 502 issues are resolved or mitigated some other way.
+  -keepGoing \
+  -randomizeAllSpecs \
+  -skipPackage=helpers \
+  -slowSpecThreshold="${SLOW_SPEC_THRESHOLD}" \
+  -nodes="${NODES}" \
+  -skip="${SKIP_REGEXP}" \
+  -flakeAttempts=${FLAKE_ATTEMPTS} \
+  -noisySkippings=false
