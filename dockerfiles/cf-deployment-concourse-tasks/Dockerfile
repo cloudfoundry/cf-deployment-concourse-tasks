@@ -6,7 +6,7 @@ ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 ENV cf_cli_version 7.2.0
 ENV bosh_cli_version 6.4.1
 ENV bbl_version 8.4.11
-ENV terraform_version 0.14.5
+ENV terraform_version 0.14.6
 ENV credhub_cli_version 2.9.0
 ENV git_crypt_version 0.6.0
 ENV uptimer_version 1d582df0c466e91f7f0874da0f79e5b03677a865
