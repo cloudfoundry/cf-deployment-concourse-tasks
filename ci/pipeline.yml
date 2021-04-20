@@ -42,6 +42,14 @@ resources:
     repository: credhub-cli
     access_token: ((release_integration_download_bot_access_token))
 
+- name: log-cache-cli-github-release
+  type: github-release
+  icon: github
+  source:
+    user: cloudfoundry
+    repository: log-cache-cli
+    access_token: ((release_integration_download_bot_access_token))
+
 - name: golang-1-16-docker-image
   type: docker-image
   icon: docker
@@ -127,6 +135,8 @@ jobs:
     - get: cf-cli-github-release
       trigger: true
     - get: credhub-cli-github-release
+      trigger: true
+    - get: log-cache-cli-github-release
       trigger: true
     - get: golang-1-16-docker-image
       trigger: true

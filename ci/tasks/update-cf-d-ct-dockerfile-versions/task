@@ -5,6 +5,7 @@ dockerfile="cf-deployment-concourse-tasks/dockerfiles/cf-deployment-concourse-ta
 sed -i "s/ENV bosh_cli_version.*$/ENV bosh_cli_version $(cat bosh-cli-github-release/version)/" $dockerfile
 sed -i "s/ENV terraform_version.*$/ENV terraform_version $(cat terraform-github-release/version)/" $dockerfile
 sed -i "s/ENV credhub_cli_version.*$/ENV credhub_cli_version $(cat credhub-cli-github-release/version)/" $dockerfile
+sed -i "s/ENV log_cache_cli_version.*$/ENV log_cache_cli_version $(cat log-cache-cli-github-release/version)/" $dockerfile
 sed -i "s/ENV cf_cli_version.*$/ENV cf_cli_version $(cat cf-cli/version)/" $dockerfile
 sed -i "s/ENV uptimer_version.*$/ENV uptimer_version $(git -C uptimer rev-parse HEAD)/" $dockerfile
 

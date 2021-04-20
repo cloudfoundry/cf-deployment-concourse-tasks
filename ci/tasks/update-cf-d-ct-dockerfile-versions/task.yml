@@ -10,6 +10,7 @@ inputs:
 - name: cf-deployment-concourse-tasks
 - name: bosh-cli-github-release
 - name: credhub-cli-github-release
+- name: log-cache-cli-github-release
 - name: cf-cli
 - name: terraform-github-release
 - name: golang-docker-image
