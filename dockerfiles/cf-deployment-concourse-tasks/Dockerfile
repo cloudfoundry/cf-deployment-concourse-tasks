@@ -9,6 +9,7 @@ ENV bbl_version 8.4.40
 ENV terraform_version 0.15.0
 ENV credhub_cli_version 2.9.0
 ENV git_crypt_version 0.6.0
+ENV log_cache_cli_version 4.0.2
 ENV uptimer_version 1d582df0c466e91f7f0874da0f79e5b03677a865
 
 RUN \
@@ -105,8 +106,9 @@ ENV GOPATH /go
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
 
 # Log Cache CLI
-RUN go get -u code.cloudfoundry.org/log-cache-cli/cmd/cf-lc-plugin && \
-    cf install-plugin ${GOPATH}/bin/cf-lc-plugin -f
+RUN \
+  wget https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux -P /tmp && \
+  cf install-plugin /tmp/log-cache-cf-plugin-linux -f
 
 RUN go get -u github.com/cloudfoundry/uptimer && \
   go get -u github.com/onsi/ginkgo/... && \
