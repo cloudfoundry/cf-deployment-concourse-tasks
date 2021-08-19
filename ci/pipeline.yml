@@ -55,7 +55,7 @@ resources:
   icon: docker
   source:
     repository: golang
-    tag: 1.16
+    tag: 1.16-buster
 
 - name: terraform-github-release
   type: github-release
