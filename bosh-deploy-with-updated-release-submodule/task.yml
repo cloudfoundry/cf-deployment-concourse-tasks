@@ -14,7 +14,9 @@ inputs:
   optional: true
 - name: cf-deployment  # - The cf-deployment manifest
 - name: ops-files  # - Operations files to be made available
+  optional: true
 - name: vars-files  # - Variable files to be made available
+  optional: true
 - name: release
 # - BOSH release source repo
 # - A dev release will be created from this repo and used in the deployment
