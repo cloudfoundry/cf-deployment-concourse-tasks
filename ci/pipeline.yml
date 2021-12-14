@@ -50,12 +50,12 @@ resources:
     repository: log-cache-cli
     access_token: ((release_integration_download_bot_access_token))
 
-- name: golang-1-16-docker-image
+- name: golang-1-17-docker-image
   type: docker-image
   icon: docker
   source:
     repository: golang
-    tag: 1.16-buster
+    tag: 1.17-buster
 
 - name: terraform-github-release
   type: github-release
@@ -138,7 +138,7 @@ jobs:
       trigger: true
     - get: log-cache-cli-github-release
       trigger: true
-    - get: golang-1-16-docker-image
+    - get: golang-1-17-docker-image
       trigger: true
     - get: terraform-github-release
       trigger: true
@@ -151,7 +151,7 @@ jobs:
     input_mapping:
       cf-cli: cf-cli-github-release
       cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
-      golang-docker-image: golang-1-16-docker-image
+      golang-docker-image: golang-1-17-docker-image
   - put: cf-deployment-concourse-tasks-pipeline-image
     params:
       build: cf-deployment-concourse-tasks-updated/dockerfiles/cf-deployment-concourse-tasks
