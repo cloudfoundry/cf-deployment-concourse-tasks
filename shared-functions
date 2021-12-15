@@ -293,10 +293,9 @@ function remove_credentials_from_credhub_in_directory() {
   credentials_in_directory=$(credhub f -p ${directory_name} -j | jq -r .credentials[].name)
 
   echo "Deleting credentials in the ${directory_name} directory from CredHub:"
-  for cred in ${credentials_in_directory}
-    do
-      echo "Deleting ${cred} from CredHub"
-      credhub d -n $cred > /dev/null
+  for cred in ${credentials_in_directory}; do
+    echo "Deleting ${cred} from CredHub"
+    credhub d -n $cred > /dev/null
   done
   set -x
 }
@@ -312,6 +311,15 @@ function remove_credentials_from_credhub() {
     director_name=$(jq -r .bosh.directorName bbl-state/${BBL_STATE_DIR}/bbl-state.json)
     deployment_name=$(bosh interpolate "${INTERPOLATED_MANIFEST}" --path /name)
     directory_name="/${director_name}/${deployment_name}"
+    set +x
+    credentials=$(credhub f -n /dns -j | jq -r .credentials[].name)
+
+    echo "Deleting DNS credentials from CredHub:"
+    for cred in ${credentials}; do
+      echo "Deleting ${cred} from CredHub"
+      credhub d -n $cred > /dev/null
+    done
+    set -x
   fi
   remove_credentials_from_credhub_in_directory ${directory_name}
 }
