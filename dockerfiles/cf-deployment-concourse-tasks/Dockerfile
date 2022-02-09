@@ -4,7 +4,7 @@ ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 
 ENV cf_cli_version 8.1.0
-ENV bosh_cli_version 6.4.14
+ENV bosh_cli_version 6.4.15
 ENV bbl_version 8.4.77
 ENV terraform_version 1.1.5
 ENV credhub_cli_version 2.9.3
