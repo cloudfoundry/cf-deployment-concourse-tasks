@@ -13,7 +13,6 @@ inputs:
 - name: log-cache-cli-github-release
 - name: cf-cli
 - name: terraform-github-release
-- name: golang-docker-image
 - name: uptimer
 
 outputs:
