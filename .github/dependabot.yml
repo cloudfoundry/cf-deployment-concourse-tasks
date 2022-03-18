@@ -1,0 +1,11 @@
+version: 2
+updates:
+- package-ecosystem: "docker"
+  directory: "/dockerfiles/cf-deployment-concourse-tasks"
+  schedule:
+    interval: "daily"
+
+- package-ecosystem: "bundler"
+  directory: "/ci/tasks/cf-decota-release-notes-template"
+  schedule:
+    interval: "daily"
