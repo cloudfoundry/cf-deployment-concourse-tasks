@@ -17,9 +17,10 @@ RUN \
   apt-get -y install \
     apt-utils \
     build-essential \
+    curl \
     git \
-    libreadline7 \
     libreadline6-dev \
+    libreadline7 \
     libsqlite3-dev \
     libssl-dev \
     libxml2-dev \
@@ -31,8 +32,8 @@ RUN \
     software-properties-common \
     sqlite \
     unzip \
+    vim \
     wget \
-    curl \
     zlib1g-dev \
     zlibc && \
   apt-get -y install \
