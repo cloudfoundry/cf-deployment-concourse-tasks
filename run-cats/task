@@ -49,11 +49,12 @@ export CF_DIAL_TIMEOUT=11
 export CF_PLUGIN_HOME=$HOME
 
 ./bin/test \
-  -keepGoing \
-  -randomizeAllSpecs \
-  -skipPackage=helpers \
-  -slowSpecThreshold="${SLOW_SPEC_THRESHOLD}" \
-  -nodes="${NODES}" \
-  -skip="${SKIP_REGEXP}" \
-  -flakeAttempts=${FLAKE_ATTEMPTS} \
-  -noisySkippings=false
+  --keep-going \
+  --randomize-all \
+  --skip-package=helpers \
+  --slow-spec-shreshold="${SLOW_SPEC_THRESHOLD}" \
+  --nodes="${NODES}" \
+  --skip="${SKIP_REGEXP}" \
+  --flake-attempts=${FLAKE_ATTEMPTS} \
+  --timeout="${TIMEOUT}" \
+  --no-color
