@@ -5,7 +5,7 @@ image_resource:
   type: registry-image
   source:
     repository: cloudfoundry/cf-deployment-concourse-tasks
-    tag: v13.1.0
+    tag: latest
 
 inputs:
 - name: cf-deployment-concourse-tasks # - This repo
