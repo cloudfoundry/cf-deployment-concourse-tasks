@@ -1,6 +1,6 @@
 require 'hashdiff'
 
-class HashDiffChange
+class HashdiffChange
   attr_accessor :value
 
   OPERATION = 0
@@ -33,8 +33,8 @@ class BinaryUpdates
 
     binary_current_list = collect_binaries(master_path)
     binary_latest_release_list = collect_binaries(latest_path)
-    diff_list = HashDiff.diff(binary_latest_release_list, binary_current_list)
-    change_list = diff_list.map { |diff| HashDiffChange.new(diff) }
+    diff_list = Hashdiff.diff(binary_latest_release_list, binary_current_list)
+    change_list = diff_list.map { |diff| HashdiffChange.new(diff) }
     change_list.each do |change|
       update_binary_changes(change)
     end
