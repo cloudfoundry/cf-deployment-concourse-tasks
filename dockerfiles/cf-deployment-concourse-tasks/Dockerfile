@@ -113,7 +113,7 @@ RUN \
 
 RUN \
   go install github.com/cloudfoundry/uptimer@${uptimer_version} && \
-  go install github.com/onsi/ginkgo/...
+  go install github.com/onsi/ginkgo/ginkgo@latest
 
 # Add trusted relint ca certificate
 ARG RELINT_CA_CERTIFICATE
