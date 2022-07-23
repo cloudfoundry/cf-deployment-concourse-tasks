@@ -22,9 +22,9 @@ run:
   path: cf-deployment-concourse-tasks/run-cats/task
 
 params:
-  SLOW_SPEC_THRESHOLD: 315
+  SLOW_SPEC_THRESHOLD: 315s
   # - Optional
-  # - The amount of time, in seconds, to wait before marking a test as slow.
+  # - The amount of time, as a Golang time.Duration, to wait before marking a test as slow.
 
   NODES: 12
   # - Optional
@@ -55,3 +55,7 @@ params:
   FLAKE_ATTEMPTS: 2
   # - Optional
   # - The number of times to retry a single failed test
+
+  TIMEOUT: 2h
+  # - Optional
+  # - Timeout for the entire test run, as a Golang time.Duration.
