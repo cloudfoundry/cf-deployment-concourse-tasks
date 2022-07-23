@@ -52,7 +52,7 @@ export CF_PLUGIN_HOME=$HOME
   --keep-going \
   --randomize-all \
   --skip-package=helpers \
-  --slow-spec-shreshold="${SLOW_SPEC_THRESHOLD}" \
+  --slow-spec-threshold="${SLOW_SPEC_THRESHOLD}" \
   --nodes="${NODES}" \
   --skip="${SKIP_REGEXP}" \
   --flake-attempts=${FLAKE_ATTEMPTS} \
