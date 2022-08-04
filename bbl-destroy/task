@@ -35,4 +35,4 @@ else
   trap "commit_bbl_state_dir ${PWD} 'Remove bbl state dir'" EXIT
 fi
 
-main ${PWD}
+main "$PWD"

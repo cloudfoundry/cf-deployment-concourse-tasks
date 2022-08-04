@@ -113,8 +113,14 @@ function main() {
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_up.log"
 
-    echo "Please configure DNS with the following servers:"
-    bbl outputs | yq '.system_domain_dns_servers' -y | cut -d' ' -f2
+    ns_record_advisory="For DNS delegation to work, please ensure an NS record for ${LB_DOMAIN} is created in its parent DNS zone with the following nameservers:"
+    if [[ "$BBL_IAAS" == "aws" ]]; then
+      echo "$ns_record_advisory"
+      bbl outputs | yq '.env_dns_zone_name_servers[0:4]' --yaml-output | cut -d' ' -f2
+    elif [[ "$BBL_IAAS" == "gcp" ]]; then
+      echo "$ns_record_advisory"
+      bbl outputs | yq '.system_domain_dns_servers' --yaml-output | cut -d' ' -f2
+    fi
 
     if [[ "${DELETE_TERRAFORM_PLUGINS}" == "true" ]]; then
       rm -rf "terraform/.terraform"
@@ -128,4 +134,4 @@ else
   trap "commit_bbl_state_dir ${PWD} '${GIT_COMMIT_MESSAGE}'" EXIT
 fi
 
-main ${PWD}
+main "$PWD"
