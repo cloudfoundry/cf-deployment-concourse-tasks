@@ -3,7 +3,7 @@ FROM golang:1.18-buster
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
 
-ENV cf_cli_version 8.4.0
+ENV cf_cli_version 8.5.0
 ENV bosh_cli_version 7.0.1
 ENV bbl_version 8.4.108
 ENV terraform_version 1.2.9
