@@ -9,7 +9,7 @@ ENV bbl_version 8.4.110
 ENV terraform_version 1.3.4
 ENV credhub_cli_version 2.9.7
 ENV git_crypt_version 0.6.0
-ENV log_cache_cli_version 4.0.8
+ENV log_cache_cli_version 4.0.9
 ENV uptimer_version 19dac7b5fd83fd51a513d9289a919f2c8e34e6fe
 
 RUN \
