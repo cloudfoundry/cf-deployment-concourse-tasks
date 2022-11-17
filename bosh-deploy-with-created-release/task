@@ -33,13 +33,21 @@ main() {
   setup_bosh_env_vars
 
   local release_name
-  release_name="$(yq -r '.name' release/config/final.yml)"
-  if [[ "${release_name}" == "null" ]]; then
-    release_name="$(yq -r '.final_name' release/config/final.yml)"
-  fi
-  if [[ "${release_name}" == "null" ]]; then
-    echo "Expected non-empty 'name' or 'final_name' in release/config/final.yml"
-    exit 1
+  if [[ -n ${RELEASE_NAME_OF_TARBALL} ]]; then
+    if [[ ! -r "${root_dir}/release_tarball_name/name" ]]; then
+      echo "When providing 'RELEASE_NAME_OF_TARBALL', 'release_tarball_name' must be given."
+      exit 1
+    fi
+    release_name=${RELEASE_NAME_OF_TARBALL}
+  else
+    release_name="$(yq -r '.name' release/config/final.yml)"
+    if [[ "${release_name}" == "null" ]]; then
+      release_name="$(yq -r '.final_name' release/config/final.yml)"
+    fi
+    if [[ "${release_name}" == "null" ]]; then
+      echo "Expected non-empty 'name' or 'final_name' in release/config/final.yml"
+      exit 1
+    fi
   fi
 
   if [[ -r "${root_dir}/release_tarball_name/name" ]]; then
