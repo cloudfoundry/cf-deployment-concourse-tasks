@@ -133,7 +133,7 @@ function bosh_interpolate() {
       cat << EOF > create-provided-release.yml
 ---
 - type: replace
-  path: /releases/name=${release_name}
+  path: /releases/name=${release_name}?
   value:
     name: ${release_name}
     url: file://${root_dir}/release/${release_tarball_name}
@@ -142,7 +142,7 @@ EOF
       cat << EOF > create-provided-release.yml
 ---
 - type: replace
-  path: /releases/name=${release_name}
+  path: /releases/name=${release_name}?
   value:
     name: ${release_name}
     version: create
