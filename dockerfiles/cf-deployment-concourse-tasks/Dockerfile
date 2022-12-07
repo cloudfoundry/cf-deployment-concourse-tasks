@@ -1,4 +1,4 @@
-FROM golang:1.19.3-buster
+FROM golang:1.19.4-buster
 
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
