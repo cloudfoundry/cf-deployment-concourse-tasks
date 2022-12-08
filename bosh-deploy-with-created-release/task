@@ -33,12 +33,18 @@ main() {
   setup_bosh_env_vars
 
   local release_name
+  local release_version
   if [[ -n ${RELEASE_NAME_OF_TARBALL} ]]; then
     if [[ ! -r "${root_dir}/release_tarball_name/name" ]]; then
       echo "When providing 'RELEASE_NAME_OF_TARBALL', 'release_tarball_name' must be given."
       exit 1
     fi
-    release_name=${RELEASE_NAME_OF_TARBALL}
+    if [[ -z ${RELEASE_VERSION_OF_TARBALL} ]]; then
+      echo "When providing 'RELEASE_NAME_OF_TARBALL', 'RELEASE_VERSION_OF_TARBALL' must be also given."
+      exit 1
+    fi
+    release_name="${RELEASE_NAME_OF_TARBALL}"
+    release_version="${RELEASE_VERSION_OF_TARBALL}"
   else
     release_name="$(yq -r '.name' release/config/final.yml)"
     if [[ "${release_name}" == "null" ]]; then
@@ -51,7 +57,7 @@ main() {
   fi
 
   if [[ -r "${root_dir}/release_tarball_name/name" ]]; then
-    bosh_interpolate "${root_dir}" "${release_name}" "$(cat ${root_dir}/release_tarball_name/name)"
+    bosh_interpolate "${root_dir}" "${release_name}" "${release_version}" "$(cat ${root_dir}/release_tarball_name/name)"
   else
     bosh_interpolate "${root_dir}" "${release_name}"
   fi

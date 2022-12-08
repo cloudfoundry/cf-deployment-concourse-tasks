@@ -50,6 +50,12 @@ params:
   # - Required when deploying a release from a tarball, which was provided
   #   using the input `release_tarball_name`.
 
+  RELEASE_VERSION_OF_TARBALL:
+  # - Optional
+  # - The version of the release, which was provided as a tarball
+  # - Required when deploying a release from a tarball, which was provided
+  #   using the input `release_tarball_name`.
+
   SYSTEM_DOMAIN:
   # - Required unless toolsmiths-env optional input is provided
   # - CF system base domain e.g. `my-cf.com`
