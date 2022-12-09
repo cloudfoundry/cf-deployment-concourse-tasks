@@ -22,10 +22,6 @@ run:
   path: cf-deployment-concourse-tasks/run-cats/task
 
 params:
-  SLOW_SPEC_THRESHOLD: 315s
-  # - Optional
-  # - The amount of time, as a Golang time.Duration, to wait before marking a test as slow.
-
   NODES: 12
   # - Optional
   # - Number of parallel ginkgo nodes.
