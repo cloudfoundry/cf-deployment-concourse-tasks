@@ -111,9 +111,8 @@ RUN \
   wget https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux -P /tmp && \
   cf install-plugin /tmp/log-cache-cf-plugin-linux -f
 
-RUN \
-  go install github.com/cloudfoundry/uptimer@${uptimer_version} && \
-  go install github.com/onsi/ginkgo/ginkgo@latest
+# uptimer
+RUN go install github.com/cloudfoundry/uptimer@${uptimer_version}
 
 # Add trusted relint ca certificate
 ARG RELINT_CA_CERTIFICATE
