@@ -50,13 +50,6 @@ resources:
     repository: log-cache-cli
     access_token: ((release_integration_download_bot_access_token))
 
-- name: golang-1-18-docker-image
-  type: docker-image
-  icon: docker
-  source:
-    repository: golang
-    tag: 1.18-buster
-
 - name: terraform-github-release
   type: github-release
   icon: github
@@ -80,13 +73,6 @@ resources:
     username: ((dockerhub.username))
     password: ((dockerhub.password))
     email: cf-release-integration+dockerhub-push-bot@pivotal.io
-
-- name: ubuntu-bionic-image
-  type: docker-image
-  icon: docker
-  source:
-    repository: ubuntu
-    tag: bionic
 
 - name: cf-deployment-concourse-tasks-version
   type: semver
@@ -138,11 +124,7 @@ jobs:
       trigger: true
     - get: log-cache-cli-github-release
       trigger: true
-    - get: golang-1-18-docker-image
-      trigger: true
     - get: terraform-github-release
-      trigger: true
-    - get: ubuntu-bionic-image
       trigger: true
     - get: uptimer
       trigger: true
