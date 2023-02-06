@@ -275,15 +275,3 @@ jobs:
       tag: cf-deployment-concourse-tasks-version/version
       tag_prefix: v
       body: release-notes-template/template
-
-- name: notify-bbl-updates
-  plan:
-  - in_parallel:
-    - get: cf-deployment-concourse-tasks
-    - get: bbl-github-release
-      trigger: true
-  - task: create-pm-story
-    file: cf-deployment-concourse-tasks/ci/tasks/create-tracker-story-for-bbl-updates/task.yml
-    params:
-      TRACKER_API_TOKEN: ((cf_relint_tracker_api_token))
-      TRACKER_PROJECT_ID: 1382120
