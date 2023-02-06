@@ -128,6 +128,8 @@ jobs:
       trigger: true
     - get: uptimer
       trigger: true
+    - get: bbl-github-release
+      trigger: true
   - task: update-dockerfile-versions
     file: cf-deployment-concourse-tasks-dockerfile/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
     input_mapping:
