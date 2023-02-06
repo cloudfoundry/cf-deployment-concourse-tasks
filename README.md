@@ -181,7 +181,7 @@ instance groups.
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
 [run-cats-task-yaml]: run-cats/task.yml
 [run-errand-yaml]: run-errand/task.yml
-[cf-deployment-concourse-tasks-ci]: https://release-integration.ci.cf-app.com/teams/main/pipelines/cf-deployment-concourse-tasks
+[cf-deployment-concourse-tasks-ci]: https://concourse.wg-ard.ci.cloudfoundry.org/teams/main/pipelines/cf-deployment-concourse-tasks
 [set-feature-flags-task-yaml]: set-feature-flags/task.yml
 [update-integration-configs-task-yaml]: update-integration-configs/task.yml
 [open-asgs-for-bosh-instance-group-task-yaml]:  open-asgs-for-bosh-instance-group/task.yml
