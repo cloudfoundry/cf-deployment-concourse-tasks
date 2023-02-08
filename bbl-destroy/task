@@ -24,8 +24,7 @@ function main() {
     bbl \
       --debug \
       destroy \
-      --no-confirm \
-      --skip-if-missing > "${root_dir}"/bbl_destroy.txt
+      --no-confirm > "${root_dir}"/bbl_destroy.txt
   popd
 }
 
