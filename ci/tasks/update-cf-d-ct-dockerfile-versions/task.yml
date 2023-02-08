@@ -14,6 +14,7 @@ inputs:
 - name: cf-cli
 - name: terraform-github-release
 - name: uptimer
+- name: bbl-github-release
 
 outputs:
 - name: cf-deployment-concourse-tasks-updated
