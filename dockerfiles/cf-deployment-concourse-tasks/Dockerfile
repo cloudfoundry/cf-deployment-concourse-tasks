@@ -12,107 +12,113 @@ ENV git_crypt_version 0.6.0
 ENV log_cache_cli_version 4.0.10
 ENV uptimer_version 9dccea2ecc4f18f01a32b4f8976f1dc73e7f01ad
 
-RUN \
-  apt-get update && \
-  apt-get -y install \
-    apt-utils \
-    build-essential \
-    curl \
-    git \
-    libreadline6-dev \
-    libreadline7 \
-    libsqlite3-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt-dev \
-    libyaml-dev \
-    netcat-openbsd \
-    openssl \
-    python3-pip \
-    software-properties-common \
-    sqlite \
-    unzip \
-    vim \
-    wget \
-    zlib1g-dev \
-    zlibc && \
-  apt-get -y install \
-    ruby-full && \
-  apt-get remove -y --purge software-properties-common
+RUN set -eux; \
+      apt-get update; \
+      apt-get -y install \
+        apt-utils \
+        build-essential \
+        curl \
+        git \
+        libreadline6-dev \
+        libreadline7 \
+        libsqlite3-dev \
+        libssl-dev \
+        libxml2-dev \
+        libxslt-dev \
+        libyaml-dev \
+        netcat-openbsd \
+        openssl \
+        python3-pip \
+        software-properties-common \
+        sqlite \
+        unzip \
+        vim \
+        wget \
+        zlib1g-dev \
+        zlibc; \
+      apt-get -y install ruby-full; \
+      apt-get remove -y --purge software-properties-common
 
 # assert ruby 2.5 is installed
 RUN ruby --version | grep 2\.5
 
 # jq
-RUN \
-  wget https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 --output-document="/usr/bin/jq" && \
-  cd /usr/bin && \
-  echo "${JQ_CHECKSUM} jq" | sha1sum -c - && \
-  chmod +x jq
+RUN set -eux; \
+      url="https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64"; \
+      wget -O /usr/local/bin/jq "${url}"; \
+      echo "${JQ_CHECKSUM} /usr/local/bin/jq" | sha1sum -c -; \
+      chmod +x /usr/local/bin/jq
 
 # yq
-RUN \
-  pip3 install yq
+RUN pip3 install yq
 
-# bosh-cli
-RUN \
-  wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64 --output-document="/usr/bin/bosh" && \
-  chmod +x /usr/bin/bosh
+# bosh
+RUN set -eux; \
+      url="https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64"; \
+      wget -O /usr/local/bin/bosh "${url}"; \
+      chmod +x /usr/local/bin/bosh; \
+      bosh --version
 
-# cf-cli
-RUN \
-  cd /tmp && \
-  wget -q -O cf.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
-  dpkg -i cf.deb && \
-  rm cf.deb
+# cf
+RUN set -eux; \
+      url="https://packages.cloudfoundry.org/stable?release=linux64-binary&version=${cf_cli_version}"; \
+      wget -O cf.tgz "${url}"; \
+      mkdir /tmp/cf; \
+      tar -C /tmp/cf -xzf cf.tgz; \
+      rm cf.tgz; \
+      mv /tmp/cf/cf8 /usr/local/bin/cf; \
+      rm -r /tmp/cf; \
+      chmod +x /usr/local/bin/cf; \
+      cf version
 
-# credhub-cli
-RUN \
-  wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-${credhub_cli_version}.tgz -P /tmp && \
-  tar xzvf /tmp/credhub-linux-${credhub_cli_version}.tgz -C /usr/local/bin && \
-  chmod +x /usr/local/bin/credhub
+# credhub
+RUN set -eux; \
+      url="https://github.com/cloudfoundry/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-${credhub_cli_version}.tgz"; \
+      wget -O credhub.tgz "${url}"; \
+      tar -C /usr/local/bin -xzf credhub.tgz; \
+      rm credhub.tgz; \
+      chmod +x /usr/local/bin/credhub; \
+      credhub --version
 
-# bbl and dependencies
-RUN \
-  wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_x86-64 -P /tmp && \
-  mv /tmp/bbl-* /usr/local/bin/bbl && \
-  cd /usr/local/bin && \
-  chmod +x bbl
-
-RUN \
-  wget https://github.com/cloudfoundry/bosh-bootloader/archive/v${bbl_version}.tar.gz -P /tmp && \
-  mkdir -p /var/repos/bosh-bootloader && \
-  tar xvf  /tmp/v${bbl_version}.tar.gz --strip-components=1 -C /var/repos/bosh-bootloader && \
-  rm -rf /tmp/*
+# bbl
+RUN set -eux; \
+      url="https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_x86-64"; \
+      wget -O /usr/local/bin/bbl "${url}"; \
+      chmod +x /usr/local/bin/bbl; \
+      bbl version
 
 RUN \
-  wget "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -P /tmp && \
-  cd /tmp && \
-  curl https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_SHA256SUMS | grep linux_amd64 | shasum -c - && \
-  unzip "/tmp/terraform_${terraform_version}_linux_amd64.zip" -d /tmp && \
-  mv /tmp/terraform /usr/local/bin/terraform && \
-  cd /usr/local/bin && \
-  chmod +x terraform && \
-  rm -rf /tmp/*
+      wget https://github.com/cloudfoundry/bosh-bootloader/archive/v${bbl_version}.tar.gz -P /tmp && \
+      mkdir -p /var/repos/bosh-bootloader && \
+      tar xvf  /tmp/v${bbl_version}.tar.gz --strip-components=1 -C /var/repos/bosh-bootloader && \
+      rm -rf /tmp/*
+
+# terraform
+RUN set -eux; \
+      url="https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"; \
+      sha256="$(curl "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_SHA256SUMS" | grep linux_amd64)"; \
+      wget "${url}"; \
+      echo "${sha256}" | shasum -c -; \
+      unzip "terraform_${terraform_version}_linux_amd64.zip" -d /usr/local/bin/terraform; \
+      rm "terraform_${terraform_version}_linux_amd64.zip"; \
+      chmod +x /usr/local/bin/terraform; \
+      terraform version
 
 # git-crypt
-RUN \
-  wget https://github.com/AGWA/git-crypt/archive/${git_crypt_version}.tar.gz -O /tmp/git-crypt.tar.gz && \
-  tar xzvf /tmp/git-crypt.tar.gz -C /tmp && \
-  cd /tmp/git-crypt-${git_crypt_version} && \
-  make PREFIX=/usr/local install && \
-  rm -rf /tmp/*
+RUN set -eux; \
+      url="https://github.com/AGWA/git-crypt/releases/download/${git_crypt_version}/git-crypt-${git_crypt_version}-linux-x86_64"; \
+      wget -O /usr/local/bin/git-crypt "${url}"; \
+      chmod +x /usr/local/bin/git-crypt
 
-ENV GOPATH /go
-ENV PATH /go/bin:/usr/local/go/bin:$PATH
-
-# Log Cache CLI
-RUN \
-  wget https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux -P /tmp && \
-  cf install-plugin /tmp/log-cache-cf-plugin-linux -f
+# log-cache
+RUN set -eux; \
+      url="https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux"; \
+      wget -O log-cache-plugin "${url}"; \
+      cf install-plugin log-cache-plugin -f; \
+      rm log-cache-plugin
 
 # uptimer
-RUN go install github.com/cloudfoundry/uptimer@${uptimer_version}
+RUN go install "github.com/cloudfoundry/uptimer@${uptimer_version}"
 
 # Add trusted relint ca certificate
 ARG RELINT_CA_CERTIFICATE
