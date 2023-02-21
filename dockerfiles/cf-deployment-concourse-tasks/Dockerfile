@@ -62,7 +62,7 @@ RUN \
 # cf-cli
 RUN \
   cd /tmp && \
-  wget -q -O cf.deb "https://cli.run.pivotal.io/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
+  wget -q -O cf.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=${cf_cli_version}&source=github-rel" && \
   dpkg -i cf.deb && \
   rm cf.deb
 
