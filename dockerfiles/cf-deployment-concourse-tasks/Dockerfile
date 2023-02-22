@@ -95,12 +95,13 @@ RUN \
 
 # terraform
 RUN set -eux; \
-      url="https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"; \
+      file="terraform_${terraform_version}_linux_amd64.zip"; \
+      url="https://releases.hashicorp.com/terraform/${terraform_version}/${file}"; \
       sha256="$(curl "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_SHA256SUMS" | grep linux_amd64)"; \
-      wget "${url}"; \
+      wget -O "${file}" "${url}"; \
       echo "${sha256}" | shasum -c -; \
-      unzip "terraform_${terraform_version}_linux_amd64.zip" -d /usr/local/bin/terraform; \
-      rm "terraform_${terraform_version}_linux_amd64.zip"; \
+      unzip "${file}" -d /usr/local/bin; \
+      rm "${file}"; \
       chmod +x /usr/local/bin/terraform; \
       terraform version
 
