@@ -12,8 +12,8 @@ function commit_with_message() {
       return
     fi
 
-    git config user.name "CF RELINT BOT"
-    git config user.email "cf-release-integration@pivotal.io"
+    git config user.name "ARD WG Bot"
+    git config user.email "app-deployments@cloudfoundry.org"
 
     git add .
 

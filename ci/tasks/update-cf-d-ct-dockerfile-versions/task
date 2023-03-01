@@ -12,8 +12,8 @@ sed -i "s/ENV uptimer_version.*$/ENV uptimer_version $(git -C uptimer rev-parse 
 
 pushd cf-deployment-concourse-tasks
   if [[ -n $(git status --porcelain) ]]; then
-    git config user.name "CI Bot"
-    git config user.email "cf-release-integration@pivotal.io"
+    git config user.name "ARD WG Bot"
+    git config user.email "app-deployments@cloudfoundry.org"
     git add .
     git commit --allow-empty \
     -m "Update Dockerfile"
