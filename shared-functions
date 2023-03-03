@@ -180,10 +180,13 @@ write_uptimer_deploy_config() {
   # jq as bosh deploy args
   shift 2
 
-  # Give bogus values for TCP_DOMAIN and AVAILABLE_PORT
-  # so that we don't have to do jq magic.
+  # Give bogus values for TCP_DOMAIN, TCP_PORT, and
+  # AVAILABLE_PORT so that we don't have to do jq magic.
+
   local tcp_domain
   tcp_domain=${TCP_DOMAIN:-" "}
+  local tcp_port
+  tcp_port=${TCP_PORT:-"-1"}
   local available_port
   available_port=${AVAILABLE_PORT:-"-1"}
 
@@ -198,10 +201,13 @@ write_uptimer_deploy_config() {
     --arg manifest ${manifest} \
     --arg deployment_name ${deployment_name} \
     --arg run_app_syslog_availability ${MEASURE_SYSLOG_AVAILABILITY} \
+    --arg run_tcp_availability ${MEASURE_TCP_AVAILABILITY} \
     --arg tcp_domain "${tcp_domain}" \
+    --arg tcp_port ${tcp_port} \
     --arg available_port ${available_port} \
     --arg app_pushability ${APP_PUSHABILITY_THRESHOLD} \
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
+    --arg tcp_availability ${TCP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
     --arg streaming_logs ${STREAMING_LOGS_THRESHOLD} \
     --arg use_single_app_instance ${USE_SINGLE_APP_INSTANCE} \
@@ -219,17 +225,20 @@ write_uptimer_deploy_config() {
         "admin_password": $admin_password,
         "tcp_domain": $tcp_domain,
         "available_port": $available_port | tonumber,
+        "tcp_port": $tcp_port | tonumber,
         "use_single_app_instance": $use_single_app_instance | ascii_downcase | contains("true")
       },
       "allowed_failures": {
         "app_pushability": $app_pushability | tonumber,
         "http_availability": $http_availability | tonumber,
+        "tcp_availability": $tcp_availability | tonumber,
         "recent_logs": $recent_logs | tonumber,
         "streaming_logs": $streaming_logs | tonumber,
         "app_syslog_availability": $app_syslog_availability | tonumber
       },
       "optional_tests": {
-        "run_app_syslog_availability": $run_app_syslog_availability | ascii_downcase | contains("true")
+        "run_app_syslog_availability": $run_app_syslog_availability | ascii_downcase | contains("true"),
+        "run_tcp_availability": $run_tcp_availability | ascii_downcase | contains("true")
       }
     }' \
     -- ${@}

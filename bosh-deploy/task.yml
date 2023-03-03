@@ -74,9 +74,20 @@ params:
   # - Requires DEPLOY_WITH_UPTIME_MEASUREMENTS to be true.
   # - This will measure availability of app syslog drain during deployment.
 
+  MEASURE_TCP_AVAILABILITY: false
+  # - Optional
+  # - Requires DEPLOY_WITH_UPTIME_MEASUREMENTS to be true.
+  # - This will measure availability of TCP routing during deployment.
+
   TCP_DOMAIN:
-  # - Required if MEASURE_SYSLOG_AVAILABILITY is set to true.
-  # - Domain in which to create a tcp route for the syslog availability measurement.
+  # - Required if MEASURE_TCP_AVAILABILITY or MEASURE_SYSLOG_AVAILABILITY is set to true.
+  # - Domain used by CF for creating tcp routes to apps, syslog.
+  # - Usually of the form `tcp.[SYSTEM_DOMAIN]` (e.g. `tcp.my-cf.com`).
+
+  TCP_PORT:
+  # - Required if MEASURE_TCP_AVAILABILITY is set to true.
+  # - Available port within the 'reservable_ports' range,
+  # - used to create a tcp route for TCP routing availability measurement.
 
   AVAILABLE_PORT:
   # - Required if MEASURE_SYSLOG_AVAILABILITY is set to true.
@@ -96,6 +107,11 @@ params:
   HTTP_AVAILABILITY_THRESHOLD: 0
   # - Optional
   # - This sets the maximum number of allowed uptimer failures for http availability
+  # - The default threshold value of 0 is our working value for cf-deployment, and is likely to be updated
+
+  TCP_AVAILABILITY_THRESHOLD: 0
+  # - Optional
+  # - This sets the maximum number of allowed uptimer failures for tcp availability
   # - The default threshold value of 0 is our working value for cf-deployment, and is likely to be updated
 
   RECENT_LOGS_THRESHOLD: 0
