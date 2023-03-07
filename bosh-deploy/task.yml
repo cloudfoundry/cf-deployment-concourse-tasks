@@ -80,7 +80,8 @@ params:
   # - This will measure availability of TCP routing during deployment.
 
   TCP_DOMAIN:
-  # - Required if MEASURE_TCP_AVAILABILITY or MEASURE_SYSLOG_AVAILABILITY is set to true.
+  # - Required if MEASURE_TCP_AVAILABILITY or MEASURE_SYSLOG_AVAILABILITY is set to true,
+  #   unless toolsmiths-env is provided. With toolsmiths-env, this value is automatically calculated.
   # - Domain used by CF for creating tcp routes to apps, syslog.
   # - Usually of the form `tcp.[SYSTEM_DOMAIN]` (e.g. `tcp.my-cf.com`).
 
