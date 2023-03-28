@@ -5,7 +5,7 @@ resources:
   source:
     branch: main
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
-    private_key: ((cfdct_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
     paths:
     - dockerfiles/cf-deployment-concourse-tasks/Dockerfile
 
@@ -15,7 +15,7 @@ resources:
   source:
     user: cloudfoundry
     repository: bosh-bootloader
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
 
 - name: bosh-cli-github-release
   type: github-release
@@ -23,7 +23,7 @@ resources:
   source:
     user: cloudfoundry
     repository: bosh-cli
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
 
 - name: cf-cli-github-release
   type: github-release
@@ -31,7 +31,7 @@ resources:
   source:
     user: cloudfoundry
     repository: cli
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
     tag_filter: 'v(8\.[^v].*)'
 
 - name: credhub-cli-github-release
@@ -40,7 +40,7 @@ resources:
   source:
     user: cloudfoundry-incubator
     repository: credhub-cli
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
 
 - name: log-cache-cli-github-release
   type: github-release
@@ -48,7 +48,7 @@ resources:
   source:
     user: cloudfoundry
     repository: log-cache-cli
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
 
 - name: terraform-github-release
   type: github-release
@@ -56,7 +56,7 @@ resources:
   source:
     user: hashicorp
     repository: terraform
-    access_token: ((release_integration_download_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
 
 - name: uptimer
   type: git
@@ -80,8 +80,7 @@ resources:
     driver: git
     uri: git@github.com:cloudfoundry/cf-relint-ci-semver.git
     branch: main
-    private_key: ((cf_relint_ci_semver_readwrite_deploy_key.private_key))
-    git_user: "CF RELINT BOT <cf-release-integration@pivotal.io>"
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
     file: cf-deployment-concourse-tasks-version
 
 - name: cf-deployment-concourse-tasks
@@ -90,14 +89,14 @@ resources:
   source:
     branch: main
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
-    private_key: ((cfdct_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
 
 - name: cf-deployment-concourse-tasks-latest-release
   type: git
   icon: github
   source:
     uri: git@github.com:cloudfoundry/cf-deployment-concourse-tasks.git
-    private_key: ((cfdct_readwrite_deploy_key.private_key))
+    private_key: ((ard_wg_gitbot_ssh_key.private_key))
     tag_filter: '*'
 
 - name: cf-deployment-concourse-tasks-github-release
@@ -105,7 +104,7 @@ resources:
   source:
     owner: cloudfoundry
     repository: cf-deployment-concourse-tasks
-    access_token: ((cf_decota_release_bot_access_token))
+    access_token: ((ard_wg_gitbot_token))
     drafts: true
 
 jobs:
