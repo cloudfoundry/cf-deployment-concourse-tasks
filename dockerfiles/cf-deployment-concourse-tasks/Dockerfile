@@ -10,7 +10,7 @@ ENV terraform_version 1.4.3
 ENV credhub_cli_version 2.9.13
 ENV git_crypt_version 0.7.0
 ENV log_cache_cli_version 5.0.0
-ENV uptimer_version de4c22ab193391da63787b9605d29c0f1528fc5b
+ENV uptimer_version 246745a4fa02e5067340fdab9bbcc6bc5b3ea75d
 
 RUN set -eux; \
       apt-get update; \
