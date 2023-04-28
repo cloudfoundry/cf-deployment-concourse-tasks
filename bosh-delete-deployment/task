@@ -2,7 +2,7 @@
 set -exu
 
 # shellcheck disable=SC1091
-source cf-deployment-concourse-tasks/shared-functions
+source cf-deployment-concourse-tasks-v14/shared-functions
 
 function bosh_delete_all_deployments() {
     local deployments
