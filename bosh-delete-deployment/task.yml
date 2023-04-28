@@ -17,7 +17,7 @@ inputs:
   optional: true
 
 run:
-  path: cf-deployment-concourse-tasks/bosh-delete-deployment/task
+  path: cf-deployment-concourse-tasks-v14/bosh-delete-deployment/task
 
 params:
   BBL_STATE_DIR: bbl-state
