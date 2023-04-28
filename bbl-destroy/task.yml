@@ -8,7 +8,7 @@ image_resource:
     tag: 'v14.0.0'
 
 inputs:
-- name: cf-deployment-concourse-tasks  # - This repo
+- name: cf-deployment-concourse-tasks-v14  # - This repo
 - name: bbl-state   # - The env repo containing the Director's bbl state dir
 - name: pool-lock
   optional: true
