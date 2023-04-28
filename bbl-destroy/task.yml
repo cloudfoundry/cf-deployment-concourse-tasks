@@ -20,7 +20,7 @@ outputs:
 # - This output _must_ be persisted for these tasks to function properly
 
 run:
-  path: cf-deployment-concourse-tasks/bbl-destroy/task
+  path: cf-deployment-concourse-tasks-v14/bbl-destroy/task
 
 params:
   BBL_STATE_DIR: bbl-state
