@@ -124,6 +124,10 @@ function main() {
 
     if [[ "${DELETE_TERRAFORM_PLUGINS}" == "true" ]]; then
       rm -rf "terraform/.terraform"
+    else
+      pushd "terraform"
+        terraform init
+      popd
     fi
   popd
 }
