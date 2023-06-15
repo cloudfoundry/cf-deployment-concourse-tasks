@@ -82,7 +82,7 @@ RUN set -eux; \
 
 # bbl
 RUN set -eux; \
-      url="https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_x86-64"; \
+      url="https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_amd64"; \
       wget -O /usr/local/bin/bbl "${url}"; \
       chmod +x /usr/local/bin/bbl; \
       bbl version
