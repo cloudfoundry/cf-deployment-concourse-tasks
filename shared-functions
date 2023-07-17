@@ -109,8 +109,11 @@ function bosh_interpolate() {
   local release_name
   release_name="${2}"
 
+  local release_version
+  release_version="${3}"
+
   local release_tarball_name
-  release_tarball_name="${3}"
+  release_tarball_name="${4}"
   set -u
 
   local bosh_manifest
@@ -134,16 +137,17 @@ function bosh_interpolate() {
       cat << EOF > create-provided-release.yml
 ---
 - type: replace
-  path: /releases/name=${release_name}
+  path: /releases/name=${release_name}?
   value:
     name: ${release_name}
     url: file://${root_dir}/release/${release_tarball_name}
+    version: ${release_version}
 EOF
     else
       cat << EOF > create-provided-release.yml
 ---
 - type: replace
-  path: /releases/name=${release_name}
+  path: /releases/name=${release_name}?
   value:
     name: ${release_name}
     version: create
