@@ -131,13 +131,16 @@ function bosh_interpolate() {
 
   if [ -n "${release_name}" ]; then
     if [ -n "${release_tarball_name}" ]; then
+      tarball_path="${root_dir}/release/${release_tarball_name}"
+      version=$(tar xzf "${tarball_path}" -O release.MF | yq -r '.version // "latest"')
       cat << EOF > create-provided-release.yml
 ---
 - type: replace
   path: /releases/name=${release_name}
   value:
     name: ${release_name}
-    url: file://${root_dir}/release/${release_tarball_name}
+    url: file://${tarball_path}
+    version: ${version}
 EOF
     else
       cat << EOF > create-provided-release.yml
