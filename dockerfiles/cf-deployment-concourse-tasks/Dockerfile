@@ -7,7 +7,7 @@ ENV cf_cli_version 8.7.1
 ENV bosh_cli_version 7.3.1
 ENV bbl_version 9.0.10
 ENV terraform_version 1.5.5
-ENV credhub_cli_version 2.9.18
+ENV credhub_cli_version 2.9.19
 ENV git_crypt_version 0.7.0
 ENV log_cache_cli_version 5.0.2
 ENV uptimer_version 2bbfeaf3608016ddca51a7ff9767b73498f7e123
