@@ -73,7 +73,7 @@ RUN set -eux; \
 
 # credhub
 RUN set -eux; \
-      url="https://github.com/cloudfoundry/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-amd64-${credhub_cli_version}.tgz" \
+      url="https://github.com/cloudfoundry/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-amd64-${credhub_cli_version}.tgz"; \
       wget -O credhub.tgz "${url}"; \
       tar -C /usr/local/bin -xzf credhub.tgz; \
       rm credhub.tgz; \
