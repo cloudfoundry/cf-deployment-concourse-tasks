@@ -4,7 +4,6 @@ ENV bbl_version 9.0.12
 ENV bosh_cli_version 7.4.0
 ENV cf_cli_version 8.7.3
 ENV credhub_cli_version 2.9.21
-ENV git_crypt_version 0.7.0
 ENV log_cache_cli_version 5.0.4
 ENV terraform_version 1.5.7
 ENV uptimer_version f5f8149b8977e030b60b5fde37e54db8af4025cc
@@ -15,6 +14,7 @@ RUN apt-get update
 # useful utils
 RUN set -eux; \
       apt-get -y install \
+        git-crypt \
         jq \
         netcat-openbsd \
         unzip \
@@ -90,12 +90,6 @@ RUN set -eux; \
       rm "${file}"; \
       chmod +x /usr/local/bin/terraform; \
       terraform version
-
-# git-crypt
-RUN set -eux; \
-      url="https://github.com/AGWA/git-crypt/releases/download/${git_crypt_version}/git-crypt-${git_crypt_version}-linux-x86_64"; \
-      wget -O /usr/local/bin/git-crypt "${url}"; \
-      chmod +x /usr/local/bin/git-crypt
 
 # log-cache
 RUN set -eux; \
