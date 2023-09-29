@@ -1,13 +1,14 @@
 FROM golang:1.20.8-bullseye
 
-ENV cf_cli_version 8.7.3
-ENV bosh_cli_version 7.4.0
 ENV bbl_version 9.0.12
-ENV terraform_version 1.5.7
+ENV bosh_cli_version 7.4.0
+ENV cf_cli_version 8.7.3
 ENV credhub_cli_version 2.9.21
 ENV git_crypt_version 0.7.0
 ENV log_cache_cli_version 5.0.4
+ENV terraform_version 1.5.7
 ENV uptimer_version f5f8149b8977e030b60b5fde37e54db8af4025cc
+ENV yq_version 4.35.2
 
 RUN apt-get update
 
@@ -16,7 +17,6 @@ RUN set -eux; \
       apt-get -y install \
         jq \
         netcat-openbsd \
-        python3-pip \
         unzip \
         vim;
 
@@ -26,7 +26,10 @@ RUN set -eux; \
       ruby --version | grep 2\.7
 
 # yq
-RUN pip3 install yq
+RUN set -eux; \
+      wget "https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_linux_amd64" -O /usr/local/bin/yq; \
+      chmod +x /usr/local/bin/yq; \
+      yq --version
 
 # bosh
 RUN set -eux; \
