@@ -7,14 +7,14 @@ image_resource:
     repository: cloudfoundry/relint-base
 
 inputs:
-- name: cf-deployment-concourse-tasks
+- name: bbl-github-release
 - name: bosh-cli-github-release
+- name: cf-cli
+- name: cf-deployment-concourse-tasks
 - name: credhub-cli-github-release
 - name: log-cache-cli-github-release
-- name: cf-cli
 - name: terraform-github-release
 - name: uptimer
-- name: bbl-github-release
 - name: yq-github-release
 
 outputs:
