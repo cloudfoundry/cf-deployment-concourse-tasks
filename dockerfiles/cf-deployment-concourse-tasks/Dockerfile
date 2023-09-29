@@ -27,7 +27,8 @@ RUN set -eux; \
 
 # yq
 RUN set -eux; \
-      wget "https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_linux_amd64" -O /usr/local/bin/yq; \
+      url="https://github.com/mikefarah/yq/releases/download/v${yq_version}/yq_linux_amd64"; \
+      wget "${url}" -O /usr/local/bin/yq; \
       chmod +x /usr/local/bin/yq; \
       yq --version
 
@@ -42,68 +43,69 @@ RUN set -eux; \
         libxslt1-dev \
         libyaml-dev \
         openssl \
-        ruby \
-        ruby-dev \
         sqlite3 \
         zlib1g-dev; \
-      url="https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64"; \
-      wget -O /usr/local/bin/bosh "${url}"; \
+      url="https://github.com/cloudfoundry/bosh-cli/releases/download/v${bosh_cli_version}/bosh-cli-${bosh_cli_version}-linux-amd64"; \
+      wget "${url}" -O /usr/local/bin/bosh; \
       chmod +x /usr/local/bin/bosh; \
       bosh --version
 
 # cf
 RUN set -eux; \
+      mkdir -p /tmp/cf; \
       url="https://packages.cloudfoundry.org/stable?release=linux64-binary&version=${cf_cli_version}"; \
-      wget -O cf.tgz "${url}"; \
-      mkdir /tmp/cf; \
-      tar -C /tmp/cf -xzf cf.tgz; \
-      rm cf.tgz; \
+      wget "${url}" -O /tmp/cf/cf.tgz; \
+      tar -xzf /tmp/cf/cf.tgz -C /tmp/cf; \
       mv /tmp/cf/cf8 /usr/local/bin/cf; \
-      rm -r /tmp/cf; \
       chmod +x /usr/local/bin/cf; \
-      cf version
+      cf version; \
+      rm -rf /tmp/cf
 
 # credhub
 RUN set -eux; \
+      mkdir -p /tmp/credhub; \
       url="https://github.com/cloudfoundry/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-amd64-${credhub_cli_version}.tgz"; \
-      wget -O credhub.tgz "${url}"; \
-      tar -C /usr/local/bin -xzf credhub.tgz; \
-      rm credhub.tgz; \
+      wget "${url}" -O /tmp/credhub/credhub.tgz; \
+      tar -xzf /tmp/credhub/credhub.tgz -C /tmp/credhub; \
+      mv /tmp/credhub/credhub /usr/local/bin; \
       chmod +x /usr/local/bin/credhub; \
-      credhub --version
+      credhub --version; \
+      rm -rf /tmp/credhub
 
 # bbl
 RUN set -eux; \
       url="https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_amd64"; \
-      wget -O /usr/local/bin/bbl "${url}"; \
+      wget "${url}" -O /usr/local/bin/bbl; \
       chmod +x /usr/local/bin/bbl; \
       bbl version
 
 # terraform
 RUN set -eux; \
-      file="terraform_${terraform_version}_linux_amd64.zip"; \
-      url="https://releases.hashicorp.com/terraform/${terraform_version}/${file}"; \
-      sha256="$(curl "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_SHA256SUMS" | grep linux_amd64)"; \
-      wget -O "${file}" "${url}"; \
-      echo "${sha256}" | shasum -c -; \
-      unzip "${file}" -d /usr/local/bin; \
-      rm "${file}"; \
+      mkdir -p /tmp/terraform; \
+      url="https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"; \
+      wget "${url}" -O /tmp/terraform/terraform.zip; \
+      unzip /tmp/terraform/terraform.zip -d /tmp/terraform; \
+      mv /tmp/terraform/terraform /usr/local/bin; \
       chmod +x /usr/local/bin/terraform; \
-      terraform version
+      terraform version; \
+      rm -rf /tmp/terraform
 
 # log-cache
 RUN set -eux; \
       url="https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux"; \
-      wget -O log-cache-plugin "${url}"; \
-      cf install-plugin log-cache-plugin -f; \
-      rm log-cache-plugin
+      wget "${url}" -O /tmp/log-cache-plugin; \
+      cf install-plugin /tmp/log-cache-plugin -f; \
+      rm /tmp/log-cache-plugin
 
 # uptimer
-RUN go install "github.com/cloudfoundry/uptimer@${uptimer_version}"
+RUN set -eux; \
+      go install "github.com/cloudfoundry/uptimer@${uptimer_version}"; \
+      uptimer -v
 
 # Add trusted relint ca certificate
 ARG RELINT_CA_CERTIFICATE
 ARG PREVIOUS_RELINT_CA_CERTIFICATE
-RUN echo -n "$RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/relint.crt && \
-    echo -n "$PREVIOUS_RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/previous_relint.crt && \
-  /usr/sbin/update-ca-certificates -f
+RUN set -e; \
+      echo -n "$RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/relint.crt; \
+      echo -n "$PREVIOUS_RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/previous_relint.crt; \
+      /usr/sbin/update-ca-certificates -f
