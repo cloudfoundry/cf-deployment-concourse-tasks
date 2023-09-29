@@ -1,8 +1,5 @@
 FROM golang:1.20.8-bullseye
 
-ENV JQ_VERSION 1.6
-ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
-
 ENV cf_cli_version 8.7.3
 ENV bosh_cli_version 7.4.0
 ENV bbl_version 9.0.12
@@ -17,6 +14,7 @@ RUN apt-get update
 # useful utils
 RUN set -eux; \
       apt-get -y install \
+        jq \
         netcat-openbsd \
         python3-pip \
         unzip \
@@ -26,13 +24,6 @@ RUN set -eux; \
 RUN set -eux; \
       apt-get -y install ruby-full; \
       ruby --version | grep 2\.7
-
-# jq
-RUN set -eux; \
-      url="https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64"; \
-      wget -O /usr/local/bin/jq "${url}"; \
-      echo "${JQ_CHECKSUM} /usr/local/bin/jq" | sha1sum -c -; \
-      chmod +x /usr/local/bin/jq
 
 # yq
 RUN pip3 install yq
