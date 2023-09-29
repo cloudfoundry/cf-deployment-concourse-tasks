@@ -121,11 +121,13 @@ jobs:
   public: true
   plan:
   - in_parallel:
-    - get: cf-deployment-concourse-tasks-dockerfile
+    - get: bbl-github-release
       trigger: true
     - get: bosh-cli-github-release
       trigger: true
     - get: cf-cli-github-release
+      trigger: true
+    - get: cf-deployment-concourse-tasks-dockerfile
       trigger: true
     - get: credhub-cli-github-release
       trigger: true
@@ -134,8 +136,6 @@ jobs:
     - get: terraform-github-release
       trigger: true
     - get: uptimer
-      trigger: true
-    - get: bbl-github-release
       trigger: true
     - get: yq-github-release
       trigger: true
