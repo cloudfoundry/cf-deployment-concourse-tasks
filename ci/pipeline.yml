@@ -58,6 +58,14 @@ resources:
     repository: terraform
     access_token: ((ard_wg_gitbot_token))
 
+- name: yq-github-release
+  type: github-release
+  icon: github
+  source:
+    user: mikefarah
+    repository: yq
+    access_token: ((ard_wg_gitbot_token))
+
 - name: uptimer
   type: git
   icon: github
@@ -128,6 +136,8 @@ jobs:
     - get: uptimer
       trigger: true
     - get: bbl-github-release
+      trigger: true
+    - get: yq-github-release
       trigger: true
   - task: update-dockerfile-versions
     file: cf-deployment-concourse-tasks-dockerfile/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
