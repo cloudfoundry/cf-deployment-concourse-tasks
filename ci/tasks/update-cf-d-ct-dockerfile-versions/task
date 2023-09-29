@@ -9,6 +9,7 @@ sed -i "s/ENV log_cache_cli_version.*$/ENV log_cache_cli_version $(cat log-cache
 sed -i "s/ENV cf_cli_version.*$/ENV cf_cli_version $(cat cf-cli/version)/" $dockerfile
 sed -i "s/ENV bbl_version.*$/ENV bbl_version $(cat bbl-github-release/version)/" $dockerfile
 sed -i "s/ENV uptimer_version.*$/ENV uptimer_version $(git -C uptimer rev-parse HEAD)/" $dockerfile
+sed -i "s/ENV yq_version.*$/ENV yq_version $(cat yq-github-release/version)/" $dockerfile
 
 pushd cf-deployment-concourse-tasks
   if [[ -n $(git status --porcelain) ]]; then
