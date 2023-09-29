@@ -14,17 +14,18 @@ ENV uptimer_version f5f8149b8977e030b60b5fde37e54db8af4025cc
 
 RUN apt-get update
 
-# utils
+# useful utils
 RUN set -eux; \
       apt-get -y install \
         netcat-openbsd \
         python3-pip \
-        ruby-full \
         unzip \
         vim;
 
-# assert ruby 2.7 is installed
-RUN ruby --version | grep 2\.7
+# ruby
+RUN set -eux; \
+      apt-get -y install ruby-full; \
+      ruby --version | grep 2\.7
 
 # jq
 RUN set -eux; \
