@@ -87,12 +87,6 @@ RUN set -eux; \
       chmod +x /usr/local/bin/bbl; \
       bbl version
 
-RUN \
-      wget https://github.com/cloudfoundry/bosh-bootloader/archive/v${bbl_version}.tar.gz -P /tmp && \
-      mkdir -p /var/repos/bosh-bootloader && \
-      tar xvf  /tmp/v${bbl_version}.tar.gz --strip-components=1 -C /var/repos/bosh-bootloader && \
-      rm -rf /tmp/*
-
 # terraform
 RUN set -eux; \
       file="terraform_${terraform_version}_linux_amd64.zip"; \
