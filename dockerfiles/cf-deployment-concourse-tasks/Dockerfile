@@ -12,20 +12,16 @@ ENV git_crypt_version 0.7.0
 ENV log_cache_cli_version 5.0.4
 ENV uptimer_version f5f8149b8977e030b60b5fde37e54db8af4025cc
 
+RUN apt-get update
+
+# utils
 RUN set -eux; \
-      apt-get update; \
       apt-get -y install \
-        apt-utils \
-        curl \
-        git \
         netcat-openbsd \
         python3-pip \
-        software-properties-common \
+        ruby-full \
         unzip \
-        vim \
-        wget; \
-      apt-get -y install ruby-full; \
-      apt-get remove -y --purge software-properties-common
+        vim;
 
 # assert ruby 2.7 is installed
 RUN ruby --version | grep 2\.7
