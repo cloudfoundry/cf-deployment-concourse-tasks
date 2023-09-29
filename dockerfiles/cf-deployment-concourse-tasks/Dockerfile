@@ -1,4 +1,4 @@
-FROM golang:1.20.5-buster
+FROM golang:1.20.8-bullseye
 
 ENV JQ_VERSION 1.6
 ENV JQ_CHECKSUM 056ba5d6bbc617c29d37158ce11fd5a443093949
@@ -27,8 +27,8 @@ RUN set -eux; \
       apt-get -y install ruby-full; \
       apt-get remove -y --purge software-properties-common
 
-# assert ruby 2.5 is installed
-RUN ruby --version | grep 2\.5
+# assert ruby 2.7 is installed
+RUN ruby --version | grep 2\.7
 
 # jq
 RUN set -eux; \
@@ -44,17 +44,17 @@ RUN pip3 install yq
 RUN set -eux; \
       apt-get -y install \
         build-essential \
-        libreadline6-dev \
-        libreadline7 \
+        libreadline-dev \
         libsqlite3-dev \
         libssl-dev \
         libxml2-dev \
-        libxslt-dev \
+        libxslt1-dev \
         libyaml-dev \
         openssl \
-        sqlite \
-        zlib1g-dev \
-        zlibc; \
+        ruby \
+        ruby-dev \
+        sqlite3 \
+        zlib1g-dev; \
       url="https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64"; \
       wget -O /usr/local/bin/bosh "${url}"; \
       chmod +x /usr/local/bin/bosh; \
