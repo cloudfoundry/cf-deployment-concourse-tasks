@@ -16,26 +16,14 @@ RUN set -eux; \
       apt-get update; \
       apt-get -y install \
         apt-utils \
-        build-essential \
         curl \
         git \
-        libreadline6-dev \
-        libreadline7 \
-        libsqlite3-dev \
-        libssl-dev \
-        libxml2-dev \
-        libxslt-dev \
-        libyaml-dev \
         netcat-openbsd \
-        openssl \
         python3-pip \
         software-properties-common \
-        sqlite \
         unzip \
         vim \
-        wget \
-        zlib1g-dev \
-        zlibc; \
+        wget; \
       apt-get -y install ruby-full; \
       apt-get remove -y --purge software-properties-common
 
@@ -54,6 +42,19 @@ RUN pip3 install yq
 
 # bosh
 RUN set -eux; \
+      apt-get -y install \
+        build-essential \
+        libreadline6-dev \
+        libreadline7 \
+        libsqlite3-dev \
+        libssl-dev \
+        libxml2-dev \
+        libxslt-dev \
+        libyaml-dev \
+        openssl \
+        sqlite \
+        zlib1g-dev \
+        zlibc; \
       url="https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${bosh_cli_version}-linux-amd64"; \
       wget -O /usr/local/bin/bosh "${url}"; \
       chmod +x /usr/local/bin/bosh; \
