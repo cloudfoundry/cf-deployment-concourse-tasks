@@ -116,10 +116,10 @@ function main() {
     ns_record_advisory="For DNS delegation to work, please ensure an NS record for ${LB_DOMAIN} is created in its parent DNS zone with the following nameservers:"
     if [[ "$BBL_IAAS" == "aws" ]]; then
       echo "$ns_record_advisory"
-      bbl outputs | yq '.env_dns_zone_name_servers[0:4]' --yaml-output | cut -d' ' -f2
+      bbl outputs | yq '.env_dns_zone_name_servers[0:4]' --output-format yaml | cut -d' ' -f2
     elif [[ "$BBL_IAAS" == "gcp" ]]; then
       echo "$ns_record_advisory"
-      bbl outputs | yq '.system_domain_dns_servers' --yaml-output | cut -d' ' -f2
+      bbl outputs | yq '.system_domain_dns_servers' --output-format yaml | cut -d' ' -f2
     fi
 
     if [[ "${DELETE_TERRAFORM_PLUGINS}" == "true" ]]; then
