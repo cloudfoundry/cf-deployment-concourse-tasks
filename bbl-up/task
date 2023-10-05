@@ -87,7 +87,6 @@ function main() {
       local bbl_cert_chain_flag
       bbl_cert_chain_flag=""
       local bbl_cert_path
-      local bbl_cert_key
       write_bbl_certs
 
       lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
