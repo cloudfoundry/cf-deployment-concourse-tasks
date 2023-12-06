@@ -12,7 +12,9 @@ function main() {
   if [ "$REGENERATE_CREDENTIALS" == true ]; then
     remove_credentials_from_credhub
   fi
-  upload_stemcells
+  if [ ! "$SKIP_STEMCELL_UPLOAD" == true ]; then
+    upload_stemcells
+  fi
   # shellcheck disable=SC2086
   bosh_deploy ${BOSH_DEPLOY_ARGS}
 }

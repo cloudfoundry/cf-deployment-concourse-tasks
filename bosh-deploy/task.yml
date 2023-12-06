@@ -63,6 +63,11 @@ params:
   # - Works well with fresh deployments
   # - Upgrade deployments are not expected to work with total cred rotation
 
+  SKIP_STEMCELL_UPLOAD: false
+  # - Optional
+  # - Skip stemcell upload, if stemcell has already been uploaded to BOSH director.
+
+
   # Uptimer Params
   # https://github.com/cloudfoundry/uptimer
   DEPLOY_WITH_UPTIME_MEASUREMENTS: false
