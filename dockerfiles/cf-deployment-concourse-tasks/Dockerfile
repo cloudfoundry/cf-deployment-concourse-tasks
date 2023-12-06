@@ -4,7 +4,7 @@ ENV bbl_version 9.0.14
 ENV bosh_cli_version 7.5.0
 ENV cf_cli_version 8.7.5
 ENV credhub_cli_version 2.9.23
-ENV log_cache_cli_version 5.0.5
+ENV log_cache_cli_version 5.0.6
 ENV terraform_version 1.6.5
 ENV uptimer_version d2dc9029efd7d57e2eb4768815f2ac38c1de6b51
 ENV yq_version 4.40.4
