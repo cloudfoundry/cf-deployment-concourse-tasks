@@ -86,7 +86,7 @@ function setup_bosh_env_vars() {
   set +x
   if [ -d toolsmiths-env ]; then
     eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
-    export SYSTEM_DOMAIN="$(cat toolsmiths-env/metadata | jq -r .name).cf-app.com"
+    export SYSTEM_DOMAIN="$(cat toolsmiths-env/metadata | jq -r '.cf.api_url | sub("api."; "")')"
     export TCP_DOMAIN="tcp.${SYSTEM_DOMAIN}"
   else
     if [ -d bbl-state ]; then
