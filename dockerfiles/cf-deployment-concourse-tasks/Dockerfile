@@ -1,6 +1,6 @@
 FROM golang:1.21.7-bullseye
 
-ENV bbl_version 9.0.17
+ENV bbl_version 9.0.18
 ENV bosh_cli_version 7.5.4
 ENV cf_cli_version 8.7.8
 ENV credhub_cli_version 2.9.27
