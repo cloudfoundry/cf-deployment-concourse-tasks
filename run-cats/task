@@ -5,8 +5,13 @@ build_dir=${PWD}
 
 if [[ -d "${build_dir}/cf-cli" ]]; then
   echo "Setting PATH so that input cf-cli is found by CATs..."
-  PATH="${build_dir}/cf-cli:${PATH}"
-  export PATH
+
+  version=$(cat "${build_dir}/cf-cli/version")
+  curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=${version:1}&source=github-rel" | tar -zx
+
+  mv "${build_dir}/cf8" /usr/local/bin/cf
+  echo "Using provided cf CLI version"
+  cf -v
 fi
 
 export CONFIG
