@@ -40,8 +40,6 @@ cd cf-acceptance-tests
 
 export CF_DIAL_TIMEOUT=11
 
-export CF_PLUGIN_HOME=$HOME
-
 ./bin/test \
   --keep-going \
   --randomize-all \
