@@ -1,4 +1,4 @@
-FROM golang:1.21.9-bullseye
+FROM golang:1.21.10-bullseye
 
 ENV bbl_version 9.0.20
 ENV bosh_cli_version 7.5.6
