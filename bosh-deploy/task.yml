@@ -110,6 +110,11 @@ params:
   # - This sets the maximum number of allowed uptimer failures for app pushability
   # - The default threshold value of 0 is our working value for cf-deployment, and is likely to be updated
 
+  APP_STATS_THRESHOLD: 0
+  # - Optional
+  # - This sets the maximum number of allowed uptimer failures for app stats
+  # - The default threshold value of 0 is our working value for cf-deployment, and is likely to be updated
+
   HTTP_AVAILABILITY_THRESHOLD: 0
   # - Optional
   # - This sets the maximum number of allowed uptimer failures for http availability
