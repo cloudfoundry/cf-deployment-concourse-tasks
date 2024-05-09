@@ -210,6 +210,7 @@ write_uptimer_deploy_config() {
     --arg tcp_port ${tcp_port} \
     --arg available_port ${available_port} \
     --arg app_pushability ${APP_PUSHABILITY_THRESHOLD} \
+    --arg app_stats ${APP_STATS_THRESHOLD} \
     --arg http_availability ${HTTP_AVAILABILITY_THRESHOLD} \
     --arg tcp_availability ${TCP_AVAILABILITY_THRESHOLD} \
     --arg recent_logs ${RECENT_LOGS_THRESHOLD} \
@@ -234,6 +235,7 @@ write_uptimer_deploy_config() {
       },
       "allowed_failures": {
         "app_pushability": $app_pushability | tonumber,
+        "app_stats": $app_stats | tonumber,
         "http_availability": $http_availability | tonumber,
         "tcp_availability": $tcp_availability | tonumber,
         "recent_logs": $recent_logs | tonumber,
