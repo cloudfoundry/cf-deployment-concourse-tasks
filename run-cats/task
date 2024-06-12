@@ -36,17 +36,9 @@ if [ -f ${reporter_config} ]; then
   set -x
 fi
 
-CF_GOPATH=/go/src/github.com/cloudfoundry/
-
-echo "Moving cf-acceptance-tests onto the gopath..."
-mkdir -p $CF_GOPATH
-cp -R cf-acceptance-tests $CF_GOPATH
-
-cd /go/src/github.com/cloudfoundry/cf-acceptance-tests
+cd cf-acceptance-tests
 
 export CF_DIAL_TIMEOUT=11
-
-export CF_PLUGIN_HOME=$HOME
 
 ./bin/test \
   --keep-going \
