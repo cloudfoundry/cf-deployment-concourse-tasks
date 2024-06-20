@@ -3,7 +3,7 @@ FROM golang:1.21.11-bullseye
 ENV bbl_version 9.0.22
 ENV bosh_cli_version 7.6.1
 ENV cf_cli_version 8.7.10
-ENV credhub_cli_version 2.9.31
+ENV credhub_cli_version 2.9.32
 ENV log_cache_cli_version 6.0.1
 ENV terraform_version 1.8.5
 ENV uptimer_version 75064988d821d5ecddaa5da3d066e0235dbddd95
