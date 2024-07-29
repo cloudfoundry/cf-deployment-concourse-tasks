@@ -23,7 +23,7 @@ RUN set -eux; \
 # ruby
 RUN set -eux; \
       apt-get -y install ruby-full; \
-      ruby --version | grep 2\.7
+      ruby --version | grep 3\.1
 
 # yq
 RUN set -eux; \
