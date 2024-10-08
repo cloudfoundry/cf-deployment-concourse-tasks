@@ -4,7 +4,7 @@ ENV bbl_version 9.0.25
 ENV bosh_cli_version 7.8.0
 ENV cf_cli_version 8.8.2
 ENV credhub_cli_version 2.9.38
-ENV log_cache_cli_version 6.0.2
+ENV log_cache_cli_version 6.1.0
 ENV terraform_version 1.9.7
 ENV uptimer_version 25c5d98ca42cda8e2616160431c4add4952ea33d
 ENV yq_version 4.44.3
@@ -92,7 +92,7 @@ RUN set -eux; \
 
 # log-cache
 RUN set -eux; \
-      url="https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin-linux"; \
+      url="https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin_${log_cache_cli_version}_linux_amd64"; \
       wget "${url}" -O /tmp/log-cache-plugin; \
       cf install-plugin /tmp/log-cache-plugin -f; \
       rm /tmp/log-cache-plugin
