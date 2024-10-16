@@ -435,15 +435,14 @@ upload_stemcell() {
   local stemcell_name
 
   local infrastructure
-  if [ -d toolsmiths-env ]; then
+  if [ "${BOSH_LITE}" == "true"  ]; then
+    infrastructure="bosh-lite"
+    stemcell_name="bosh-warden-boshlite"
+  elif [ -d toolsmiths-env ]; then
     infrastructure="gcp"
     stemcell_name="bosh-google-kvm"
   else
     infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
-
-    if [ "${BOSH_LITE}" == "true"  ]; then
-      infrastructure="bosh-lite"
-    fi
 
     if [ "$infrastructure" = "bosh-lite" ]; then
       stemcell_name="bosh-warden-boshlite"
