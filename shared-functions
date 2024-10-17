@@ -444,9 +444,7 @@ upload_stemcell() {
   else
     infrastructure="$(jq -r .iaas bbl-state/${BBL_STATE_DIR}/bbl-state.json)"
 
-    if [ "$infrastructure" = "bosh-lite" ]; then
-      stemcell_name="bosh-warden-boshlite"
-    elif [ "$infrastructure" = "aws" ]; then
+    if [ "$infrastructure" = "aws" ]; then
       stemcell_name="bosh-aws-xen-hvm"
     elif [ "$infrastructure" = "gcp" ]; then
       stemcell_name="bosh-google-kvm"
