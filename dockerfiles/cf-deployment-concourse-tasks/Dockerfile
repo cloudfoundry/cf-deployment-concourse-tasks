@@ -1,4 +1,4 @@
-FROM golang:1.22.9-bullseye
+FROM golang:1.22.9-bookworm
 
 ENV bbl_version 9.0.26
 ENV bosh_cli_version 7.8.2
@@ -23,7 +23,7 @@ RUN set -eux; \
 # ruby
 RUN set -eux; \
       apt-get -y install ruby-full; \
-      ruby --version | grep 2\.7
+      ruby --version | grep 3\.1
 
 # yq
 RUN set -eux; \
