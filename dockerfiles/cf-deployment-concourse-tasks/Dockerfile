@@ -5,7 +5,7 @@ ENV bosh_cli_version 7.8.5
 ENV cf_cli_version 8.9.0
 ENV credhub_cli_version 2.9.40
 ENV log_cache_cli_version 6.1.0
-ENV terraform_version 1.10.2
+ENV terraform_version 1.10.3
 ENV uptimer_version 3feb2cc68e985e1a67ede2ddd49be03f31eba2cf
 ENV yq_version 4.44.6
 
