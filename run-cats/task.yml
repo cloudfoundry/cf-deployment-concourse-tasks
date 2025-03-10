@@ -5,7 +5,8 @@ image_resource:
   type: registry-image
   source:
     repository: cloudfoundry/cf-deployment-concourse-tasks
-    tag: latest
+    # use cf-deployment-concourse-tasks image with CF CLI v8.9.0
+    tag: sha256:f6a716c9178a623dd2570b05b5f87490884ad966fa0137e7c99b497260dba0a3
 
 inputs:
 - name: cf-deployment-concourse-tasks
