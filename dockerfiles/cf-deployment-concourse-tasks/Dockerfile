@@ -6,7 +6,7 @@ ENV cf_cli_version 8.11.0
 ENV credhub_cli_version 2.9.44
 ENV log_cache_cli_version 6.2.1
 ENV terraform_version 1.11.2
-ENV uptimer_version dc7c1c4519319bc35af5e38a6ae0c10691b2f422
+ENV uptimer_version 131865f7047d12b82ded47a019fbe80add79db7e
 ENV yq_version 4.45.1
 
 RUN apt-get update
