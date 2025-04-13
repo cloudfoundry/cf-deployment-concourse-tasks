@@ -2,11 +2,11 @@ FROM golang:1.23.8-bookworm
 
 ENV bbl_version 9.0.32
 ENV bosh_cli_version 7.9.4
-ENV cf_cli_version 8.12.0
+ENV cf_cli_version 8.13.0
 ENV credhub_cli_version 2.9.44
 ENV log_cache_cli_version 6.2.1
 ENV terraform_version 1.11.4
-ENV uptimer_version f51ac34795c6945b2817354017141517e5fcab7f
+ENV uptimer_version d76168445ea69b2ba80e8d4cfc95a9ce691f2c6b
 ENV yq_version 4.45.1
 
 RUN apt-get update
