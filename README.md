@@ -138,6 +138,25 @@ the operations file
 from the second ("new") set
 wins.
 
+### [rotate-ca-certificates][rotate-ca-certificates-task-yaml]
+This task performs a three-step CA certificate rotation according to the [CredHub CA Rotation documentation](https://github.com/pivotal/credhub-release/blob/main/docs/ca-rotation.md). It can be used to renew all certificates in a long-lived CF deployment.
+
+The cf-deployment default list of certificates is specified in the [rotate-ca-certificates-task-yaml]. If you use a non-default configuration (e.g. with Postgres instead of MySQL), you must adapt this list.
+
+After each step, all BOSH VMs must be redeployed to update the certificates. This can be done with a simple helper task that calls the following BOSH commands:
+```shell
+  bosh -d cf manifest > manifest.yml
+  bosh -d cf --non-interactive deploy manifest.yml
+```
+
+So the whole pipeline would consist of these jobs:
+```mermaid
+graph TD;
+    rotate-step-1-->redeploy-->rotate-step-2-->redeploy-->rotate-step-3-->redeploy;
+```
+
+The pipeline can be triggered by a time schedule e.g. weekly. The "rotate" jobs are idempotent and can be retriggered in case of failure (but make sure to preserve the order).
+
 ### [run-cats][run-cats-task-yaml]
 This runs [CF Acceptance Tests](https://github.com/cloudfoundry/cf-acceptance-tests)
 against a CF environment specified by the CATs integration file.
@@ -179,6 +198,7 @@ instance groups.
 [deployment-guide]: https://github.com/cloudfoundry/cf-deployment/blob/master/texts/deployment-guide.md
 [deployment-guide-on-certificates]: https://github.com/cloudfoundry/cf-deployment/blob/master/texts/deployment-guide.md#on-certificates
 [issues-page]: https://github.com/cloudfoundry/cf-deployment-concourse-tasks/issues
+[rotate-ca-certificates-task-yaml]: rotate-ca-certificates/task.yml
 [run-cats-task-yaml]: run-cats/task.yml
 [run-errand-yaml]: run-errand/task.yml
 [cf-deployment-concourse-tasks-ci]: https://concourse.wg-ard.ci.cloudfoundry.org/teams/main/pipelines/cf-deployment-concourse-tasks
