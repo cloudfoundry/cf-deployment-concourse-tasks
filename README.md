@@ -151,8 +151,13 @@ After each step, all BOSH VMs must be redeployed to update the certificates. Thi
 
 So the whole pipeline would consist of these jobs:
 ```mermaid
-graph TD;
-    rotate-step-1-->redeploy-->rotate-step-2-->redeploy-->rotate-step-3-->redeploy;
+flowchart LR;
+    A[rotate-step-1] --> B;
+    B[redeploy] --> C;
+    C[rotate-step-2] --> D;
+    D[redeploy] --> E;
+    E[rotate-step-3] --> F;
+    F[redeploy];
 ```
 
 The pipeline can be triggered by a time schedule e.g. weekly. The "rotate" jobs are idempotent and can be retriggered in case of failure (but make sure to preserve the order).
