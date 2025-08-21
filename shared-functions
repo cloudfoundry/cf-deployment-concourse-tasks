@@ -457,7 +457,11 @@ upload_stemcell() {
     fi
   fi
 
-  stemcell_name="${stemcell_name}-${os}-go_agent"
+  stemcell_name="${stemcell_name}-${os}"
+  if [ "$os" != "ubuntu-noble" ]; then
+    stemcell_name="${stemcell_name}-go_agent"
+  fi
+
   if [ "$version" = "latest" ]; then
     full_stemcell_url="${stemcells_url}/${stemcell_name}"
   else
