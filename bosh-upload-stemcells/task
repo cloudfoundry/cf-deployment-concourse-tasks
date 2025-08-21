@@ -72,7 +72,12 @@ upload_stemcell() {
     stemcell_name="bosh-openstack-kvm"
   fi
 
-  stemcell_name="${stemcell_name}-${os}-go_agent"
+  if [ "${os}" = "ubuntu-noble" ]; then
+    stemcell_name="${stemcell_name}-${os}"
+  else
+    stemcell_name="${stemcell_name}-${os}-go_agent"
+  fi
+
   if [ "$version" = "latest" ]; then
     full_stemcell_url="${stemcells_url}/${stemcell_name}"
   else
