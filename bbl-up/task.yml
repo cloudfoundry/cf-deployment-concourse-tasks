@@ -114,6 +114,12 @@ params:
   # - Can be either the key content or a path to the key
   # - If a path is provided, path is relative to the BBL_STATE_DIR
 
+  BBL_LB_TYPE: cf
+  # - Defines the type of load balancer to be configured.
+  # - The default type is 'cf', suitable for most environments.
+  # - You can specify a different type based on your application's requirements.
+  # - For the new IPv6 validation, the 'nlb' type is necessary.
+
   LB_DOMAIN:
   # - Required if `SKIP_LB_CREATION` is false
   # - The domain which bbl will register
