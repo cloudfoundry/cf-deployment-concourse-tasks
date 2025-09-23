@@ -112,13 +112,15 @@ function main() {
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_up.log"
 
-    ns_record_advisory="For DNS delegation to work, please ensure an NS record for ${LB_DOMAIN} is created in its parent DNS zone with the following nameservers:"
+    echo "For DNS delegation to work, please ensure an NS record for ${LB_DOMAIN} is created in its parent DNS zone with the following nameservers:"
     if [[ "$BBL_IAAS" == "aws" ]]; then
-      echo "$ns_record_advisory"
       bbl outputs | yq '.env_dns_zone_name_servers[0:4]' --output-format yaml | cut -d' ' -f2
-    elif [[ "$BBL_IAAS" == "gcp" ]]; then
-      echo "$ns_record_advisory"
-      bbl outputs | yq '.system_domain_dns_servers' --output-format yaml | cut -d' ' -f2
+    elif [[ "$BBL_IAAS" == "gcp" || "$BBL_IAAS" == "azure" ]]; then
+      if bbl outputs | yq '.system_domain_dns_servers' | grep -qv 'null'; then
+        bbl outputs | yq '.system_domain_dns_servers' --output-format yaml | cut -d' ' -f2
+      else
+        echo "No .system_domain_dns_servers found in bbl outputs. Please refer to the GCP/Azure portal to get the DNS servers for the created DNS zone."
+      fi
     fi
 
     if [[ "${DELETE_TERRAFORM_PLUGINS}" == "true" ]]; then
