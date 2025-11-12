@@ -63,6 +63,9 @@ function main() {
 
   check_fast_fails
 
+  wget "https://github.com/cloudfoundry/bosh-bootloader/releases/download/v9.0.36/bbl-v9.0.36_linux_amd64" -O ./bbl36
+  chmod +x ./bbl36
+
   if [ "${BBL_IAAS}" == "gcp" ]; then
     pushd "bbl-state"
       write_gcp_service_account_key
@@ -100,7 +103,7 @@ function main() {
       drain="| tee"
     fi
 
-    eval bbl plan --debug \
+    eval bbl36 plan --debug \
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_plan.log"
 
@@ -108,7 +111,7 @@ function main() {
       cp -r ${root_dir}/bbl-config/${BBL_CONFIG_DIR}/. .
     fi
 
-    eval bbl --debug up \
+    eval bbl36 --debug up \
       ${name_flag} \
       ${lb_flags} "2>&1" ${drain} "${root_dir}/bbl_up.log"
 
