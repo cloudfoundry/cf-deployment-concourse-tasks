@@ -65,6 +65,7 @@ function main() {
 
   wget "https://github.com/cloudfoundry/bosh-bootloader/releases/download/v9.0.36/bbl-v9.0.36_linux_amd64" -O ./bbl36
   chmod +x ./bbl36
+  export PATH="$PWD:$PATH"
 
   if [ "${BBL_IAAS}" == "gcp" ]; then
     pushd "bbl-state"
