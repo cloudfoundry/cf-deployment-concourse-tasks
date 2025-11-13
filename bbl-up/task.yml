@@ -8,7 +8,7 @@ image_resource:
     tag: latest
 
 inputs:
-- name: cf-deployment-concourse-tasks  # - This repo
+- name: cf-deployment-concourse-tasks-bbl-9.0.36  # - This repo
 - name: bbl-state  # - The env repo containing the Director's bbl state dir
 - name: bbl-config  # - The repo containing bbl plan patches
 # - If no plan patches are necessary in your case,
@@ -25,7 +25,7 @@ outputs:
 # - This output _must_ be persisted for these tasks to function properly
 
 run:
-  path: cf-deployment-concourse-tasks/bbl-up/task
+  path: cf-deployment-concourse-tasks-bbl-9.0.36/bbl-up/task
 
 params:
   # AWS Configuration Params
