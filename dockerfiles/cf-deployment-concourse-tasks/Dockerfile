@@ -1,7 +1,7 @@
 FROM golang:1.25.3-bookworm
 
 ENV bbl_version 9.0.40
-ENV bosh_cli_version 7.9.13
+ENV bosh_cli_version 7.9.14
 ENV cf_cli_version 8.17.0
 ENV credhub_cli_version 2.9.51
 ENV log_cache_cli_version 6.2.1
