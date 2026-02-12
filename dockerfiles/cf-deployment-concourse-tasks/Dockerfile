@@ -1,4 +1,4 @@
-FROM golang:1.25.7-bookworm
+FROM golang:1.26.0-bookworm
 
 ENV bbl_version 9.0.41
 ENV bosh_cli_version 7.9.18
