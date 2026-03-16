@@ -85,11 +85,12 @@ function main() {
 
     if [ "${SKIP_LB_CREATION}" == "false" ]; then
       local bbl_cert_chain_flag
+      local bbl_lb_type="${BBL_LB_TYPE}" 
       bbl_cert_chain_flag=""
       local bbl_cert_path
       write_bbl_certs
 
-      lb_flags="--lb-type=cf --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
+      lb_flags="--lb-type=${bb_lb_type} --lb-cert=${bbl_cert_path} ${bbl_cert_chain_flag} --lb-key=${bbl_key_path} --lb-domain=${LB_DOMAIN}"
     fi
 
     set -o pipefail
