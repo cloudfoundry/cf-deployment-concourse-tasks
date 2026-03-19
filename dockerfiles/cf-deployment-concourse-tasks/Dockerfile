@@ -3,7 +3,7 @@ FROM golang:1.26.1-bookworm
 ENV bbl_version 9.0.42
 ENV bosh_cli_version 7.10.0
 ENV cf_cli_version 8.18.0
-ENV credhub_cli_version 2.9.54
+ENV credhub_cli_version 2.9.55
 ENV log_cache_cli_version 6.2.1
 ENV terraform_version 1.14.7
 ENV uptimer_version 15815b429925dcd7664a2a96608ba3ccf54b74f8
