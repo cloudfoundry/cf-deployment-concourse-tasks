@@ -1,13 +1,9 @@
 FROM golang:1.26.1-bookworm
 
-ENV bbl_version 9.0.42
-ENV bosh_cli_version 7.10.1
-ENV cf_cli_version 8.18.0
-ENV credhub_cli_version 2.9.55
-ENV log_cache_cli_version 6.2.1
-ENV terraform_version 1.14.7
-ENV uptimer_version 15815b429925dcd7664a2a96608ba3ccf54b74f8
-ENV yq_version 4.52.4
+ENV log_cache_cli_version=6.2.1
+ENV terraform_version=1.14.7
+ENV uptimer_version=15815b429925dcd7664a2a96608ba3ccf54b74f8
+ENV yq_version=4.52.4
 
 RUN apt-get update
 
@@ -15,10 +11,12 @@ RUN apt-get update
 RUN set -eux; \
       apt-get -y install \
         git-crypt \
+        gnupg \
         jq \
         netcat-openbsd \
         unzip \
-        vim;
+        vim \
+        wget
 
 # ruby
 RUN set -eux; \
@@ -32,7 +30,7 @@ RUN set -eux; \
       chmod +x /usr/local/bin/yq; \
       yq --version
 
-# bosh
+# setup CloudFoundry APT repo
 RUN set -eux; \
       apt-get -y install \
         build-essential \
@@ -45,41 +43,40 @@ RUN set -eux; \
         openssl \
         sqlite3 \
         zlib1g-dev; \
-      url="https://github.com/cloudfoundry/bosh-cli/releases/download/v${bosh_cli_version}/bosh-cli-${bosh_cli_version}-linux-amd64"; \
-      wget "${url}" -O /usr/local/bin/bosh; \
-      chmod +x /usr/local/bin/bosh; \
+      wget -q -O - https://raw.githubusercontent.com/cloudfoundry/bosh-apt-resources/master/public.key \
+        | gpg --dearmor \
+        | tee /usr/share/keyrings/cloudfoundry.gpg > /dev/null; \
+      echo "deb [signed-by=/usr/share/keyrings/cloudfoundry.gpg] http://apt.ci.cloudfoundry.org stable main" \
+        | tee /etc/apt/sources.list.d/cloudfoundry.list; \
+      apt-get update
+
+
+# bosh-cli
+RUN set -eux; \
+      apt-get install -y bosh-cli; \
       bosh --version
 
-# cf
+# bosh-bootloader (bbl)
 RUN set -eux; \
-      mkdir -p /tmp/cf; \
-      url="https://packages.cloudfoundry.org/stable?release=linux64-binary&version=${cf_cli_version}"; \
-      wget "${url}" -O /tmp/cf/cf.tgz; \
-      tar -xzf /tmp/cf/cf.tgz -C /tmp/cf; \
-      mv /tmp/cf/cf8 /usr/local/bin/cf; \
-      chmod +x /usr/local/bin/cf; \
-      cf version; \
-      rm -rf /tmp/cf
-
-# credhub
-RUN set -eux; \
-      mkdir -p /tmp/credhub; \
-      url="https://github.com/cloudfoundry/credhub-cli/releases/download/${credhub_cli_version}/credhub-linux-amd64-${credhub_cli_version}.tgz"; \
-      wget "${url}" -O /tmp/credhub/credhub.tgz; \
-      tar -xzf /tmp/credhub/credhub.tgz -C /tmp/credhub; \
-      mv /tmp/credhub/credhub /usr/local/bin; \
-      chmod +x /usr/local/bin/credhub; \
-      credhub --version; \
-      rm -rf /tmp/credhub
-
-# bbl
-RUN set -eux; \
-      url="https://github.com/cloudfoundry/bosh-bootloader/releases/download/v${bbl_version}/bbl-v${bbl_version}_linux_amd64"; \
-      wget "${url}" -O /usr/local/bin/bbl; \
-      chmod +x /usr/local/bin/bbl; \
+      apt-get install -y bosh-bootloader; \
       bbl version
 
-# terraform
+# cf-cli
+RUN set -eux; \
+      apt-get install -y cf-cli; \
+      cf version
+
+# credhub-cli
+RUN set -eux; \
+      apt-get install -y credhub-cli; \
+      credhub --version
+
+# uaa-cli
+RUN set -eux; \
+      apt-get install -y uaa-cli; \
+      uaa version
+
+# terraform (not in apt repo - download from HashiCorp)
 RUN set -eux; \
       mkdir -p /tmp/terraform; \
       url="https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip"; \
@@ -90,14 +87,14 @@ RUN set -eux; \
       terraform version; \
       rm -rf /tmp/terraform
 
-# log-cache
+# log-cache (not in apt repo - install as CF plugin)
 RUN set -eux; \
       url="https://github.com/cloudfoundry/log-cache-cli/releases/download/v${log_cache_cli_version}/log-cache-cf-plugin_${log_cache_cli_version}_linux_amd64"; \
       wget "${url}" -O /tmp/log-cache-plugin; \
       cf install-plugin /tmp/log-cache-plugin -f; \
       rm /tmp/log-cache-plugin
 
-# uptimer
+# uptimer (built from source via Go)
 RUN set -eux; \
       go install "github.com/cloudfoundry/uptimer@${uptimer_version}"; \
       uptimer -v
@@ -109,3 +106,5 @@ RUN set -e; \
       echo -n "$RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/relint.crt; \
       echo -n "$PREVIOUS_RELINT_CA_CERTIFICATE" > /usr/local/share/ca-certificates/previous_relint.crt; \
       /usr/sbin/update-ca-certificates -f
+
+

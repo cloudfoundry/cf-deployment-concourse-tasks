@@ -7,18 +7,14 @@ image_resource:
     repository: cloudfoundry/relint-base
 
 inputs:
-- name: bbl-github-release
-- name: bosh-cli-github-release
-- name: cf-cli
-- name: cf-deployment-concourse-tasks
-- name: credhub-cli-github-release
-- name: log-cache-cli-github-release
-- name: terraform-github-release
-- name: uptimer
-- name: yq-github-release
+  - name: cf-deployment-concourse-tasks
+  - name: log-cache-cli-github-release
+  - name: terraform-github-release
+  - name: uptimer
+  - name: yq-github-release
 
 outputs:
-- name: cf-deployment-concourse-tasks-updated
+  - name: cf-deployment-concourse-tasks-updated
 
 run:
   path: cf-deployment-concourse-tasks/ci/tasks/update-cf-d-ct-dockerfile-versions/task
