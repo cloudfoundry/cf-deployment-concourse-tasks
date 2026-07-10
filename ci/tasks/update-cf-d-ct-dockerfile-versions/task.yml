@@ -10,6 +10,7 @@ inputs:
 - name: bbl-github-release
 - name: bosh-cli-github-release
 - name: cf-cli
+- name: gh-cli
 - name: cf-deployment-concourse-tasks
 - name: credhub-cli-github-release
 - name: log-cache-cli-github-release

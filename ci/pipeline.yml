@@ -34,6 +34,15 @@ resources:
     access_token: ((ard_wg_gitbot_token))
     tag_filter: 'v(8\.[^v].*)'
 
+- name: gh-cli-github-release
+  type: github-release
+  icon: github
+  source:
+    user: cli
+    repository: cli
+    access_token: ((ard_wg_gitbot_token))
+    tag_filter: 'v(.*)'
+
 - name: credhub-cli-github-release
   type: github-release
   icon: github
@@ -127,6 +136,8 @@ jobs:
       trigger: true
     - get: cf-cli-github-release
       trigger: true
+    - get: gh-cli-github-release
+      trigger: true
     - get: cf-deployment-concourse-tasks-dockerfile
       trigger: true
     - get: credhub-cli-github-release
@@ -143,6 +154,7 @@ jobs:
     file: cf-deployment-concourse-tasks-dockerfile/ci/tasks/update-cf-d-ct-dockerfile-versions/task.yml
     input_mapping:
       cf-cli: cf-cli-github-release
+      gh-cli: gh-cli-github-release
       cf-deployment-concourse-tasks: cf-deployment-concourse-tasks-dockerfile
   - put: cf-deployment-concourse-tasks-pipeline-image
     params:
