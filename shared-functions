@@ -354,19 +354,25 @@ get_password_from_credhub() {
   set +x
   local bosh_manifest_password_variable_name=$1
 
-  local credential_path=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name )
-  local credential_paths_len=$(echo ${credential_path} | tr ' ' '\n' | wc -l)
+  local credential_paths
+  credential_paths=$(credhub find -j -n "${bosh_manifest_password_variable_name}" | jq -r '.credentials[].name')
+
+  local credential_paths_len
+  credential_paths_len=$(printf '%s\n' "${credential_paths}" | sed '/^$/d' | wc -l | tr -d '[:space:]')
 
   if [ "${credential_paths_len}" -gt 1 ]; then
     echo "ambiguous ${bosh_manifest_password_variable_name} variable name; expected one got ${credential_paths_len}" >&2
-    echo "${credential_path}" | tr ' ' '\n' >&2
-    return
+    echo "${credential_paths}" | tr ' ' '\n' >&2
+    return 1
   elif [ "${credential_paths_len}" -eq 0 ]; then
     echo "${bosh_manifest_password_variable_name} variable not found" >&2
-    return
+    return 1
   fi
 
-  echo $(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
+  local credential_path
+  credential_path=$(printf '%s\n' "${credential_paths}" | head -n 1)
+
+  credhub get -j -n "${credential_path}" | jq -r .value
   set -x
 }
 
@@ -378,15 +384,21 @@ setup_password_from_credhub() {
     environment_variable_name=$2
   fi
 
-  local credential_path=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name )
-  local credential_paths_len=$(echo ${credential_path} | tr ' ' '\n' | wc -l)
+  local credential_path
+  credential_path=$(credhub find -j -n "${bosh_manifest_password_variable_name}" | jq -r '.credentials[].name')
+
+  local credential_paths_len
+  credential_paths_len=$(printf '%s\n' "${credential_path}" | sed '/^$/d' | wc -l | tr -d '[:space:]')
   if [ "${credential_paths_len}" -gt 1 ]; then
     echo "ambiguous password variable name; expected one got ${credential_paths_len}"
     echo "${credential_path}" | tr ' ' '\n'
     exit 1
+  elif [ "${credential_paths_len}" -eq 0 ]; then
+    echo "${bosh_manifest_password_variable_name} variable not found"
+    exit 1
   fi
 
-  export "${environment_variable_name}"=$(credhub find -j -n ${bosh_manifest_password_variable_name} | jq -r .credentials[].name | xargs credhub get -j -n | jq -r .value)
+  export "${environment_variable_name}"="$(get_password_from_credhub "${bosh_manifest_password_variable_name}")"
   set -x
 }
 
