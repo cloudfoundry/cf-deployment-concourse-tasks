@@ -6,7 +6,7 @@ ENV cf_cli_version 8.18.4
 ENV gh_cli_version 2.97.0
 ENV credhub_cli_version 2.9.59
 ENV log_cache_cli_version 6.2.1
-ENV terraform_version 1.15.8
+ENV terraform_version 1.15.9
 ENV uptimer_version 15815b429925dcd7664a2a96608ba3ccf54b74f8
 ENV yq_version 4.53.4
 
