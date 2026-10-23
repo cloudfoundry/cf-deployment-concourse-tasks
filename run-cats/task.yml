@@ -55,3 +55,11 @@ params:
   TIMEOUT: 2h
   # - Optional
   # - Timeout for the entire test run, as a Golang time.Duration.
+
+  CATS_TRACE: "false"
+  # - Optional
+  # - If set to `true`, print a timing summary for the slowest tests and CF commands.
+
+  CATS_TRACE_TOP: "20"
+  # - Optional
+  # - Maximum number of rows to print in each CATS trace detail table.
