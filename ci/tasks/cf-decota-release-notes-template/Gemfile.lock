@@ -21,7 +21,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    hashdiff (1.2.1)
+    hashdiff (1.2.2)
     io-console (0.8.2)
     listen (3.10.0)
       logger
