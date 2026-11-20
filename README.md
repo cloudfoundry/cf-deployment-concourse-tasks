@@ -88,6 +88,12 @@ running out of space.
 This deletes a BOSH deployment.
 If you want to delete all of the available BOSH deployments you can set the `DELETE_ALL_DEPLOYMENTS` flag to `true`.
 
+If the BOSH director for the `bbl-state` environment is no longer reachable
+(for example because a previous `bbl-destroy` already partially tore the
+environment down), the task skips the deletion and exits successfully, since
+there is no deployment left to delete. This makes it safe to re-run a pipeline
+whose `bbl-destroy` step failed and was retriggered.
+
 ### [bosh-deploy][bosh-deploy-task-yaml]
 This performs a BOSH upload-stemcell and BOSH deployment.
 Optionally, operations files may be applied
