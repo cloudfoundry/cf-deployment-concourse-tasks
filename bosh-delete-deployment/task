@@ -32,6 +32,32 @@ function check_delete_deployment_params() {
   fi
 }
 
+# Returns success only if the BOSH director for the bbl environment is
+# reachable. When a previous `bbl destroy` has partially torn down the
+# environment, `bbl print-env` yields an empty BOSH_CA_CERT (and the director
+# is gone), so there is no deployment left to delete.
+function bosh_director_available() {
+  # If we are running against a toolsmiths-env, the director is managed
+  # externally and is always expected to be present.
+  if [ -d toolsmiths-env ]; then
+    return 0
+  fi
+
+  if [ -z "${BOSH_CA_CERT:-}" ] || [ -z "${BOSH_ENVIRONMENT:-}" ]; then
+    echo "BOSH director environment is not available (empty CA cert or environment)."
+    echo "The bbl environment appears to have been (partially) destroyed; nothing to delete."
+    return 1
+  fi
+
+  if ! bosh -n env > /dev/null 2>&1; then
+    echo "Unable to reach the BOSH director."
+    echo "The bbl environment appears to have been (partially) destroyed; nothing to delete."
+    return 1
+  fi
+
+  return 0
+}
+
 function bosh_delete_deployment() {
   local force_flag=""
 
@@ -49,6 +75,12 @@ function main() {
   load_from_json_config
 
   setup_bosh_env_vars
+
+  if ! bosh_director_available; then
+    echo "Skipping deployment deletion."
+    exit 0
+  fi
+
   if [ "$DELETE_ALL_DEPLOYMENTS" = true ]; then
     bosh_delete_all_deployments
   else
